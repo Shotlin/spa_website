@@ -55,10 +55,11 @@ export const companions: Companion[] = [
       "in-khopal-com-9",
       "in-khopal-com-10"
     ],
-    "tagline": "Refined companionship in Mumbai, on your terms.",
+    "tagline": "Refined companionship in Surat, on your terms.",
     "age": 24,
-    "city": "Mumbai",
+    "city": "Surat",
     "cities": [
+      "Surat",
       "Mumbai",
       "Goa"
     ],
@@ -87,7 +88,326 @@ export const companions: Companion[] = [
       "Social Companionship"
     ],
     "bio": [
-      "Aanya is an independent companion based in Mumbai, at ease anywhere from a quiet dinner to a gallery opening.",
+      "Aanya is an independent companion based in Surat, at ease anywhere from a quiet dinner to a gallery opening.",
+      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
+    ],
+    "availability": [
+      {
+        "day": "Friday",
+        "slots": "Evening — Late"
+      },
+      {
+        "day": "Saturday",
+        "slots": "Afternoon — Late"
+      }
+    ]
+  },
+  {
+    "id": "in-khopal-com-call-girls-noida",
+    "name": "Arjun",
+    "images": [
+      "in-khopal-com-call-girls-noida-1",
+      "in-khopal-com-call-girls-noida-2"
+    ],
+    "tagline": "A poised gentleman companion for Delhi evenings.",
+    "age": 27,
+    "city": "Surat",
+    "cities": [
+      "Surat",
+      "Delhi"
+    ],
+    "category": "Male Escorts",
+    "rate": 350,
+    "languages": [
+      "English",
+      "Hindi",
+      "Punjabi"
+    ],
+    "interests": [
+      "Photography",
+      "Poetry",
+      "Jazz",
+      "Sailing"
+    ],
+    "traits": [
+      "Playful",
+      "Sophisticated",
+      "Genuine"
+    ],
+    "verified": true,
+    "tier": "Elite",
+    "experiences": [
+      "Private Celebrations",
+      "Travel Companionship",
+      "Cultural Evenings"
+    ],
+    "bio": [
+      "Arjun is an independent male companion in Delhi, equally suited to a business evening or a relaxed night out.",
+      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
+    ],
+    "availability": [
+      {
+        "day": "Wednesday",
+        "slots": "Evening"
+      },
+      {
+        "day": "Sunday",
+        "slots": "Afternoon — Evening"
+      }
+    ]
+  },
+  {
+    "id": "in-khopal-com-massages",
+    "name": "Anaya",
+    "images": [
+      "in-khopal-com-massages-1"
+    ],
+    "tagline": "Unhurried, restorative sessions in Surat.",
+    "age": 26,
+    "city": "Surat",
+    "cities": [
+      "Surat",
+      "Goa",
+      "Mumbai"
+    ],
+    "category": "Massages",
+    "rate": 300,
+    "languages": [
+      "English",
+      "Hindi",
+      "Konkani"
+    ],
+    "interests": [
+      "Sailing",
+      "Cuisine",
+      "Fine dining",
+      "Travel"
+    ],
+    "traits": [
+      "Genuine",
+      "Refined",
+      "Confident"
+    ],
+    "verified": true,
+    "tier": "Elite",
+    "experiences": [
+      "Travel Companionship",
+      "Cultural Evenings"
+    ],
+    "bio": [
+      "Anaya offers discreet, professional wellness sessions in Goa, focused entirely on your comfort.",
+      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
+    ],
+    "availability": [
+      {
+        "day": "Thursday",
+        "slots": "Evening — Late"
+      },
+      {
+        "day": "Saturday",
+        "slots": "Midday — Evening"
+      }
+    ]
+  },
+  {
+    "id": "tryst-link-bdsm-tsoliviarhodes",
+    "name": "Olivia",
+    "images": [
+      "tryst-link-bdsm-tsoliviarhodes-1"
+    ],
+    "tagline": "Confident, elegant trans companionship in Surat.",
+    "age": 28,
+    "city": "Surat",
+    "cities": [
+      "Surat",
+      "Bengaluru",
+      "Hyderabad"
+    ],
+    "category": "Shemale Escorts",
+    "rate": 400,
+    "languages": [
+      "English",
+      "Hindi",
+      "Kannada"
+    ],
+    "interests": [
+      "Travel",
+      "Art",
+      "Music",
+      "Theatre"
+    ],
+    "traits": [
+      "Confident",
+      "Gentle",
+      "Elegant"
+    ],
+    "verified": true,
+    "tier": "Signature",
+    "experiences": [
+      "Cultural Evenings",
+      "Personal Meetings",
+      "Social Companionship"
+    ],
+    "bio": [
+      "Olivia is an independent trans companion in Bengaluru, warm, self-assured, and wonderful company.",
+      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
+    ],
+    "availability": [
+      {
+        "day": "Tuesday",
+        "slots": "Evening"
+      },
+      {
+        "day": "Friday",
+        "slots": "Afternoon — Late"
+      }
+    ]
+  },
+  {
+    "id": "tryst-link-escort-breebabyyy",
+    "name": "Bree",
+    "images": [
+      "tryst-link-escort-breebabyyy-1"
+    ],
+    "tagline": "Refined companionship in Surat, on your terms.",
+    "age": 23,
+    "city": "Surat",
+    "cities": [
+      "Surat",
+      "Jaipur"
+    ],
+    "category": "Call Girls",
+    "rate": 280,
+    "languages": [
+      "English",
+      "Hindi",
+      "Gujarati"
+    ],
+    "interests": [
+      "Dance",
+      "Photography",
+      "Poetry",
+      "Jazz"
+    ],
+    "traits": [
+      "Witty",
+      "Poised",
+      "Playful"
+    ],
+    "verified": false,
+    "tier": "Muse",
+    "experiences": [
+      "Private City Experiences",
+      "Private Celebrations"
+    ],
+    "bio": [
+      "Bree is an independent companion based in Surat, at ease anywhere from a quiet dinner to a gallery opening.",
+      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
+    ],
+    "availability": [
+      {
+        "day": "Thursday",
+        "slots": "Evening — Late"
+      },
+      {
+        "day": "Saturday",
+        "slots": "Midday — Evening"
+      }
+    ]
+  },
+  {
+    "id": "tryst-link-escort-rachelamore",
+    "name": "Luna",
+    "images": [
+      "tryst-link-escort-rachelamore-1"
+    ],
+    "tagline": "Refined companionship in Surat, on your terms.",
+    "age": 24,
+    "city": "Surat",
+    "cities": [
+      "Surat",
+      "Kolkata"
+    ],
+    "category": "Call Girls",
+    "rate": 470,
+    "languages": [
+      "English",
+      "Hindi",
+      "Bengali"
+    ],
+    "interests": [
+      "Fashion",
+      "Dance",
+      "Photography",
+      "Poetry"
+    ],
+    "traits": [
+      "Discreet",
+      "Warm",
+      "Witty"
+    ],
+    "verified": true,
+    "tier": "Elite",
+    "experiences": [
+      "Social Companionship",
+      "Private City Experiences",
+      "Private Celebrations"
+    ],
+    "bio": [
+      "Luna is an independent companion based in Surat, at ease anywhere from a quiet dinner to a gallery opening.",
+      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
+    ],
+    "availability": [
+      {
+        "day": "Tuesday",
+        "slots": "Evening"
+      },
+      {
+        "day": "Friday",
+        "slots": "Afternoon — Late"
+      }
+    ]
+  },
+  {
+    "id": "tryst-link-escort-roxygoddess",
+    "name": "Roxy",
+    "images": [
+      "tryst-link-escort-roxygoddess-1"
+    ],
+    "tagline": "A poised gentleman companion for Goa evenings.",
+    "age": 29,
+    "city": "Surat",
+    "cities": [
+      "Surat",
+      "Goa",
+      "Mumbai"
+    ],
+    "category": "Male Escorts",
+    "rate": 360,
+    "languages": [
+      "English",
+      "Hindi",
+      "Konkani"
+    ],
+    "interests": [
+      "Poetry",
+      "Jazz",
+      "Sailing",
+      "Cuisine"
+    ],
+    "traits": [
+      "Witty",
+      "Poised",
+      "Playful"
+    ],
+    "verified": true,
+    "tier": "Signature",
+    "experiences": [
+      "Private City Experiences",
+      "Private Celebrations"
+    ],
+    "bio": [
+      "Roxy is an independent male companion in Goa, equally suited to a business evening or a relaxed night out.",
       "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
     ],
     "availability": [
@@ -538,164 +858,6 @@ export const companions: Companion[] = [
     ]
   },
   {
-    "id": "in-khopal-com-call-girls-noida",
-    "name": "Arjun",
-    "images": [
-      "in-khopal-com-call-girls-noida-1",
-      "in-khopal-com-call-girls-noida-2"
-    ],
-    "tagline": "A poised gentleman companion for Delhi evenings.",
-    "age": 27,
-    "city": "Delhi",
-    "cities": [
-      "Delhi"
-    ],
-    "category": "Male Escorts",
-    "rate": 350,
-    "languages": [
-      "English",
-      "Hindi",
-      "Punjabi"
-    ],
-    "interests": [
-      "Photography",
-      "Poetry",
-      "Jazz",
-      "Sailing"
-    ],
-    "traits": [
-      "Playful",
-      "Sophisticated",
-      "Genuine"
-    ],
-    "verified": false,
-    "tier": "Muse",
-    "experiences": [
-      "Private Celebrations",
-      "Travel Companionship",
-      "Cultural Evenings"
-    ],
-    "bio": [
-      "Arjun is an independent male companion in Delhi, equally suited to a business evening or a relaxed night out.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
-    "availability": [
-      {
-        "day": "Wednesday",
-        "slots": "Evening"
-      },
-      {
-        "day": "Sunday",
-        "slots": "Afternoon — Evening"
-      }
-    ]
-  },
-  {
-    "id": "in-khopal-com-massages",
-    "name": "Anaya",
-    "images": [
-      "in-khopal-com-massages-1"
-    ],
-    "tagline": "Unhurried, restorative sessions in Goa.",
-    "age": 26,
-    "city": "Goa",
-    "cities": [
-      "Goa",
-      "Mumbai"
-    ],
-    "category": "Massages",
-    "rate": 300,
-    "languages": [
-      "English",
-      "Hindi",
-      "Konkani"
-    ],
-    "interests": [
-      "Sailing",
-      "Cuisine",
-      "Fine dining",
-      "Travel"
-    ],
-    "traits": [
-      "Genuine",
-      "Refined",
-      "Confident"
-    ],
-    "verified": true,
-    "tier": "Signature",
-    "experiences": [
-      "Travel Companionship",
-      "Cultural Evenings"
-    ],
-    "bio": [
-      "Anaya offers discreet, professional wellness sessions in Goa, focused entirely on your comfort.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
-    "availability": [
-      {
-        "day": "Thursday",
-        "slots": "Evening — Late"
-      },
-      {
-        "day": "Saturday",
-        "slots": "Midday — Evening"
-      }
-    ]
-  },
-  {
-    "id": "tryst-link-bdsm-tsoliviarhodes",
-    "name": "Olivia",
-    "images": [
-      "tryst-link-bdsm-tsoliviarhodes-1"
-    ],
-    "tagline": "Confident, elegant trans companionship in Bengaluru.",
-    "age": 28,
-    "city": "Bengaluru",
-    "cities": [
-      "Bengaluru",
-      "Hyderabad"
-    ],
-    "category": "Shemale Escorts",
-    "rate": 400,
-    "languages": [
-      "English",
-      "Hindi",
-      "Kannada"
-    ],
-    "interests": [
-      "Travel",
-      "Art",
-      "Music",
-      "Theatre"
-    ],
-    "traits": [
-      "Confident",
-      "Gentle",
-      "Elegant"
-    ],
-    "verified": true,
-    "tier": "Elite",
-    "experiences": [
-      "Cultural Evenings",
-      "Personal Meetings",
-      "Social Companionship"
-    ],
-    "bio": [
-      "Olivia is an independent trans companion in Bengaluru, warm, self-assured, and wonderful company.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
-    "availability": [
-      {
-        "day": "Tuesday",
-        "slots": "Evening"
-      },
-      {
-        "day": "Friday",
-        "slots": "Afternoon — Late"
-      }
-    ]
-  },
-  {
     "id": "tryst-link-escort-ariana23",
     "name": "Alesia",
     "images": [
@@ -796,58 +958,6 @@ export const companions: Companion[] = [
       {
         "day": "Sunday",
         "slots": "Afternoon — Evening"
-      }
-    ]
-  },
-  {
-    "id": "tryst-link-escort-breebabyyy",
-    "name": "Bree",
-    "images": [
-      "tryst-link-escort-breebabyyy-1"
-    ],
-    "tagline": "Refined companionship in Surat, on your terms.",
-    "age": 23,
-    "city": "Surat",
-    "cities": [
-      "Surat",
-      "Jaipur"
-    ],
-    "category": "Call Girls",
-    "rate": 280,
-    "languages": [
-      "English",
-      "Hindi",
-      "Gujarati"
-    ],
-    "interests": [
-      "Dance",
-      "Photography",
-      "Poetry",
-      "Jazz"
-    ],
-    "traits": [
-      "Witty",
-      "Poised",
-      "Playful"
-    ],
-    "verified": false,
-    "tier": "Muse",
-    "experiences": [
-      "Private City Experiences",
-      "Private Celebrations"
-    ],
-    "bio": [
-      "Bree is an independent companion based in Surat, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
-    "availability": [
-      {
-        "day": "Thursday",
-        "slots": "Evening — Late"
-      },
-      {
-        "day": "Saturday",
-        "slots": "Midday — Evening"
       }
     ]
   },
@@ -1059,111 +1169,6 @@ export const companions: Companion[] = [
     ]
   },
   {
-    "id": "tryst-link-escort-rachelamore",
-    "name": "Luna",
-    "images": [
-      "tryst-link-escort-rachelamore-1"
-    ],
-    "tagline": "Refined companionship in Kolkata, on your terms.",
-    "age": 24,
-    "city": "Kolkata",
-    "cities": [
-      "Kolkata",
-      "Surat"
-    ],
-    "category": "Call Girls",
-    "rate": 470,
-    "languages": [
-      "English",
-      "Hindi",
-      "Bengali"
-    ],
-    "interests": [
-      "Fashion",
-      "Dance",
-      "Photography",
-      "Poetry"
-    ],
-    "traits": [
-      "Discreet",
-      "Warm",
-      "Witty"
-    ],
-    "verified": true,
-    "tier": "Signature",
-    "experiences": [
-      "Social Companionship",
-      "Private City Experiences",
-      "Private Celebrations"
-    ],
-    "bio": [
-      "Luna is an independent companion based in Kolkata, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
-    "availability": [
-      {
-        "day": "Tuesday",
-        "slots": "Evening"
-      },
-      {
-        "day": "Friday",
-        "slots": "Afternoon — Late"
-      }
-    ]
-  },
-  {
-    "id": "tryst-link-escort-roxygoddess",
-    "name": "Roxy",
-    "images": [
-      "tryst-link-escort-roxygoddess-1"
-    ],
-    "tagline": "A poised gentleman companion for Goa evenings.",
-    "age": 29,
-    "city": "Goa",
-    "cities": [
-      "Goa",
-      "Mumbai"
-    ],
-    "category": "Male Escorts",
-    "rate": 360,
-    "languages": [
-      "English",
-      "Hindi",
-      "Konkani"
-    ],
-    "interests": [
-      "Poetry",
-      "Jazz",
-      "Sailing",
-      "Cuisine"
-    ],
-    "traits": [
-      "Witty",
-      "Poised",
-      "Playful"
-    ],
-    "verified": true,
-    "tier": "Elite",
-    "experiences": [
-      "Private City Experiences",
-      "Private Celebrations"
-    ],
-    "bio": [
-      "Roxy is an independent male companion in Goa, equally suited to a business evening or a relaxed night out.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
-    "availability": [
-      {
-        "day": "Friday",
-        "slots": "Evening — Late"
-      },
-      {
-        "day": "Saturday",
-        "slots": "Afternoon — Late"
-      }
-    ]
-  },
-  {
     "id": "tryst-link-online-hellomonique1",
     "name": "Monique",
     "images": [
@@ -1267,7 +1272,7 @@ export const companions: Companion[] = [
       }
     ]
   }
-]
+];
 
 export function getCompanion(id: string) {
   return companions.find((c) => c.id === id.trim())
