@@ -5,7 +5,7 @@ let src = fs.readFileSync(path, 'utf8')
 const startMarker = 'export const companions: Companion[] = '
 const s = src.indexOf(startMarker)
 if (s < 0) throw new Error('no start marker')
-const arrStart = src.indexOf('[', s)
+const arrStart = src.indexOf('[', s + startMarker.length)
 
 // Array ends at the `]` immediately before the getCompanion export.
 const fnIdx = src.indexOf('export function getCompanion')
