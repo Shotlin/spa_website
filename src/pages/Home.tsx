@@ -15,6 +15,7 @@ const categories: {
   title: string
   description: string
   icon: CategoryIcon
+  image: string
   links: { name: string; city: string }[]
 }[] = [
   {
@@ -22,6 +23,7 @@ const categories: {
     title: 'Call Girls',
     description: 'Verified independent female companions across India.',
     icon: 'spark',
+    image: 'in-khopal-com-1', // Aanya — Call Girls
     links: [
       { name: 'Delhi', city: 'Delhi' },
       { name: 'Mumbai', city: 'Mumbai' },
@@ -33,6 +35,7 @@ const categories: {
     title: 'Male Escorts',
     description: 'Elite and verified male companions near you.',
     icon: 'crown',
+    image: 'in-khopal-com-call-girls-noida-1', // Arjun — Male Escorts
     links: [],
   },
   {
@@ -40,6 +43,7 @@ const categories: {
     title: 'Shemale Escorts',
     description: 'Independent trans companions across India.',
     icon: 'orchid',
+    image: 'tryst-link-bdsm-tsoliviarhodes-1', // Olivia — Shemale Escorts
     links: [],
   },
   {
@@ -47,6 +51,7 @@ const categories: {
     title: 'Massages',
     description: 'Discreet spa and sensual massage sessions.',
     icon: 'lotus',
+    image: 'in-khopal-com-massages-1', // Anaya — Massages
     links: [],
   },
 ]
@@ -69,10 +74,10 @@ function CategoryGlyph({ icon }: { icon: CategoryIcon }) {
   const [a, b] = cities[idx]
   return (
     <div
-      className="grid h-16 w-16 place-items-center rounded-2xl border border-gold/25"
-      style={{ backgroundImage: `linear-gradient(140deg, ${a}22, ${b}55)` }}
+      className="grid h-11 w-11 place-items-center rounded-xl border border-gold/30 backdrop-blur-sm"
+      style={{ backgroundImage: `linear-gradient(140deg, ${a}66, ${b}aa)` }}
     >
-      <svg viewBox="0 0 24 24" className="h-8 w-8 text-gold-soft" fill="none" stroke="currentColor" strokeWidth="1.1">
+      <svg viewBox="0 0 24 24" className="h-6 w-6 text-gold-soft" fill="none" stroke="currentColor" strokeWidth="1.1">
         <path d={paths[icon]} strokeLinejoin="round" strokeLinecap="round" />
       </svg>
     </div>
@@ -183,34 +188,46 @@ function CategorySection() {
           <RevealItem key={cat.id}>
             <div
               onClick={() => navigate(`/discover?category=${encodeURIComponent(cat.title)}`)}
-              className="group flex h-full cursor-pointer flex-col rounded-2xl border border-ivory/10 bg-noir-soft/30 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-noir-soft/50"
+              className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/30 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-noir-soft/50"
             >
-              <CategoryGlyph icon={cat.icon} />
-              <h3 className="mt-5 font-serif text-2xl text-ivory transition-colors group-hover:text-gold-soft">
-                {cat.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ivory-dim">{cat.description}</p>
-
-              {cat.links.length > 0 && (
-                <div className="mt-5 flex flex-wrap gap-2 border-t border-ivory/10 pt-5">
-                  {cat.links.map((link) => (
-                    <span
-                      key={link.name}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        navigate(`/discover?category=${encodeURIComponent(cat.title)}&city=${link.city}`)
-                      }}
-                      className="rounded-full border border-ivory/12 px-3 py-1 text-[0.68rem] uppercase tracking-wider text-gold-soft/80 transition-colors hover:border-gold/40 hover:text-gold"
-                    >
-                      {link.name}
-                    </span>
-                  ))}
+              {/* Contextual image header (matched to the category) */}
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
+                  <Portrait image={cat.image} name={cat.title} />
                 </div>
-              )}
+                <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/40 to-transparent" />
+                <div className="absolute left-4 top-4">
+                  <CategoryGlyph icon={cat.icon} />
+                </div>
+              </div>
 
-              <span className="mt-auto pt-6 text-xs uppercase tracking-[0.2em] text-ivory-dim transition-colors group-hover:text-gold-soft">
-                Explore →
-              </span>
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="font-serif text-2xl text-ivory transition-colors group-hover:text-gold-soft">
+                  {cat.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-ivory-dim">{cat.description}</p>
+
+                {cat.links.length > 0 && (
+                  <div className="mt-5 flex flex-wrap gap-2 border-t border-ivory/10 pt-5">
+                    {cat.links.map((link) => (
+                      <span
+                        key={link.name}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigate(`/discover?category=${encodeURIComponent(cat.title)}&city=${link.city}`)
+                        }}
+                        className="rounded-full border border-ivory/12 px-3 py-1 text-[0.68rem] uppercase tracking-wider text-gold-soft/80 transition-colors hover:border-gold/40 hover:text-gold"
+                      >
+                        {link.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <span className="mt-auto pt-6 text-xs uppercase tracking-[0.2em] text-ivory-dim transition-colors group-hover:text-gold-soft">
+                  Explore →
+                </span>
+              </div>
             </div>
           </RevealItem>
         ))}
