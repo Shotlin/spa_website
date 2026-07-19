@@ -1,0 +1,118 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   VIP Spa — Luxury design system
+   Palette: burgundy, black, ivory, sandalwood beige, muted gold,
+   ruby red, warm amber.
+   ============================================================ */
+
+@theme {
+  /* Core palette */
+  --color-noir: #0c0708;
+  --color-noir-soft: #17100f;
+  --color-burgundy: #5a1220;
+  --color-burgundy-deep: #3d0c16;
+  --color-ruby: #9b1b2e;
+  --color-ruby-bright: #c02338;
+  --color-ivory: #f6efe4;
+  --color-ivory-dim: #e6dccb;
+  --color-sand: #cbb393;
+  --color-sand-deep: #a98f6c;
+  --color-gold: #c8a349;
+  --color-gold-soft: #dcc37e;
+  --color-amber: #d98a3d;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --font-sans: 'Jost', ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion */
+  --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(90deg, rgba(200, 163, 73, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(200, 163, 73, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 20% -10%, rgba(90, 18, 32, 0.35), transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(200, 163, 73, 0.08), transparent 40%),
+    var(--color-noir);
+  background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%, 100% 100%;
+  color: var(--color-ivory);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+
+::selection {
+  background: var(--color-ruby);
+  color: var(--color-ivory);
+}
+
+/* Refined scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-noir); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-burgundy), var(--color-burgundy-deep));
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-ruby); }
+
+/* Utility: subtle gold hairline */
+.hairline {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-gold) 20%,
+    var(--color-gold) 80%,
+    transparent
+  );
+  height: 1px;
+}
+
+/* Utility: letterpaced eyebrow label */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--color-gold-soft);
+}
+
+/* Grain overlay for cinematic texture */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="en-in"><head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.khopal.com" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;display=optional">
+    <title>Login to Khopal - Access Your Account</title>
+    <meta name="description" content="Log in to your Khopal account to browse, post ads, and connect with others on India's leading adult classifieds platform.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta charset="utf-8">
+    <meta name="content-language" content="en-in">
+    <meta name="language" content="en-in">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, shrink-to-fit=no">
+    <link rel="canonical" href="https://in.khopal.com/login">
+    <link href="/css/style.css?v=5.1" rel="stylesheet">
+    <link href="/css/responsive.css?v=5.2" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/listing.css?v=4.27">
+        <script src="/js/jquery-3.6.0.min.js"></script>
+            <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="RcKsDRdP3FwClofskPxfBTuhcJSoVnfKt7aiZyYfbbY">
+        <script type="application/ld+json">
+            {
+            "@context": "https://schema.org/",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Khopal India &#x2013; Explore Local Adult Classified Ads Across Cities",
+            "item": "https://in.khopal.com"
+            },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Login to Khopal - Access Your Account",
+            "item": "https://in.khopal.com/login"
+            }]
+            }
+        </script>
+
+
+
+    
+    <style type="text/css">
+        .text-danger.validation-summary-errors, .field-validation-error {
+            color: #e91b1b;
+            font-size: 14px;
+        }
+    </style>
+    
+</head>
+<body class="body-bg" id="render-body" ng-app="myApp">
+    <div b-24qv8nmx81="" id="loading-bar-spinner" class="loader" style="display:none;"><div b-24qv8nmx81="" class="spinner"><div b-24qv8nmx81="" class="spinner-icon"></div></div></div>
+    <div b-24qv8nmx81="" class="logo-body">
+        <a b-24qv8nmx81="" href="/">KHOPAL</a>
+        <p b-24qv8nmx81="">Free Classified Ads Online</p>
+    </div>
+    <div b-24qv8nmx81="" class="main">
+        <header b-24qv8nmx81="" class="header">
+            <div b-24qv8nmx81="" class="container">
+                <div b-24qv8nmx81="" class="header-row">
+                    <div b-24qv8nmx81="" class="back-topage" id="userPage" style="display:none">
+                            <a b-24qv8nmx81="" href="/"><img src="/imgs/left-arrow.svg" alt="Left Arrow"><span b-24qv8nmx81="" id="spanCurrPage"></span></a>
+
+                    </div>
+                    <div b-24qv8nmx81="" class="header-logo home-page">
+                        <a b-24qv8nmx81="" href="/"><img src="/imgs/logo.svg" alt="logo" width="66px" height="13px"></a>
+                    </div>
+                    <div b-24qv8nmx81="" class="header-post-btn-right home-page">
+                            <a b-24qv8nmx81="" href="/login" class="thm-btn outer-line">Login</a>
+                            <a b-24qv8nmx81="" href="/login" class="thm-btn">Post your ad</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main b-24qv8nmx81="" class="scrollContent">
+            <div class="main-container-section">
+    <div class="container">
+        <div class="heading-title">
+            <h2>Welcome to Khopal</h2>
+            <p>Publish and Manage your ads</p>
+        </div>
+        <form method="post" id="frmLogin" action="/login">
+            
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-box">
+                        <input type="email" class="form-control" placeholder="Enter your email address" maxlength="100" data-val="true" data-val-email="Invalid Email Address" data-val-maxlength="The field EmailAddress must be a string or array type with a maximum length of '100'." data-val-maxlength-max="100" data-val-minlength="The field EmailAddress must be a string or array type with a minimum length of '5'." data-val-minlength-min="5" data-val-required="Please enter email address" id="EmailAddress" name="EmailAddress" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="EmailAddress" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-box password-field">
+                        <input type="password" class="form-control" placeholder="Enter your password" maxlength="20" data-val="true" data-val-maxlength="Password maximum 20 digits" data-val-maxlength-max="20" data-val-minlength="Password minumum 8 digits" data-val-minlength-min="6" data-val-required="Please enter pawword" id="Password" name="Password">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                        <span class="show-pass" id="showPass">Show</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Captcha</label>
+                    <div class="input-box password-field">
+                        <input type="text" class="form-control number" placeholder="Enter Captcha" pattern="^[0-9]+[0-9]*$" maxlength="5" data-val="true" data-val-required="Enter Captcha" id="Captcha" name="Captcha" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Captcha" data-valmsg-replace="true"></span>
+                        <span id="errorValidateCaptcha" class="text-danger"></span>
+                        <span class="captcha" id="captcha_img">29041</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="remember-box">
+                        <label><input type="checkbox"> Remember me</label>
+                        <a href="/forgotpassword">Forgot your password?</a>
+                    </div>
+                </div>
+                <p>By selecting Sign Up you agree you've read and accepted our <a href="https://in.khopal.com/terms-and-conditions">Terms of Use.</a> Please see our <a href="https://in.khopal.com/privacy-policy">Privacy Notice</a> for information regarding the processing of your data.</p>
+                <button type="submit" class="thm-btn w-100">Login</button>
+                <div class="signup-msg">
+                    <p>Don't have an account yet? <a href="/register">Sign Up</a></p>
+                </div>
+            </div>
+        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8P6nv1ksB4hPkO9iD7DCmOhGUi9-0tJQSwTJ6jgfexjmzYHsV9zI-hspc-m43mOSVRYw-_iUJnzxZFoLxrrNtYdt6jqZIxLmPX3qX9S--eSPMKa0QxBIMN_7N_KhKVOKTjsYd1pH181K7KPPqO9kZxI"></form>
+    </div>
+</div>
+
+        </main>
+        <div b-24qv8nmx81="" class="footer-fixed-bottom" id="footer">
+            <ul b-24qv8nmx81="">
+                <li b-24qv8nmx81=""><a b-24qv8nmx81="" id="li_Home" href="/"><img src="/imgs/home-icon.svg" alt="home"><span b-24qv8nmx81="">Home</span></a></li>
+                <li b-24qv8nmx81=""><a b-24qv8nmx81="" id="li_Category" href="/category"><img src="/imgs/category-icon.svg" alt="category"><span b-24qv8nmx81="">Category</span></a></li>
+                <li b-24qv8nmx81=""><a b-24qv8nmx81="" id="li_Search" href="/search"><img src="/imgs/search-icon.svg" alt="search"><span b-24qv8nmx81="">Search</span></a></li>
+                <li b-24qv8nmx81=""><a b-24qv8nmx81="" id="li_Profile" onclick="openNav()"><img src="/imgs/user-icon.svg" alt="user"><span b-24qv8nmx81="">Profile</span></a></li>
+            </ul>
+        </div>
+    </div>
+   
+    
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#userPage").show();
+            $(".home-page").hide();
+            $('body').css('background', 'url(/imgs/login-background-banner.png)');
+            $("#spanCurrPage").html("Login");
+            $("#footer").hide();
+            $(".number").keypress(function (e) {
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            });
+            $("#btnLogin").click(function () {
+                if ($("#frmLogin").valid()) {
+                    if ($("#captcha_img").html() != $("#Captcha").val()) {
+                        $("#errorValidateCaptcha").html("Please enter valid captcha");
+                        $("#errorValidateCaptcha").focus();
+                        $("#frmLogin").prop('valid', false);
+                        return false;
+                    }
+                    else {
+                        $("#loading-bar-spinner").show();
+                    }
+                }
+            });
+            $("#Captcha").keyup(function () {
+                if ($("#captcha_img").html() != $("#Captcha").val()) {
+                    $("#errorValidateCaptcha").html("Please enter valid captcha");
+                    $("#errorValidateCaptcha").focus();
+                    $("#frmLogin").prop('valid', false);
+                    return false;
+                }
+                else {
+                    $("#errorValidateCaptcha").html("");
+                }
+            });
+            $('#showPass').on('click', function () {
+                let passwordField = $('#Password');
+                let passwordFieldType = passwordField.attr('type');
+                if (passwordFieldType === 'password') {
+                    passwordField.attr('type', 'text');
+                    $(this).text('Hide');
+                } else {
+                    passwordField.attr('type', 'password');
+                    $(this).text('Show');
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var current = location.pathname.toLowerCase();
+            function addActive(id) { var el = document.getElementById(id); if (el) el.classList.add("active"); }
+            if (current == "/") {
+                addActive("li_Home");
+            }
+            else if (current.includes("/category")) {
+                addActive("li_Category");
+            }
+            else if (current.includes("/search")) {
+                addActive("li_Search");
+            }
+            else if (current.includes("/user") || current.includes("/profile")) {
+                addActive("li_Profile");
+            }
+
+            var scrollableElement = document.querySelector('.scrollContent');
+            if (scrollableElement) {
+                scrollableElement.addEventListener('scroll', function () {
+                    var scrolled = document.getElementById("scrolled");
+                    if (!scrolled) return;
+                    if (this.scrollTop > 100) {
+                        scrolled.classList.add("onscroll-btn-fixed");
+                    } else {
+                        scrolled.classList.remove("onscroll-btn-fixed");
+                    }
+                });
+            }
+        });
+        function openNav() {
+            var sidenav = document.getElementById('mySidenav');
+            if (sidenav) {
+                sidenav.style.width = "80%";
+                var overlay = document.getElementById("backdrop-overlay");
+                if (overlay) overlay.classList.add("open");
+            }
+            else {
+                window.location.href = "/login";
+            }
+        }
+
+        function closeNav() {
+            var sidenav = document.getElementById("mySidenav");
+            if (sidenav) sidenav.style.width = "0%";
+            var overlay = document.getElementById("backdrop-overlay");
+            if (overlay) overlay.classList.remove("open");
+        }
+    </script>
+
+
+</body></html>

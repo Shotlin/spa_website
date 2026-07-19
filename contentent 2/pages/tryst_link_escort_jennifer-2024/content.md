@@ -1,0 +1,199 @@
+Jennifer | Tryst.link: Find independent escorts
+Skip to content
+Search
+Log in
+Sign up
+Search
+Membership & Pricing
+Locations
+TLC donation matching
+Resources
+Tryst Blog
+Resources
+Good Client Guide
+Sex work FAQ
+Tryst.link FAQ
+Platform
+Knowledge Base
+Contact Tryst Support
+Feedback
+About
+Social
+Log in
+or
+Sign up
+Jump to
+Photos
+Availability
+Rates
+Contact
+Last active yesterday
+Miami, FL, US
+Fort Lauderdale, FL, US
+Woman
+Jennifer
+Hot Latin model
+Her
+Hello Gentlemen and thank you for checking me out, I  appreciate your interest and guarantee if you choose me I will exceed your expectations.
+My name is Jennifer I describe myself curvy , brunette, brown eyes, fun, sweet and always good and positive energy,  great sense of humor,  love to dance , good restaurants and travel
+Report this profile
+Based in
+Miami, Florida, United States
+Fort Lauderdale, Florida, United States
+Caters to
+Men
+Last active
+Yesterday
+Gender
+Woman (Her)
+Age
+30s
+Body Type
+Curvy
+Height
+165 / 5'5"
+Ethnicity
+Latin
+Cup Size
+C
+Hair Colour
+Auburn
+Shoe Size
+5,5
+Eye Colour
+Brown
+Availability
+Monday
+All day
+Tuesday
+All day
+Wednesday
+All day
+Thursday
+All day
+Friday
+All day
+Saturday
+All day
+Sunday
+All day
+Tour Schedule
+Hey everyone 💋
+I’ll be in town from July 20 to July 24 and I’d love the chance to see some familiar faces and make a few new connections. ✨
+If you’ve been wanting to stop by and say hi, this is your chance. Life is short, chemistry is rare, and I’m looking forward to making the most of my time in the city. 😉
+Cleveland, OH, US
+Jul 20–24
+Visiting Cleveland OH
+(Independence Area) from July 20 to July 24
+Incall
+1 hour
+US$
+500
+90 mins
+US$
+750
+No half hour rates
+Outcall
+1 hour
+US$
+500
+Client send Uber round trip
+90 mins
+US$
+750
+Dinner Date 3 hours
+US$
+1,500
+Contact
+Email
+Mobile
+WhatsApp
+X
+(formerly Twitter)
+@MiaJenn12
+Similar profiles
+Loading...
+Recommended for you
+Loading...
+What people say about Tryst
+We love hearing from people who use and love Tryst! Here are some of the things people have said about us.
+Thank you support. Looking forward to my many years on your platform. My business is off the charts. Didn’t happen till I got on Tryst!
+October 2022 | via Email
+This website contains adult content
+By continuing to use Tryst, you agree you're
+over the age of 18
+and have
+read and agreed
+to our
+terms
+.
+Parents/guardians
+, you can learn more about online safety in the
+Assembly Four parents guide
+to adult content.
+Decline
+Showing
+Female
+profiles
+Change Language
+Showing
+Female
+profiles
+Language
+: English (US)
+Menu
+Home
+Memberships & Pricing
+Sign Up
+Login
+Browse
+Locations
+All Escorts
+Backpage Alternatives
+Resources
+Blog
+TLC Donation Matching
+Resources
+#AcceptanceMatters
+Escort Terms
+Tryst.link FAQ
+Sex Work FAQ
+Tryst Status
+Platform
+Help / Support
+About
+Social
+Terms
+Privacy
+Legal Notices
+Anti-Exploitation Policy
+New York escorts
+Los Angeles escorts
+Las Vegas escorts
+Chicago escorts
+Houston escorts
+Dallas escorts
+Miami escorts
+Atlanta escorts
+San Francisco escorts
+Boston escorts
+Austin escorts
+Phoenix escorts
+Seattle escorts
+Denver escorts
+Washington DC escorts
+San Diego escorts
+Manhattan escorts
+Philadelphia escorts
+Portland escorts
+Tampa escorts
+Orlando escorts
+Minneapolis escorts
+Charlotte escorts
+Sacramento escorts
+© 2018–2026, Assembly Four
+Location data provided by
+GeoNames
+, which is licensed under
+CC BY 4.0
+Select Preferences

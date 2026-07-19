@@ -1,0 +1,424 @@
+import { useNavigate, Link } from 'react-router-dom'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef } from 'react'
+import { Button, Section, Eyebrow } from '../components/ui'
+import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
+import { Portrait } from '../components/Portrait'
+import { HeartIcon, LockIcon, ShieldIcon, CheckIcon, iconMap } from '../components/icons'
+import { companions } from '../data/companions'
+import { experiences, testimonials, privacyFeatures } from '../data/content'
+
+type CategoryIcon = 'spark' | 'crown' | 'orchid' | 'lotus'
+
+const categories: {
+  id: string
+  title: string
+  description: string
+  icon: CategoryIcon
+  links: { name: string; city: string }[]
+}[] = [
+  {
+    id: 'call-girls',
+    title: 'Call Girls',
+    description: 'Verified independent female companions across India.',
+    icon: 'spark',
+    links: [
+      { name: 'Delhi', city: 'Delhi' },
+      { name: 'Mumbai', city: 'Mumbai' },
+      { name: 'Jaipur', city: 'Jaipur' },
+    ],
+  },
+  {
+    id: 'male-escorts',
+    title: 'Male Escorts',
+    description: 'Elite and verified male companions near you.',
+    icon: 'crown',
+    links: [],
+  },
+  {
+    id: 'shemale-escorts',
+    title: 'Shemale Escorts',
+    description: 'Independent trans companions across India.',
+    icon: 'orchid',
+    links: [],
+  },
+  {
+    id: 'massages',
+    title: 'Massages',
+    description: 'Discreet spa and sensual massage sessions.',
+    icon: 'lotus',
+    links: [],
+  },
+]
+
+// Photo-free decorative glyphs for the category tiles.
+function CategoryGlyph({ icon }: { icon: CategoryIcon }) {
+  const paths: Record<CategoryIcon, string> = {
+    spark: 'M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4L12 2z',
+    crown: 'M4 8l4 4 4-7 4 7 4-4-1.5 11h-13L4 8z',
+    orchid: 'M12 3c2.5 2 2.5 5 0 7-2.5-2-2.5-5 0-7zm0 7c3 0 5 2 5 5-3 0-5-2-5-5zm0 0c-3 0-5 2-5 5 3 0 5-2 5-5z',
+    lotus: 'M12 4c1.5 2.5 1.5 5 0 7.5C10.5 9 10.5 6.5 12 4zM4 10c2.8.4 4.6 2.2 5.5 5C6.7 15 4.9 13.2 4 10zm16 0c-.9 3.2-2.7 5-5.5 5 .9-2.8 2.7-4.6 5.5-5z',
+  }
+  const cities: [string, string][] = [
+    ['#c8a349', '#5a1220'],
+    ['#9b1b2e', '#0c0708'],
+    ['#d98a3d', '#3d0c16'],
+    ['#cbb393', '#17100f'],
+  ]
+  const idx = { spark: 0, crown: 1, orchid: 2, lotus: 3 }[icon]
+  const [a, b] = cities[idx]
+  return (
+    <div
+      className="grid h-16 w-16 place-items-center rounded-2xl border border-gold/25"
+      style={{ backgroundImage: `linear-gradient(140deg, ${a}22, ${b}55)` }}
+    >
+      <svg viewBox="0 0 24 24" className="h-8 w-8 text-gold-soft" fill="none" stroke="currentColor" strokeWidth="1.1">
+        <path d={paths[icon]} strokeLinejoin="round" strokeLinecap="round" />
+      </svg>
+    </div>
+  )
+}
+
+function Hero() {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const featured = companions.filter((c) => c.verified).slice(0, 3)
+
+  return (
+    <div ref={ref} className="relative flex min-h-[92vh] items-center overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-0 -z-10">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 75% 30%, rgba(155,27,46,0.35), transparent 45%), radial-gradient(circle at 15% 80%, rgba(90,18,32,0.45), transparent 50%), linear-gradient(160deg, #17100f, #0c0708)',
+          }}
+        />
+      </motion.div>
+
+      <Section className="grid items-center gap-16 pt-32 pb-20 lg:grid-cols-[1.1fr_0.9fr]">
+        <motion.div style={{ opacity }}>
+          <Reveal>
+            <Eyebrow>Consent-first · Privacy-first · Pan-India</Eyebrow>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="mt-6 text-5xl leading-[0.95] tracking-tight text-ivory sm:text-6xl lg:text-7.5xl font-serif">
+              The art of
+              <span className="block italic text-gold-soft">refined connection.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-7 max-w-md text-lg font-light leading-relaxed text-ivory-dim">
+              A private and verified directory of companions across India. Browsing is secure, introductions are mutual, and discretion is guaranteed.
+            </p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Button to="/discover">Browse Directory</Button>
+              <Button to="/experiences" variant="ghost">
+                Our philosophy →
+              </Button>
+            </div>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <div className="mt-12 flex flex-wrap gap-x-10 gap-y-4">
+              {[
+                { k: '200+', v: 'Verified companions' },
+                { k: '8', v: 'Cities pan-India' },
+                { k: '24/7', v: 'Concierge & safety' },
+              ].map((s) => (
+                <div key={s.v}>
+                  <div className="font-serif text-3xl text-gold-soft">{s.k}</div>
+                  <div className="mt-1 text-[0.7rem] uppercase tracking-[0.2em] text-ivory-dim">{s.v}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </motion.div>
+
+        {/* Floating portraits */}
+        <Reveal delay={0.3} className="relative hidden h-[32rem] lg:block">
+          {featured.map((c, i) => (
+            <motion.div
+              key={c.id}
+              className="absolute overflow-hidden rounded-[1.5rem] border border-ivory/10 shadow-2xl"
+              style={{
+                width: '15rem',
+                height: '20rem',
+                top: `${i * 3.5}rem`,
+                right: `${i * 6}rem`,
+                zIndex: featured.length - i,
+              }}
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 6 + i, repeat: Infinity, ease: 'easeInOut', delay: i * 0.6 }}
+            >
+              <Portrait image={c.images[0]} name={c.name} />
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-noir/90 to-transparent">
+                <p className="font-serif text-lg text-ivory">{c.name}</p>
+                <p className="text-[0.65rem] uppercase tracking-[0.2em] text-gold-soft">{c.city}</p>
+              </div>
+            </motion.div>
+          ))}
+        </Reveal>
+      </Section>
+    </div>
+  )
+}
+
+function CategorySection() {
+  const navigate = useNavigate()
+
+  return (
+    <Section className="py-20">
+      <Reveal className="mx-auto max-w-2xl text-center">
+        <Eyebrow>Classifications</Eyebrow>
+        <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Browse by Category</h2>
+        <p className="mt-4 text-ivory-dim">Choose a classification to explore verified, independent companions.</p>
+      </Reveal>
+
+      <RevealGroup className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {categories.map((cat) => (
+          <RevealItem key={cat.id}>
+            <div
+              onClick={() => navigate(`/discover?category=${encodeURIComponent(cat.title)}`)}
+              className="group flex h-full cursor-pointer flex-col rounded-2xl border border-ivory/10 bg-noir-soft/30 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-noir-soft/50"
+            >
+              <CategoryGlyph icon={cat.icon} />
+              <h3 className="mt-5 font-serif text-2xl text-ivory transition-colors group-hover:text-gold-soft">
+                {cat.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ivory-dim">{cat.description}</p>
+
+              {cat.links.length > 0 && (
+                <div className="mt-5 flex flex-wrap gap-2 border-t border-ivory/10 pt-5">
+                  {cat.links.map((link) => (
+                    <span
+                      key={link.name}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        navigate(`/discover?category=${encodeURIComponent(cat.title)}&city=${link.city}`)
+                      }}
+                      className="rounded-full border border-ivory/12 px-3 py-1 text-[0.68rem] uppercase tracking-wider text-gold-soft/80 transition-colors hover:border-gold/40 hover:text-gold"
+                    >
+                      {link.name}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <span className="mt-auto pt-6 text-xs uppercase tracking-[0.2em] text-ivory-dim transition-colors group-hover:text-gold-soft">
+                Explore →
+              </span>
+            </div>
+          </RevealItem>
+        ))}
+      </RevealGroup>
+    </Section>
+  )
+}
+
+function FeaturedCompanions() {
+  const featured = companions.filter((c) => c.verified).slice(0, 6)
+
+  return (
+    <Section className="py-20">
+      <Reveal className="flex flex-wrap items-end justify-between gap-6">
+        <div className="max-w-xl">
+          <Eyebrow>The Circle</Eyebrow>
+          <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Featured companions</h2>
+          <p className="mt-4 text-ivory-dim">
+            A glimpse of our verified circle. Every introduction is mutual and arranged privately.
+          </p>
+        </div>
+        <Button to="/discover" variant="outline">View all</Button>
+      </Reveal>
+
+      <RevealGroup className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((c) => (
+          <RevealItem key={c.id}>
+            <Link to={`/profile/${c.id}`} className="group block h-full">
+              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
+                    <Portrait image={c.images[0]} name={c.name} />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-noir/80 via-transparent to-transparent" />
+                  <span className="absolute right-3 top-3 rounded bg-noir/70 px-2 py-0.5 text-[0.6rem] uppercase tracking-wider text-gold-soft backdrop-blur-sm">
+                    {c.tier}
+                  </span>
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <h3 className="font-serif text-xl text-ivory group-hover:text-gold-soft">{c.name}</h3>
+                    <p className="text-[0.7rem] uppercase tracking-[0.18em] text-ivory-dim">
+                      {c.city} · {c.category.replace(' Girls', '').replace(' Escorts', '')}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </Link>
+          </RevealItem>
+        ))}
+      </RevealGroup>
+    </Section>
+  )
+}
+
+function ExperiencesPreview() {
+  return (
+    <Section className="py-20">
+      <Reveal className="mx-auto max-w-2xl text-center">
+        <Eyebrow>Curated Experiences</Eyebrow>
+        <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Every evening, composed with intent</h2>
+        <p className="mt-4 text-ivory-dim">
+          From an unhurried dinner to a weekend by the coast, each experience is arranged around your comfort and privacy.
+        </p>
+      </Reveal>
+
+      <RevealGroup className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {experiences.map((e) => (
+          <RevealItem key={e.id}>
+            <div className="flex h-full flex-col rounded-2xl border border-ivory/10 bg-noir-soft/40 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
+              <span className="text-[0.7rem] uppercase tracking-[0.24em] text-gold-soft">{e.duration}</span>
+              <h3 className="mt-3 font-serif text-2xl text-ivory">{e.title}</h3>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-ivory-dim">{e.summary}</p>
+              <Link
+                to="/experiences"
+                className="mt-5 text-xs uppercase tracking-[0.2em] text-gold-soft hover:text-gold"
+              >
+                Learn more →
+              </Link>
+            </div>
+          </RevealItem>
+        ))}
+      </RevealGroup>
+    </Section>
+  )
+}
+
+function HowItWorks() {
+  const steps = [
+    { n: '01', t: 'Enquire privately', d: 'Send an encrypted enquiry using an alias if you wish.' },
+    { n: '02', t: 'Get verified', d: 'A discreet, secure check confirms identity on both sides.' },
+    { n: '03', t: 'Curated match', d: 'Your concierge proposes companions suited to the occasion.' },
+    { n: '04', t: 'Meet with ease', d: 'Everything is arranged; you simply arrive and enjoy.' },
+  ]
+  return (
+    <Section className="py-20">
+      <Reveal className="mx-auto max-w-2xl text-center">
+        <Eyebrow>How it works</Eyebrow>
+        <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Four discreet steps</h2>
+      </Reveal>
+      <RevealGroup className="mt-14 grid gap-6 md:grid-cols-4">
+        {steps.map((s) => (
+          <RevealItem key={s.n}>
+            <div className="h-full rounded-2xl border border-ivory/10 bg-noir-soft/40 p-7">
+              <span className="font-serif text-4xl text-gold/40">{s.n}</span>
+              <h3 className="mt-4 font-serif text-xl text-ivory">{s.t}</h3>
+              <p className="mt-2 text-sm text-ivory-dim">{s.d}</p>
+            </div>
+          </RevealItem>
+        ))}
+      </RevealGroup>
+    </Section>
+  )
+}
+
+function TrustSection() {
+  return (
+    <Section className="py-20">
+      <Reveal className="mx-auto max-w-2xl text-center">
+        <Eyebrow>Why the circle</Eyebrow>
+        <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Built on consent and privacy</h2>
+      </Reveal>
+      <RevealGroup className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {privacyFeatures.map((f) => {
+          const Icon = iconMap[f.icon]
+          return (
+            <RevealItem key={f.title}>
+              <div className="h-full rounded-2xl border border-ivory/10 bg-noir-soft/40 p-7">
+                <div className="h-8 w-8 text-gold"><Icon /></div>
+                <h3 className="mt-4 font-serif text-xl text-ivory">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ivory-dim">{f.body}</p>
+              </div>
+            </RevealItem>
+          )
+        })}
+      </RevealGroup>
+    </Section>
+  )
+}
+
+function Testimonials() {
+  return (
+    <Section className="py-20">
+      <Reveal className="mx-auto max-w-2xl text-center">
+        <Eyebrow>In their words</Eyebrow>
+        <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Quietly, they return</h2>
+      </Reveal>
+      <RevealGroup className="mt-12 grid gap-6 md:grid-cols-3">
+        {testimonials.map((t, i) => (
+          <RevealItem key={i}>
+            <figure className="flex h-full flex-col rounded-2xl border border-ivory/10 bg-noir-soft/40 p-8">
+              <span className="font-serif text-5xl leading-none text-gold/30">“</span>
+              <blockquote className="mt-2 flex-1 font-serif text-lg italic leading-relaxed text-ivory-dim">
+                {t.quote}
+              </blockquote>
+              <figcaption className="mt-6 text-xs uppercase tracking-[0.18em] text-gold-soft">
+                {t.author} · {t.meta}
+              </figcaption>
+            </figure>
+          </RevealItem>
+        ))}
+      </RevealGroup>
+    </Section>
+  )
+}
+
+function ClosingCta() {
+  return (
+    <Section className="py-20">
+      <Reveal>
+        <div className="relative overflow-hidden rounded-3xl border border-gold/20 bg-gradient-to-br from-burgundy-deep/60 to-noir p-12 text-center md:p-16">
+          <span className="eyebrow">Begin privately</span>
+          <h2 className="mx-auto mt-5 max-w-xl text-4xl text-ivory sm:text-5xl font-serif">
+            Ready to design your evening?
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-ivory-dim">
+            Begin with a private enquiry. No detail is shared publicly, ever.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Button to="/membership">Begin an enquiry</Button>
+            <Link
+              to="/discover"
+              className="inline-flex items-center px-4 text-sm uppercase tracking-[0.2em] text-gold-soft hover:text-gold"
+            >
+              Browse the circle →
+            </Link>
+          </div>
+          <div className="mt-10 flex flex-wrap justify-center gap-6 text-[0.7rem] uppercase tracking-[0.16em] text-ivory-dim/70">
+            <span className="inline-flex items-center gap-2"><span className="h-3.5 w-3.5 text-gold"><HeartIcon /></span>Consent-first</span>
+            <span className="inline-flex items-center gap-2"><span className="h-3.5 w-3.5 text-gold"><LockIcon /></span>Encrypted</span>
+            <span className="inline-flex items-center gap-2"><span className="h-3.5 w-3.5 text-gold"><ShieldIcon /></span>Verified</span>
+            <span className="inline-flex items-center gap-2"><span className="h-3.5 w-3.5 text-gold"><CheckIcon /></span>18+ only</span>
+          </div>
+        </div>
+      </Reveal>
+    </Section>
+  )
+}
+
+export function Home() {
+  return (
+    <div className="pb-16">
+      <Hero />
+      <CategorySection />
+      <FeaturedCompanions />
+      <ExperiencesPreview />
+      <HowItWorks />
+      <TrustSection />
+      <Testimonials />
+      <ClosingCta />
+    </div>
+  )
+}

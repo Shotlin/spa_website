@@ -1,0 +1,94 @@
+{
+  "url": "http://in.khopal.com/login",
+  "final_url": "http://in.khopal.com/login",
+  "title": "Login to Khopal - Access Your Account",
+  "meta_description": "Log in to your Khopal account to browse, post ads, and connect with others on India's leading adult classifieds platform.",
+  "meta_keywords": "",
+  "headings": {
+    "h2": [
+      "Welcome to Khopal"
+    ]
+  },
+  "links_count": 12,
+  "links": [
+    {
+      "url": "/",
+      "text": "KHOPAL"
+    },
+    {
+      "url": "/",
+      "text": ""
+    },
+    {
+      "url": "/",
+      "text": ""
+    },
+    {
+      "url": "/login",
+      "text": "Login"
+    },
+    {
+      "url": "/login",
+      "text": "Post your ad"
+    },
+    {
+      "url": "/forgotpassword",
+      "text": "Forgot your password?"
+    },
+    {
+      "url": "https://in.khopal.com/terms-and-conditions",
+      "text": "Terms of Use."
+    },
+    {
+      "url": "https://in.khopal.com/privacy-policy",
+      "text": "Privacy Notice"
+    },
+    {
+      "url": "/register",
+      "text": "Sign Up"
+    },
+    {
+      "url": "/",
+      "text": "Home"
+    },
+    {
+      "url": "/category",
+      "text": "Category"
+    },
+    {
+      "url": "/search",
+      "text": "Search"
+    }
+  ],
+  "images_count": 6,
+  "images": [
+    {
+      "src": "/imgs/left-arrow.svg",
+      "alt": "Left Arrow"
+    },
+    {
+      "src": "/imgs/logo.svg",
+      "alt": "logo"
+    },
+    {
+      "src": "/imgs/home-icon.svg",
+      "alt": "home"
+    },
+    {
+      "src": "/imgs/category-icon.svg",
+      "alt": "category"
+    },
+    {
+      "src": "/imgs/search-icon.svg",
+      "alt": "search"
+    },
+    {
+      "src": "/imgs/user-icon.svg",
+      "alt": "user"
+    }
+  ],
+  "word_count": 0,
+  "http_status": 200,
+  "content_type": "text/html",
+  "timestamp": "2026-07-19T05:06:39.992765+00:00"
+}

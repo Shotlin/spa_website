@@ -1,0 +1,186 @@
+Kristin | Tryst.link: Find independent escorts
+Skip to content
+Search
+Log in
+Sign up
+Search
+Membership & Pricing
+Locations
+TLC donation matching
+Resources
+Tryst Blog
+Resources
+Good Client Guide
+Sex work FAQ
+Tryst.link FAQ
+Platform
+Knowledge Base
+Contact Tryst Support
+Feedback
+About
+Social
+Log in
+or
+Sign up
+Jump to
+Photos
+Availability
+Rates
+Contact
+Last active today
+Baton Rouge, LA, US
+Woman
+Kristin
+Gorgeous Busty Playmate
+She
+Hey guys,
+I’ll be available in Baton Rouge for outcall. I’m a total sweetheart with a bubbly personality and a tight curvy body. Im pretty vocal and can be very naughty. I love fetishes and roll playing. Whatever it is you like, I’ll make sure it’s the best. I’m real and I have great reviews! Give me a call or text for more info.
+***When contacting me please be respectful and polite I don't engage in explicit conversations***
+I look forward to meeting you!
+Kristin 504-812-4777
+Report this profile
+Based in
+Baton Rouge, Louisiana, United States
+Caters to
+Men
+Last active
+Today
+Gender
+Woman (She)
+Age
+20s
+Body Type
+Curvy
+Height
+164 / 5'5"
+Ethnicity
+Caucasian
+Cup Size
+DD
+Hair Colour
+Brunette
+Shoe Size
+8
+Eye Colour
+Brown
+Availability
+Monday
+All day
+Tuesday
+All day
+Wednesday
+All day
+Thursday
+All day
+Friday
+All day
+Saturday
+All day
+Sunday
+All day
+Incall
+30 minutes
+$
+300
+1 hour
+$
+400
+Outcall
+1 hour
+$
+600
+Depending on distance
+Online
+FaceTime call
+$
+160
+Contact
+Message Me
+Email
+Mobile
+Similar profiles
+Loading...
+Recommended for you
+Loading...
+What people say about Tryst
+We love hearing from people who use and love Tryst! Here are some of the things people have said about us.
+I want to say, I love you guys. The best clients come from you.
+September 2023 | via Email
+This website contains adult content
+By continuing to use Tryst, you agree you're
+over the age of 18
+and have
+read and agreed
+to our
+terms
+.
+Parents/guardians
+, you can learn more about online safety in the
+Assembly Four parents guide
+to adult content.
+Decline
+Showing
+Female
+profiles
+Change Language
+Showing
+Female
+profiles
+Language
+: English (US)
+Menu
+Home
+Memberships & Pricing
+Sign Up
+Login
+Browse
+Locations
+All Escorts
+Backpage Alternatives
+Resources
+Blog
+TLC Donation Matching
+Resources
+#AcceptanceMatters
+Escort Terms
+Tryst.link FAQ
+Sex Work FAQ
+Tryst Status
+Platform
+Help / Support
+About
+Social
+Terms
+Privacy
+Legal Notices
+Anti-Exploitation Policy
+New York escorts
+Los Angeles escorts
+Las Vegas escorts
+Chicago escorts
+Houston escorts
+Dallas escorts
+Miami escorts
+Atlanta escorts
+San Francisco escorts
+Boston escorts
+Austin escorts
+Phoenix escorts
+Seattle escorts
+Denver escorts
+Washington DC escorts
+San Diego escorts
+Manhattan escorts
+Philadelphia escorts
+Portland escorts
+Tampa escorts
+Orlando escorts
+Minneapolis escorts
+Charlotte escorts
+Sacramento escorts
+© 2018–2026, Assembly Four
+Location data provided by
+GeoNames
+, which is licensed under
+CC BY 4.0
+Select Preferences
