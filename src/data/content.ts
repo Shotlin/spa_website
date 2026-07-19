@@ -13,7 +13,7 @@ export const experiences: Experience[] = [
   {
     id: 'personal-meetings',
     title: 'Personal Meetings',
-    scene: 'personal',
+    scene: 'scene-1',
     summary: 'An unhurried evening of genuine conversation and easy company.',
     detail:
       'A quiet dinner, a gallery opening, or simply a long conversation over something poured slowly. Personal meetings are the heart of what we do — real, present, and yours to shape.',
@@ -22,7 +22,7 @@ export const experiences: Experience[] = [
   {
     id: 'companionship',
     title: 'Social Companionship',
-    scene: 'companionship',
+    scene: 'scene-2',
     summary: 'A poised, engaging presence for the evenings that matter.',
     detail:
       'Weddings, galas, launches, reunions. Arrive with a companion who is at ease in any room, reads the moment, and makes you look forward to the night ahead.',
@@ -31,7 +31,7 @@ export const experiences: Experience[] = [
   {
     id: 'city-tours',
     title: 'Private City Experiences',
-    scene: 'city',
+    scene: 'scene-3',
     summary: 'Your chosen city, seen through someone who truly knows it.',
     detail:
       'The rooftop with the right light at dusk, the kitchen that never makes the guidebooks, the quiet corner of a landmark. A curated day or evening, entirely local, entirely private.',
@@ -40,7 +40,7 @@ export const experiences: Experience[] = [
   {
     id: 'celebrations',
     title: 'Private Celebrations',
-    scene: 'celebration',
+    scene: 'scene-5',
     summary: 'Milestones marked with warmth, discretion, and taste.',
     detail:
       'A birthday you would rather keep intimate, an anniversary of one, a quiet victory worth toasting. We help you mark the moment beautifully and privately.',
@@ -49,7 +49,7 @@ export const experiences: Experience[] = [
   {
     id: 'travel',
     title: 'Travel Companionship',
-    scene: 'travel',
+    scene: 'scene-6',
     summary: 'Considered company for the road, the coast, or the retreat.',
     detail:
       'A weekend by the sea, a heritage escape, a change of air. Travel companionship is arranged with extra care around logistics, privacy, and mutual comfort.',
@@ -58,7 +58,7 @@ export const experiences: Experience[] = [
   {
     id: 'cultural',
     title: 'Cultural Evenings',
-    scene: 'cultural',
+    scene: 'scene-7',
     summary: 'Music, performance, and heritage in refined company.',
     detail:
       'A ghazal evening, a classical recital, a private viewing. For guests who find their luxury in beauty and craft, shared with someone who feels it too.',

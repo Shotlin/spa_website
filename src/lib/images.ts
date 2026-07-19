@@ -23,6 +23,16 @@ const sceneFiles = import.meta.glob('../assets/scenes/*.{jpg,jpeg,png,webp,avif}
   import: 'default',
 }) as Record<string, string>
 
+// Curated editorial artwork. Keep the glob intentionally narrow so the local
+// review contact sheets in this folder never become part of the app bundle.
+const decorFiles = import.meta.glob([
+  '../assets/decor/scene-*.{jpg,jpeg,png,webp,avif}',
+  '../assets/decor/model-*.{jpg,jpeg,png,webp,avif}',
+], {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>
+
 function index(files: Record<string, string>): Record<string, string> {
   const out: Record<string, string> = {}
   for (const path in files) {
@@ -36,6 +46,7 @@ function index(files: Record<string, string>): Record<string, string> {
 
 const models = index(modelFiles)
 const scenes = index(sceneFiles)
+const decor = index(decorFiles)
 
 export function resolveModelImage(key?: string): string | null {
   if (!key) return null
@@ -45,6 +56,11 @@ export function resolveModelImage(key?: string): string | null {
 export function resolveSceneImage(key?: string): string | null {
   if (!key) return null
   return scenes[key.toLowerCase()] ?? null
+}
+
+export function resolveDecorImage(key?: string): string | null {
+  if (!key) return null
+  return decor[key.toLowerCase()] ?? null
 }
 
 // Deterministic palette pairs used to build placeholder gradients so a

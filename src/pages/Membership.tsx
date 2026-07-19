@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Section, Eyebrow, Button } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
+import { Portrait } from '../components/Portrait'
 import { ShieldIcon, LockIcon, CheckIcon, HeartIcon } from '../components/icons'
 import { tiers } from '../data/content'
 
@@ -82,71 +83,103 @@ export function Membership() {
     { icon: ShieldIcon, title: 'Identity verification', body: 'A discreet, secure process verifies both members and companions before any introduction.' },
     { icon: CheckIcon, title: 'Secure communication', body: 'All messaging runs through encrypted channels with a 24/7 concierge on hand.' },
   ]
+  const tierImages = ['model-1', 'model-3', 'model-5']
 
   return (
-    <div className="pt-32">
+    <div className="overflow-hidden pt-32">
       <Section>
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <Eyebrow>Membership & Private Enquiry</Eyebrow>
-          <h1 className="mt-5 text-5xl text-ivory sm:text-6xl">
-            Discretion, as a standard
-          </h1>
-          <p className="mt-5 text-lg text-ivory-dim">
-            Membership is how we keep the circle small, verified, and safe for
-            everyone in it. Choose a tier, or simply begin a private enquiry below.
-          </p>
-        </Reveal>
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_0.72fr] lg:gap-16">
+          <Reveal className="max-w-2xl">
+            <Eyebrow>Membership &amp; Private Enquiry</Eyebrow>
+            <h1 className="mt-5 text-5xl text-ivory sm:text-6xl">
+              Discretion, as a standard
+            </h1>
+            <p className="mt-5 text-lg text-ivory-dim">
+              Membership is how we keep the circle small, verified, and safe for
+              everyone in it. Choose a tier, or simply begin a private enquiry below.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.12} className="mx-auto w-full max-w-md lg:mr-0">
+            <figure className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-gold/20 bg-noir-soft shadow-[0_28px_80px_-34px_rgba(155,27,46,0.75)]">
+              <Portrait image="model-1" name="A private Circle member" kind="decor" loading="eager" />
+              <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/10 to-transparent" />
+              <figcaption className="absolute inset-x-0 bottom-0 p-6">
+                <span className="block text-[0.65rem] uppercase tracking-[0.28em] text-gold-soft">The inner circle</span>
+                <span className="mt-2 block max-w-[13rem] font-serif text-2xl leading-none text-ivory">A calmer way to make a connection.</span>
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
       </Section>
 
-      {/* Tiers */}
       <Section className="mt-16">
         <RevealGroup className="grid gap-6 lg:grid-cols-3">
-          {tiers.map((t) => (
+          {tiers.map((t, index) => (
             <RevealItem key={t.name}>
-              <div
-                className={`flex h-full flex-col rounded-3xl border p-8 transition-all duration-500 hover:-translate-y-1 ${
+              <article
+                className={`group flex h-full flex-col overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 ${
                   t.featured
                     ? 'border-gold/50 bg-gradient-to-b from-gold/10 to-transparent shadow-[0_20px_60px_-20px_rgba(200,163,73,0.4)]'
                     : 'border-ivory/10 bg-noir-soft/40 hover:border-gold/30'
                 }`}
               >
-                {t.featured && (
-                  <span className="mb-4 inline-flex w-fit rounded-full bg-gold/20 px-3 py-1 text-[0.6rem] uppercase tracking-[0.2em] text-gold-soft">
-                    Most chosen
-                  </span>
-                )}
-                <h3 className="font-serif text-3xl text-ivory">{t.name}</h3>
-                <p className="mt-2 text-sm text-ivory-dim">{t.tagline}</p>
-                <div className="mt-6 flex items-baseline gap-2">
-                  <span className="font-serif text-4xl text-gold-soft">{t.price}</span>
-                  {t.cadence && <span className="text-xs uppercase tracking-wider text-ivory-dim">{t.cadence}</span>}
+                <div className="relative h-36 shrink-0 overflow-hidden">
+                  <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
+                    <Portrait image={tierImages[index % tierImages.length]} name={`${t.name} membership`} kind="decor" />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-noir/70 via-noir/15 to-transparent" />
+                  <span className="absolute bottom-4 left-5 text-[0.6rem] uppercase tracking-[0.24em] text-gold-soft">Private tier</span>
                 </div>
-                <ul className="mt-7 flex-1 space-y-3">
-                  {t.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3 text-sm text-ivory-dim">
-                      <span className="mt-0.5 h-4 w-4 shrink-0 text-gold"><CheckIcon /></span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-8">
-                  <Button href="#enquire" variant={t.featured ? 'solid' : 'outline'} className="w-full">
-                    {t.price === 'By invitation' ? 'Request an invitation' : 'Select ' + t.name}
-                  </Button>
+
+                <div className="flex flex-1 flex-col p-8">
+                  {t.featured && (
+                    <span className="mb-4 inline-flex w-fit rounded-full bg-gold/20 px-3 py-1 text-[0.6rem] uppercase tracking-[0.2em] text-gold-soft">
+                      Most chosen
+                    </span>
+                  )}
+                  <h3 className="font-serif text-3xl text-ivory">{t.name}</h3>
+                  <p className="mt-2 text-sm text-ivory-dim">{t.tagline}</p>
+                  <div className="mt-6 flex items-baseline gap-2">
+                    <span className="font-serif text-4xl text-gold-soft">{t.price}</span>
+                    {t.cadence && <span className="text-xs uppercase tracking-wider text-ivory-dim">{t.cadence}</span>}
+                  </div>
+                  <ul className="mt-7 flex-1 space-y-3">
+                    {t.features.map((f) => (
+                      <li key={f} className="flex items-start gap-3 text-sm text-ivory-dim">
+                        <span className="mt-0.5 h-4 w-4 shrink-0 text-gold"><CheckIcon /></span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-8">
+                    <Button href="#enquire" variant={t.featured ? 'solid' : 'outline'} className="w-full">
+                      {t.price === 'By invitation' ? 'Request an invitation' : 'Select ' + t.name}
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              </article>
             </RevealItem>
           ))}
         </RevealGroup>
       </Section>
 
-      {/* Guarantees */}
       <Section className="py-24">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <Eyebrow>Our assurances</Eyebrow>
-          <h2 className="mt-5 text-4xl text-ivory sm:text-5xl">What every member is promised</h2>
-        </Reveal>
-        <RevealGroup className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_0.56fr]">
+          <Reveal className="max-w-2xl">
+            <Eyebrow>Our assurances</Eyebrow>
+            <h2 className="mt-5 text-4xl text-ivory sm:text-5xl">What every member is promised</h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <figure className="relative aspect-[16/7] overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft">
+              <Portrait image="scene-5" name="A warm private lounge" kind="decor" />
+              <div className="absolute inset-0 bg-gradient-to-r from-noir/55 to-transparent" />
+              <figcaption className="absolute bottom-4 left-5 text-[0.6rem] uppercase tracking-[0.26em] text-gold-soft">Made for ease</figcaption>
+            </figure>
+          </Reveal>
+        </div>
+
+        <RevealGroup className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {guarantees.map((g) => {
             const Icon = g.icon
             return (
@@ -162,39 +195,44 @@ export function Membership() {
         </RevealGroup>
       </Section>
 
-      {/* Enquiry + concierge */}
       <Section id="enquire" className="grid gap-10 pb-8 lg:grid-cols-[1.1fr_0.9fr]">
         <Reveal><EnquiryForm /></Reveal>
         <Reveal delay={0.15}>
-          <div className="flex h-full flex-col justify-center rounded-3xl border border-ivory/10 bg-gradient-to-br from-burgundy-deep/40 to-noir p-8 md:p-10">
-            <Eyebrow>Concierge</Eyebrow>
-            <h3 className="mt-4 font-serif text-3xl text-ivory">A single, private point of contact</h3>
-            <p className="mt-4 leading-relaxed text-ivory-dim">
-              Members are looked after by a dedicated concierge who handles every
-              detail — matching, scheduling, travel, and discretion — so nothing is
-              ever left to chance.
-            </p>
-            <div className="mt-8 space-y-4">
-              <div className="flex items-center gap-4 rounded-xl border border-ivory/10 bg-noir/40 px-5 py-4">
-                <span className="h-6 w-6 text-gold"><LockIcon /></span>
-                <div>
-                  <p className="text-sm text-ivory">Encrypted concierge line</p>
-                  <p className="text-xs text-ivory-dim">Available to members 24/7</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 rounded-xl border border-ivory/10 bg-noir/40 px-5 py-4">
-                <span className="h-6 w-6 text-gold"><ShieldIcon /></span>
-                <div>
-                  <p className="text-sm text-ivory">Verified introductions only</p>
-                  <p className="text-xs text-ivory-dim">Both sides confirmed before you meet</p>
-                </div>
-              </div>
+          <div className="relative flex h-full overflow-hidden rounded-3xl border border-ivory/10 bg-noir-soft">
+            <div className="absolute inset-0">
+              <Portrait image="scene-3" name="Your private concierge" kind="decor" />
             </div>
-            <p className="mt-8 text-xs leading-relaxed text-ivory-dim/70">
-              VIP Spa operates on consent, privacy, and mutual respect. We do not
-              facilitate anything unlawful, and we reserve the right to decline any
-              enquiry. Members and companions are 18+.
-            </p>
+            <div className="absolute inset-0 bg-gradient-to-br from-noir via-noir/90 to-burgundy-deep/55" />
+            <div className="relative z-10 flex h-full w-full flex-col justify-center p-8 md:p-10">
+              <Eyebrow>Concierge</Eyebrow>
+              <h3 className="mt-4 font-serif text-3xl text-ivory">A single, private point of contact</h3>
+              <p className="mt-4 leading-relaxed text-ivory-dim">
+                Members are looked after by a dedicated concierge who handles every
+                detail — matching, scheduling, travel, and discretion — so nothing is
+                ever left to chance.
+              </p>
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center gap-4 rounded-xl border border-ivory/10 bg-noir/55 px-5 py-4 backdrop-blur-sm">
+                  <span className="h-6 w-6 text-gold"><LockIcon /></span>
+                  <div>
+                    <p className="text-sm text-ivory">Encrypted concierge line</p>
+                    <p className="text-xs text-ivory-dim">Available to members 24/7</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 rounded-xl border border-ivory/10 bg-noir/55 px-5 py-4 backdrop-blur-sm">
+                  <span className="h-6 w-6 text-gold"><ShieldIcon /></span>
+                  <div>
+                    <p className="text-sm text-ivory">Verified introductions only</p>
+                    <p className="text-xs text-ivory-dim">Both sides confirmed before you meet</p>
+                  </div>
+                </div>
+              </div>
+              <p className="mt-8 text-xs leading-relaxed text-ivory-dim/80">
+                VIP Spa operates on consent, privacy, and mutual respect. We do not
+                facilitate anything unlawful, and we reserve the right to decline any
+                enquiry. Members and companions are 18+.
+              </p>
+            </div>
           </div>
         </Reveal>
       </Section>

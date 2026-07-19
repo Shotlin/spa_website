@@ -1,21 +1,29 @@
-import { resolveModelImage, resolveSceneImage, placeholderStyle } from '../lib/images'
+import { resolveDecorImage, resolveModelImage, resolveSceneImage, placeholderStyle } from '../lib/images'
 
 type PortraitProps = {
   image: string
   name: string
   className?: string
-  kind?: 'model' | 'scene'
+  kind?: 'model' | 'scene' | 'decor'
+  loading?: 'lazy' | 'eager'
 }
 
-export function Portrait({ image, name, className = '', kind = 'model' }: PortraitProps) {
-  const src = kind === 'model' ? resolveModelImage(image) : resolveSceneImage(image)
+export function Portrait({ image, name, className = '', kind = 'model', loading = 'lazy' }: PortraitProps) {
+  const src =
+    kind === 'model'
+      ? resolveModelImage(image)
+      : kind === 'scene'
+        ? resolveSceneImage(image)
+        : resolveDecorImage(image)
 
   if (src) {
     return (
       <img
         src={src}
         alt={name}
-        loading="lazy"
+        loading={loading}
+        decoding="async"
+        fetchPriority={loading === 'eager' ? 'high' : 'auto'}
         className={`h-full w-full object-cover ${className}`}
       />
     )

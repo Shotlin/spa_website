@@ -2,7 +2,8 @@
 export type Companion = {
   id: string
   name: string
-  images: string[]
+  image: string
+  imageKind?: 'model' | 'decor'
   tagline: string
   age: number
   city: string
@@ -17,6 +18,10 @@ export type Companion = {
   experiences: string[]
   bio: string[]
   availability: { day: string; slots: string }[]
+}
+
+type CompanionSource = Omit<Companion, 'image' | 'imageKind'> & {
+  images: string[]
 }
 
 export const CITIES = [
@@ -39,7 +44,7 @@ export const CATEGORIES = [
   'Massages',
 ]
 
-export const companions: Companion[] = [
+const companionSources: CompanionSource[] = [
   {
     "id": "in-khopal-com",
     "name": "Aanya",
@@ -1272,9 +1277,190 @@ export const companions: Companion[] = [
       }
     ]
   }
-];
+]
+
+// Each card represents one person and one photograph. The source material was
+// delivered as a handful of multi-photo galleries, so it is normalized here
+// into individual listings instead of showing a gallery inside every card.
+const PHOTO_ALIASES = [
+  'Aanya', 'Meher', 'Mira', 'Kavya', 'Riya', 'Zara', 'Naina', 'Ira', 'Saanvi', 'Tara',
+  'Arjun', 'Anaya', 'Olivia', 'Bree', 'Luna', 'Roxy', 'Ishita', 'Meera', 'Rhea', 'Sara',
+  'Kabir', 'Priya', 'Zoya', 'Alesia', 'Ashley', 'Kristin', 'Scarlett', 'Lulu', 'Mia', 'Monique',
+  'Jaz', 'Esha', 'Nyla', 'Aditi', 'Aisha', 'Veera', 'Alina', 'Nisha', 'Shreya', 'Veda',
+  'Diya', 'Simran', 'Navya', 'Myra', 'Tanya', 'Isha', 'Sia', 'Maya', 'Aarna', 'Nora',
+  'Leela', 'Rumi', 'Vanya', 'Kaira',
+]
+
+const PHOTO_OVERRIDES: Record<string, Partial<Companion>> = {
+  // This is the one standalone male portrait in the supplied model library.
+  'in-khopal-com-2': {
+    name: 'Aarav',
+    city: 'Surat',
+    cities: ['Surat'],
+    category: 'Male Escorts',
+    tagline: 'A thoughtful gentleman companion for refined evenings.',
+    tier: 'Elite',
+    verified: true,
+  },
+}
+
+let aliasIndex = 0
+
+const photoProfiles: Companion[] = companionSources.flatMap(({ images, ...profile }) =>
+  images.map((image, photoIndex) => {
+    const override = PHOTO_OVERRIDES[image]
+    const city = override?.city ?? profile.city
+    const name = override?.name ?? PHOTO_ALIASES[aliasIndex++ % PHOTO_ALIASES.length]
+    const category =
+      override?.category ??
+      (image === 'in-khopal-com-2'
+        ? 'Male Escorts'
+        : profile.category === 'Male Escorts'
+          ? 'Call Girls'
+          : profile.category)
+
+    return {
+      ...profile,
+      ...override,
+      id: `${profile.id}-photo-${photoIndex + 1}`,
+      name,
+      image,
+      city,
+      cities: override?.cities ?? profile.cities,
+      category,
+      tagline:
+        override?.tagline ??
+        (photoIndex === 0
+          ? profile.tagline
+          : `A considered presence for ${city} evenings.`),
+      bio: [
+        `${name} is an independent companion based in ${city}, at ease anywhere from a quiet dinner to a gallery opening.`,
+        'Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected.',
+      ],
+    }
+  }),
+)
+
+const independentPortraits: Companion[] = [
+  {
+    id: 'independent-saree-1',
+    name: 'Avni',
+    image: 'model-1',
+    imageKind: 'decor',
+    tagline: 'Warm, articulate company for Mumbai evenings.',
+    age: 25,
+    city: 'Mumbai',
+    cities: ['Mumbai'],
+    category: 'Call Girls',
+    rate: 340,
+    languages: ['English', 'Hindi', 'Marathi'],
+    interests: ['Cuisine', 'Design', 'Travel'],
+    traits: ['Warm', 'Poised', 'Curious'],
+    verified: true,
+    tier: 'Signature',
+    experiences: ['Personal Meetings', 'Cultural Evenings'],
+    bio: [
+      'Avni brings a relaxed, thoughtful presence to dinners, openings, and unhurried city evenings.',
+      'Introductions are made privately through our concierge, with comfort and clear boundaries at the centre.',
+    ],
+    availability: [{ day: 'Friday', slots: 'Evening' }, { day: 'Sunday', slots: 'Afternoon - Evening' }],
+  },
+  {
+    id: 'independent-saree-2',
+    name: 'Kiana',
+    image: 'model-2',
+    imageKind: 'decor',
+    tagline: 'A bright, grounded companion for Delhi occasions.',
+    age: 26,
+    city: 'Delhi',
+    cities: ['Delhi'],
+    category: 'Call Girls',
+    rate: 360,
+    languages: ['English', 'Hindi'],
+    interests: ['Art', 'Music', 'Fine dining'],
+    traits: ['Genuine', 'Elegant', 'Easygoing'],
+    verified: true,
+    tier: 'Elite',
+    experiences: ['Social Companionship', 'Private Celebrations'],
+    bio: [
+      'Kiana is at home in lively rooms and thoughtful conversation, with an instinct for making any occasion feel easy.',
+      'Each introduction is considered and mutual, arranged around privacy and shared comfort.',
+    ],
+    availability: [{ day: 'Thursday', slots: 'Evening' }, { day: 'Saturday', slots: 'Afternoon - Evening' }],
+  },
+  {
+    id: 'independent-saree-3',
+    name: 'Ishani',
+    image: 'model-3',
+    imageKind: 'decor',
+    tagline: 'Quiet confidence for Bengaluru nights out.',
+    age: 24,
+    city: 'Bengaluru',
+    cities: ['Bengaluru'],
+    category: 'Call Girls',
+    rate: 330,
+    languages: ['English', 'Hindi', 'Kannada'],
+    interests: ['Literature', 'Cinema', 'Coffee'],
+    traits: ['Calm', 'Refined', 'Sincere'],
+    verified: true,
+    tier: 'Signature',
+    experiences: ['Personal Meetings', 'City Experiences'],
+    bio: [
+      'Ishani pairs a calm, observant nature with a love of the small details that make an evening memorable.',
+      'Your introduction is private, intentional, and always centred on mutual respect.',
+    ],
+    availability: [{ day: 'Wednesday', slots: 'Evening' }, { day: 'Sunday', slots: 'Evening' }],
+  },
+  {
+    id: 'independent-saree-4',
+    name: 'Raina',
+    image: 'model-4',
+    imageKind: 'decor',
+    tagline: 'Graceful, spirited company for Jaipur celebrations.',
+    age: 27,
+    city: 'Jaipur',
+    cities: ['Jaipur'],
+    category: 'Call Girls',
+    rate: 350,
+    languages: ['English', 'Hindi', 'Rajasthani'],
+    interests: ['Heritage', 'Fashion', 'Music'],
+    traits: ['Playful', 'Attentive', 'Confident'],
+    verified: true,
+    tier: 'Elite',
+    experiences: ['Private Celebrations', 'Cultural Evenings'],
+    bio: [
+      'Raina brings an assured, welcoming energy to celebrations and cultural evenings across Jaipur.',
+      'Our concierge makes every introduction discreetly and only after both sides are comfortable.',
+    ],
+    availability: [{ day: 'Friday', slots: 'Afternoon - Evening' }, { day: 'Saturday', slots: 'Evening' }],
+  },
+  {
+    id: 'independent-saree-5',
+    name: 'Samira',
+    image: 'model-5',
+    imageKind: 'decor',
+    tagline: "An effortless host for Hyderabad's best evenings.",
+    age: 25,
+    city: 'Hyderabad',
+    cities: ['Hyderabad'],
+    category: 'Call Girls',
+    rate: 345,
+    languages: ['English', 'Hindi', 'Telugu'],
+    interests: ['Food', 'Travel', 'Theatre'],
+    traits: ['Sophisticated', 'Warm', 'Present'],
+    verified: true,
+    tier: 'Signature',
+    experiences: ['Social Companionship', 'Travel Companionship'],
+    bio: [
+      'Samira is a considered, engaging presence for a dinner, an event, or a beautifully unplanned evening.',
+      'All introductions remain private and are arranged around clear expectations and mutual comfort.',
+    ],
+    availability: [{ day: 'Thursday', slots: 'Evening' }, { day: 'Sunday', slots: 'Afternoon' }],
+  },
+]
+
+export const companions: Companion[] = [...photoProfiles, ...independentPortraits]
 
 export function getCompanion(id: string) {
   return companions.find((c) => c.id === id.trim())
 }
-

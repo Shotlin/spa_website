@@ -35,7 +35,7 @@ const categories: {
     title: 'Male Escorts',
     description: 'Elite and verified male companions near you.',
     icon: 'crown',
-    image: 'in-khopal-com-call-girls-noida-1', // Arjun — Male Escorts
+    image: 'in-khopal-com-2', // Aarav — Male Escorts
     links: [],
   },
   {
@@ -89,84 +89,63 @@ function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-  const featured = companions.filter((c) => c.verified).slice(0, 3)
 
   return (
-    <div ref={ref} className="relative flex min-h-[92vh] items-center overflow-hidden">
+    <div ref={ref} className="relative isolate flex min-h-[44rem] items-end overflow-hidden md:min-h-[48rem] md:items-center md:overflow-visible">
       <motion.div style={{ y }} className="absolute inset-0 -z-10">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 75% 30%, rgba(155,27,46,0.35), transparent 45%), radial-gradient(circle at 15% 80%, rgba(90,18,32,0.45), transparent 50%), linear-gradient(160deg, #17100f, #0c0708)',
-          }}
+        <Portrait
+          image="scene-4"
+          kind="decor"
+          name="An elegant lounge evening"
+          loading="eager"
+          className="object-[64%_center] sm:object-[68%_center]"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-noir/65 via-noir/10 to-noir/0 md:bg-gradient-to-r md:from-noir/72 md:via-noir/46 md:to-noir/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-noir/35 via-transparent to-transparent md:from-noir/20" />
       </motion.div>
 
-      <Section className="grid items-center gap-16 pt-32 pb-20 lg:grid-cols-[1.1fr_0.9fr]">
-        <motion.div style={{ opacity }}>
+      <Section className="relative flex min-h-[44rem] items-end pt-28 pb-7 sm:pb-10 md:block md:min-h-0 md:pt-32 md:pb-24">
+        <motion.div
+          style={{ opacity }}
+          className="max-w-2xl rounded-[1.75rem] border border-ivory/12 bg-noir/45 p-5 shadow-[0_22px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-[3px] sm:p-7 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
+        >
           <Reveal>
             <Eyebrow>Consent-first · Privacy-first · Pan-India</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="mt-6 text-5xl leading-[0.95] tracking-tight text-ivory sm:text-6xl lg:text-7.5xl font-serif">
+            <h1 className="mt-5 text-[2.7rem] leading-[0.93] tracking-tight text-ivory sm:text-6xl lg:text-7.5xl font-serif">
               The art of
               <span className="block italic text-gold-soft">refined connection.</span>
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-7 max-w-md text-lg font-light leading-relaxed text-ivory-dim">
+            <p className="mt-5 max-w-md text-base font-light leading-relaxed text-ivory-dim sm:mt-7 sm:text-lg">
               A private and verified directory of companions across India. Browsing is secure, introductions are mutual, and discretion is guaranteed.
             </p>
           </Reveal>
           <Reveal delay={0.3}>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Button to="/discover">Browse Directory</Button>
-              <Button to="/experiences" variant="ghost">
+            <div className="mt-7 flex flex-col items-stretch gap-2.5 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <Button to="/discover" className="w-full sm:w-auto">Browse Directory</Button>
+              <Button to="/experiences" variant="ghost" className="w-full sm:w-auto">
                 Our philosophy →
               </Button>
             </div>
           </Reveal>
           <Reveal delay={0.4}>
-            <div className="mt-12 flex flex-wrap gap-x-10 gap-y-4">
+            <div className="mt-8 grid grid-cols-3 gap-3 sm:mt-12 sm:flex sm:flex-wrap sm:gap-x-10 sm:gap-y-4">
               {[
-                { k: '200+', v: 'Verified companions' },
+                { k: `${companions.length}+`, v: 'Curated profiles' },
                 { k: '8', v: 'Cities pan-India' },
                 { k: '24/7', v: 'Concierge & safety' },
               ].map((s) => (
                 <div key={s.v}>
-                  <div className="font-serif text-3xl text-gold-soft">{s.k}</div>
-                  <div className="mt-1 text-[0.7rem] uppercase tracking-[0.2em] text-ivory-dim">{s.v}</div>
+                  <div className="font-serif text-2xl text-gold-soft sm:text-3xl">{s.k}</div>
+                  <div className="mt-1 text-[0.55rem] uppercase tracking-[0.14em] text-ivory-dim sm:text-[0.7rem] sm:tracking-[0.2em]">{s.v}</div>
                 </div>
               ))}
             </div>
           </Reveal>
         </motion.div>
-
-        {/* Floating portraits */}
-        <Reveal delay={0.3} className="relative hidden h-[32rem] lg:block">
-          {featured.map((c, i) => (
-            <motion.div
-              key={c.id}
-              className="absolute overflow-hidden rounded-[1.5rem] border border-ivory/10 shadow-2xl"
-              style={{
-                width: '15rem',
-                height: '20rem',
-                top: `${i * 3.5}rem`,
-                right: `${i * 6}rem`,
-                zIndex: featured.length - i,
-              }}
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 6 + i, repeat: Infinity, ease: 'easeInOut', delay: i * 0.6 }}
-            >
-              <Portrait image={c.images[0]} name={c.name} />
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-noir/90 to-transparent">
-                <p className="font-serif text-lg text-ivory">{c.name}</p>
-                <p className="text-[0.65rem] uppercase tracking-[0.2em] text-gold-soft">{c.city}</p>
-              </div>
-            </motion.div>
-          ))}
-        </Reveal>
       </Section>
     </div>
   )
@@ -294,7 +273,7 @@ function DiscoverPreview() {
                 <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
                   <div className="relative aspect-[4/5] overflow-hidden">
                     <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
-                      <Portrait image={c.images[0]} name={c.name} />
+                      <Portrait image={c.image} kind={c.imageKind} name={c.name} />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-noir/80 via-transparent to-transparent" />
                     {c.verified && (
@@ -340,8 +319,13 @@ function ExperiencesPreview() {
       <RevealGroup className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {experiences.map((e) => (
           <RevealItem key={e.id}>
-            <div className="flex h-full flex-col rounded-2xl border border-ivory/10 bg-noir-soft/40 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
-              <span className="text-[0.7rem] uppercase tracking-[0.24em] text-gold-soft">{e.duration}</span>
+            <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <Portrait image={e.scene} kind="decor" name={e.title} className="transition-transform duration-[1.2s] group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-noir/75 via-transparent to-transparent" />
+                <span className="absolute bottom-4 left-5 text-[0.65rem] uppercase tracking-[0.24em] text-gold-soft">{e.duration}</span>
+              </div>
+              <div className="flex flex-1 flex-col p-6">
               <h3 className="mt-3 font-serif text-2xl text-ivory">{e.title}</h3>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-ivory-dim">{e.summary}</p>
               <Link
@@ -350,6 +334,7 @@ function ExperiencesPreview() {
               >
                 Learn more →
               </Link>
+              </div>
             </div>
           </RevealItem>
         ))}

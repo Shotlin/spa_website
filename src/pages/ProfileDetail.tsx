@@ -80,7 +80,6 @@ function RequestForm({ name }: { name: string }) {
 export function ProfileDetail() {
   const { id } = useParams()
   const c = id ? getCompanion(id) : undefined
-  const [activeImage, setActiveImage] = useState(c ? c.images[0] : '')
 
   if (!c) {
     return (
@@ -105,29 +104,10 @@ export function ProfileDetail() {
         <Reveal>
           <div className="sticky top-28">
             <div className="relative aspect-[3/4] overflow-hidden rounded-3xl border border-ivory/10">
-              <Portrait image={activeImage || c.images[0]} name={c.name} />
+              <Portrait image={c.image} name={c.name} kind={c.imageKind} loading="eager" />
               <div className="absolute inset-0 bg-gradient-to-t from-noir/60 via-transparent to-transparent pointer-events-none" />
               {c.verified && <VerifiedBadge className="absolute right-4 top-4" />}
             </div>
-            
-            {/* Thumbnails */}
-            {c.images.length > 1 && (
-              <div className="mt-4 flex flex-wrap gap-2 overflow-x-auto pb-2">
-                {c.images.map((img) => (
-                  <button
-                    key={img}
-                    onClick={() => setActiveImage(img)}
-                    className={`relative h-20 w-16 overflow-hidden rounded-lg border transition-all duration-300 ${
-                      activeImage === img
-                        ? 'border-gold scale-105 shadow-lg opacity-100'
-                        : 'border-ivory/10 opacity-60 hover:opacity-100'
-                    }`}
-                  >
-                    <Portrait image={img} name={c.name} />
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         </Reveal>
 

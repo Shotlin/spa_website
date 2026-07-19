@@ -4,6 +4,7 @@ import { Section, Eyebrow, Button } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { companions, CITIES, CATEGORIES } from '../data/companions'
+import { MapPin } from 'lucide-react'
 
 export function Discover() {
   const [searchParams] = useSearchParams()
@@ -49,14 +50,26 @@ export function Discover() {
   return (
     <div className="pt-32">
       <Section>
-        <Reveal className="max-w-2xl">
-          <Eyebrow>Discover</Eyebrow>
-          <h1 className="mt-5 text-5xl text-ivory sm:text-6xl font-serif">The Circle</h1>
-          <p className="mt-5 text-lg text-ivory-dim">
-            A secure directory of companions across India. Browse with
-            discretion; every introduction is mutual.
-          </p>
-        </Reveal>
+        <div className="relative isolate overflow-hidden rounded-[2rem] border border-ivory/10 bg-noir-soft/40">
+          <div className="absolute inset-0">
+            <Portrait
+              image="scene-2"
+              kind="decor"
+              name="An intimate lounge gathering"
+              loading="eager"
+              className="object-[63%_center] opacity-70"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-noir via-noir/85 to-noir/25" />
+          </div>
+          <Reveal className="relative max-w-2xl px-7 py-16 sm:px-12 sm:py-20">
+            <Eyebrow>Discover</Eyebrow>
+            <h1 className="mt-5 text-5xl text-ivory sm:text-6xl font-serif">The Circle</h1>
+            <p className="mt-5 text-lg text-ivory-dim">
+              A secure directory of companions across India. Browse with
+              discretion; every introduction is mutual.
+            </p>
+          </Reveal>
+        </div>
 
         {/* Filters */}
         <Reveal delay={0.1} className="mt-12 space-y-4">
@@ -121,7 +134,7 @@ export function Discover() {
                   {/* Image Container */}
                   <div className="relative aspect-[4/5] overflow-hidden">
                     <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
-                      <Portrait image={c.images[0]} name={c.name} />
+                      <Portrait image={c.image} kind={c.imageKind} name={c.name} />
                     </div>
                     
                     {/* Star Badge (Top-Left) */}
@@ -135,9 +148,6 @@ export function Discover() {
                     <div className="absolute right-3 top-3 flex gap-1 pointer-events-none">
                       <span className="rounded bg-noir/70 px-2 py-0.5 text-[0.6rem] uppercase tracking-wider text-ivory backdrop-blur-sm">
                         {c.category.replace(' Girls', '').replace(' Escorts', '')}
-                      </span>
-                      <span className="rounded bg-noir/70 px-2 py-0.5 text-[0.6rem] text-ivory backdrop-blur-sm">
-                        📷 {c.images.length}
                       </span>
                       <span className="rounded bg-noir/70 px-2 py-0.5 text-[0.6rem] text-gold-soft font-semibold backdrop-blur-sm">
                         ₹{c.rate.toLocaleString('en-IN')}
@@ -155,7 +165,8 @@ export function Discover() {
                     
                     <div className="mt-auto pt-4 flex items-center justify-between text-[0.7rem] text-ivory-dim">
                       <span className="flex items-center gap-1 font-light">
-                        📍 {city === 'All Cities' ? c.city : city}, India
+                        <MapPin aria-hidden="true" className="h-3.5 w-3.5 text-gold-soft" />
+                        {city === 'All Cities' ? c.city : city}, India
                       </span>
                       <span className="flex items-center gap-1 text-emerald-400">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />

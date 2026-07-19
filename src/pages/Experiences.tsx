@@ -31,7 +31,7 @@ export function Experiences() {
             >
               <div className="relative h-72 overflow-hidden md:h-auto">
                 <div className="absolute inset-0 transition-transform duration-[1.5s] group-hover:scale-105">
-                  <Portrait image={e.scene} name={e.title} kind="scene" />
+                  <Portrait image={e.scene} name={e.title} kind="decor" />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-noir/50 to-transparent md:bg-gradient-to-r" />
               </div>
