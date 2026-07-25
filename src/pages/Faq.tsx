@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Section, Eyebrow } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
+import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 
 const faqs = [
   {
@@ -81,6 +82,8 @@ export function Faq() {
           </Reveal>
         </div>
       </Section>
+
+      <ManagedContentBlocks page="faq" />
 
       <Section className="mt-16">
         <div className="grid items-start gap-10 lg:grid-cols-[0.62fr_minmax(0,1fr)] lg:gap-16">

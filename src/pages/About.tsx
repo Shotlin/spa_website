@@ -1,6 +1,7 @@
 import { Section, Eyebrow } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
+import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 
 export function About() {
   return (
@@ -77,6 +78,7 @@ export function About() {
           </RevealItem>
         </RevealGroup>
       </Section>
+      <ManagedContentBlocks page="about" />
     </div>
   )
 }

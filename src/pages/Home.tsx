@@ -4,9 +4,12 @@ import { useRef, useState, useMemo } from 'react'
 import { Button, Section, Eyebrow } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
+import { OfferBanner } from '../components/OfferBanner'
+import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { HeartIcon, LockIcon, ShieldIcon, CheckIcon, iconMap } from '../components/icons'
-import { companions, CITIES } from '../data/companions'
+import { CITIES } from '../data/companions'
 import { experiences, testimonials, privacyFeatures } from '../data/content'
+import { getHomeHero, useSiteData } from '../lib/site-data'
 
 type CategoryIcon = 'spark' | 'crown' | 'orchid' | 'lotus'
 
@@ -86,6 +89,8 @@ function CategoryGlyph({ icon }: { icon: CategoryIcon }) {
 
 function Hero() {
   const ref = useRef<HTMLDivElement>(null)
+  const { companions: siteCompanions, contentBlocks } = useSiteData()
+  const hero = getHomeHero(contentBlocks)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
@@ -94,47 +99,47 @@ function Hero() {
     <div ref={ref} className="relative isolate flex min-h-[44rem] items-end overflow-hidden md:min-h-[48rem] md:items-center md:overflow-visible">
       <motion.div style={{ y }} className="absolute inset-0 -z-10">
         <Portrait
-          image="scene-4"
-          kind="decor"
+          image={hero.imageUrl || 'scene-4'}
+          kind={hero.imageUrl ? undefined : 'decor'}
           name="An elegant lounge evening"
           loading="eager"
-          className="object-[64%_center] sm:object-[68%_center]"
+          className="object-[42%_center] sm:object-[68%_center]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-noir/65 via-noir/10 to-noir/0 md:bg-gradient-to-r md:from-noir/72 md:via-noir/46 md:to-noir/10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-noir/35 via-transparent to-transparent md:from-noir/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-noir/48 via-noir/5 to-noir/0 md:bg-gradient-to-r md:from-noir/72 md:via-noir/46 md:to-noir/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-noir/18 via-transparent to-transparent md:from-noir/20" />
       </motion.div>
 
       <Section className="relative flex min-h-[44rem] items-end pt-28 pb-7 sm:pb-10 md:block md:min-h-0 md:pt-32 md:pb-24">
         <motion.div
           style={{ opacity }}
-          className="max-w-2xl rounded-[1.75rem] border border-ivory/12 bg-noir/45 p-5 shadow-[0_22px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-[3px] sm:p-7 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
+          className="max-w-2xl rounded-[1.75rem] border border-ivory/12 bg-noir/34 p-5 shadow-[0_22px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-[1px] sm:p-7 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
         >
           <Reveal>
-            <Eyebrow>Consent-first · Privacy-first · Pan-India</Eyebrow>
+            <Eyebrow>{hero.eyebrow}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="mt-5 text-[2.7rem] leading-[0.93] tracking-tight text-ivory sm:text-6xl lg:text-7.5xl font-serif">
-              The art of
-              <span className="block italic text-gold-soft">refined connection.</span>
+              {hero.heading}
+              <span className="block italic text-gold-soft">{hero.accent}</span>
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-5 max-w-md text-base font-light leading-relaxed text-ivory-dim sm:mt-7 sm:text-lg">
-              A private and verified directory of companions across India. Browsing is secure, introductions are mutual, and discretion is guaranteed.
+              {hero.body}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
             <div className="mt-7 flex flex-col items-stretch gap-2.5 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-              <Button to="/discover" className="w-full sm:w-auto">Browse Directory</Button>
-              <Button to="/experiences" variant="ghost" className="w-full sm:w-auto">
-                Our philosophy →
+              <Button to={hero.primaryCtaHref} className="w-full sm:w-auto">{hero.primaryCtaLabel}</Button>
+              <Button to={hero.secondaryCtaHref} variant="ghost" className="w-full sm:w-auto">
+                {hero.secondaryCtaLabel} →
               </Button>
             </div>
           </Reveal>
           <Reveal delay={0.4}>
             <div className="mt-8 grid grid-cols-3 gap-3 sm:mt-12 sm:flex sm:flex-wrap sm:gap-x-10 sm:gap-y-4">
               {[
-                { k: `${companions.length}+`, v: 'Curated profiles' },
+                { k: `${siteCompanions.length}+`, v: 'Curated profiles' },
                 { k: '8', v: 'Cities pan-India' },
                 { k: '24/7', v: 'Concierge & safety' },
               ].map((s) => (
@@ -218,19 +223,20 @@ function CategorySection() {
 function DiscoverPreview() {
   // City tabs (Surat leads), plus "All Cities". Live-filters the grid below.
   const cityTabs = CITIES
+  const { companions: siteCompanions } = useSiteData()
   const [city, setCity] = useState('Surat')
 
   const shown = useMemo(() => {
     const pool =
       city === 'All Cities'
-        ? companions
-        : companions.filter((c) => c.cities.includes(city))
+        ? siteCompanions
+        : siteCompanions.filter((c) => c.cities.includes(city))
     // Verified & higher tiers first so the strongest profiles lead.
     const rank = { Signature: 0, Elite: 1, Muse: 2 } as Record<string, number>
     return [...pool]
       .sort((a, b) => Number(b.verified) - Number(a.verified) || rank[a.tier] - rank[b.tier])
       .slice(0, 6)
-  }, [city])
+  }, [city, siteCompanions])
 
   return (
     <Section className="py-20">
@@ -459,6 +465,10 @@ export function Home() {
   return (
     <div className="pb-16">
       <Hero />
+      <Section className="relative z-10 -mt-8 md:-mt-10">
+        <OfferBanner placement="home" />
+      </Section>
+      <ManagedContentBlocks page="home" className="pt-6" />
       <CategorySection />
       <DiscoverPreview />
       <ExperiencesPreview />

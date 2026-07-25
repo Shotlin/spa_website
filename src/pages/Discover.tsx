@@ -3,11 +3,15 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { Section, Eyebrow, Button } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
-import { companions, CITIES, CATEGORIES } from '../data/companions'
+import { OfferBanner } from '../components/OfferBanner'
+import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
+import { CITIES, CATEGORIES } from '../data/companions'
 import { MapPin } from 'lucide-react'
+import { useSiteData } from '../lib/site-data'
 
 export function Discover() {
   const [searchParams] = useSearchParams()
+  const { companions } = useSiteData()
 
   const initialCity = searchParams.get('city') || 'All Cities'
   const initialCategory = searchParams.get('category') || 'All Categories'
@@ -36,7 +40,7 @@ export function Discover() {
         c.languages.some((l) => l.toLowerCase().includes(q))
       return cityOk && categoryOk && queryOk
     })
-  }, [city, category, query])
+  }, [city, category, companions, query])
 
   useEffect(() => {
     setPage(1)
@@ -70,6 +74,8 @@ export function Discover() {
             </p>
           </Reveal>
         </div>
+
+        <OfferBanner placement="directory" className="mt-6" />
 
         {/* Filters */}
         <Reveal delay={0.1} className="mt-12 space-y-4">
@@ -236,6 +242,7 @@ export function Discover() {
           </div>
         )}
       </Section>
+      <ManagedContentBlocks page="discover" />
     </div>
   )
 }

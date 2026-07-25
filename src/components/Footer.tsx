@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom'
+import { getSiteIdentity, useSiteData } from '../lib/site-data'
 
 export function Footer() {
+  const { settings } = useSiteData()
+  const identity = getSiteIdentity(settings)
+
   return (
     <footer className="relative mt-32 border-t border-ivory/10 bg-noir-soft/60">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-4 md:px-10">
@@ -10,13 +14,14 @@ export function Footer() {
               V
             </span>
             <span className="font-serif text-xl tracking-wide text-ivory">
-              VIP <span className="text-gold-soft">Spa</span>
+              {identity.siteName}
             </span>
           </div>
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-ivory-dim/80">
             A consent-first, privacy-first platform for curated companionship and
             private social experiences. Discreet by design. Pan-India.
           </p>
+          {identity.conciergeEmail || identity.conciergePhone ? <p className="mt-4 text-xs tracking-wide text-gold-soft">{identity.conciergeEmail}{identity.conciergeEmail && identity.conciergePhone ? ' · ' : ''}{identity.conciergePhone}</p> : null}
         </div>
 
         <div>
@@ -41,7 +46,7 @@ export function Footer() {
 
       <div className="border-t border-ivory/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-xs text-ivory-dim/60 md:flex-row md:items-center md:justify-between md:px-10">
-          <p>© {new Date().getFullYear()} VIP Spa. All rights reserved. Members 18+ only.</p>
+          <p>© {new Date().getFullYear()} {identity.siteName}. All rights reserved. Members 18+ only.</p>
           <p className="tracking-wide">Built on consent, privacy, and mutual respect.</p>
         </div>
       </div>

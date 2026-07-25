@@ -1,6 +1,7 @@
 import { Section, Eyebrow } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
+import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 
 export function Safety() {
   return (
@@ -27,6 +28,8 @@ export function Safety() {
           </Reveal>
         </div>
       </Section>
+
+      <ManagedContentBlocks page="safety" />
 
       <Section className="mt-16">
         <RevealGroup className="grid gap-8 sm:grid-cols-2">

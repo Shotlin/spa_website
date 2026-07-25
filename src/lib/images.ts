@@ -48,19 +48,23 @@ const models = index(modelFiles)
 const scenes = index(sceneFiles)
 const decor = index(decorFiles)
 
+function externalUrl(key: string): string | null {
+  return /^(https?:)?\/\//i.test(key) || key.startsWith('data:image/') ? key : null
+}
+
 export function resolveModelImage(key?: string): string | null {
   if (!key) return null
-  return models[key.toLowerCase()] ?? null
+  return externalUrl(key) ?? models[key.toLowerCase()] ?? null
 }
 
 export function resolveSceneImage(key?: string): string | null {
   if (!key) return null
-  return scenes[key.toLowerCase()] ?? null
+  return externalUrl(key) ?? scenes[key.toLowerCase()] ?? null
 }
 
 export function resolveDecorImage(key?: string): string | null {
   if (!key) return null
-  return decor[key.toLowerCase()] ?? null
+  return externalUrl(key) ?? decor[key.toLowerCase()] ?? null
 }
 
 // Deterministic palette pairs used to build placeholder gradients so a

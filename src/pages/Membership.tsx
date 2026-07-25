@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Section, Eyebrow, Button } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
+import { OfferBanner } from '../components/OfferBanner'
+import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { ShieldIcon, LockIcon, CheckIcon, HeartIcon } from '../components/icons'
 import { tiers } from '../data/content'
 
@@ -112,6 +114,12 @@ export function Membership() {
           </Reveal>
         </div>
       </Section>
+
+      <Section className="mt-10">
+        <OfferBanner placement="membership" />
+      </Section>
+
+      <ManagedContentBlocks page="membership" />
 
       <Section className="mt-16">
         <RevealGroup className="grid gap-6 lg:grid-cols-3">

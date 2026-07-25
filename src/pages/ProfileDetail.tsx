@@ -4,7 +4,7 @@ import { Section, Eyebrow, VerifiedBadge, Tag, Button } from '../components/ui'
 import { Reveal } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { ShieldIcon, LockIcon, CheckIcon } from '../components/icons'
-import { getCompanion } from '../data/companions'
+import { useSiteData } from '../lib/site-data'
 
 function RequestForm({ name }: { name: string }) {
   const [sent, setSent] = useState(false)
@@ -79,7 +79,8 @@ function RequestForm({ name }: { name: string }) {
 
 export function ProfileDetail() {
   const { id } = useParams()
-  const c = id ? getCompanion(id) : undefined
+  const { companions } = useSiteData()
+  const c = id ? companions.find((companion) => companion.id === id) : undefined
 
   if (!c) {
     return (

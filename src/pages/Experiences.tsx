@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Section, Eyebrow, Button } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
+import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { experiences } from '../data/content'
 
 export function Experiences() {
@@ -20,6 +21,8 @@ export function Experiences() {
           </p>
         </Reveal>
       </Section>
+
+      <ManagedContentBlocks page="experiences" />
 
       <Section className="mt-16 space-y-6 pb-8">
         {experiences.map((e, i) => (
