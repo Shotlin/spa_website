@@ -48,12 +48,14 @@ import {
   listMediaAssets,
   listOffers,
   listSiteSettings,
-  requestAdminMagicLink,
+  requestAdminPasswordReset,
   saveAdminProfile,
   saveContentBlock,
   saveOffer,
   saveSiteSetting,
+  signInAdminWithPassword,
   signOutAdmin,
+  updateAdminPassword,
   uploadMediaAsset,
   type AdminProfile,
   type ContentBlock,
@@ -274,6 +276,7 @@ export function AdminApp() {
 function AdminAuthGate() {
   const [status, setStatus] = useState<'checking' | 'unconfigured' | 'signed-out' | 'not-admin' | 'ready'>('checking')
   const [user, setUser] = useState<User | null>(null)
+  const [passwordRecovery, setPasswordRecovery] = useState(false)
 
   const refreshAccess = useCallback(async (sessionUser?: User | null) => {
     if (!isSupabaseConfigured) {
@@ -300,9 +303,11 @@ function AdminAuthGate() {
   useEffect(() => {
     void refreshAccess()
     let isMounted = true
-    const listener = supabase?.auth.onAuthStateChange((_event, session) => {
+    const listener = supabase?.auth.onAuthStateChange((event, session) => {
       // Supabase warns that calling another async Supabase API directly inside
       // this callback can deadlock the client. Defer the role lookup instead.
+      if (event === 'PASSWORD_RECOVERY') setPasswordRecovery(true)
+      if (event === 'SIGNED_OUT') setPasswordRecovery(false)
       window.setTimeout(() => {
         if (isMounted) void refreshAccess(session?.user ?? null)
       }, 0)
@@ -337,6 +342,10 @@ function AdminAuthGate() {
 
   if (status === 'signed-out') return <AdminLogin />
 
+  if (passwordRecovery && user) {
+    return <AdminPasswordReset onComplete={() => setPasswordRecovery(false)} />
+  }
+
   if (status === 'not-admin') {
     return (
       <FullPageState
@@ -363,7 +372,9 @@ function AdminAuthGate() {
 
 function AdminLogin() {
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [pending, setPending] = useState(false)
+  const [resetPending, setResetPending] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
 
@@ -376,15 +387,39 @@ function AdminLogin() {
       setError('Enter your administrator email address.')
       return
     }
+    if (!password) {
+      setError('Enter your password.')
+      return
+    }
 
     setPending(true)
     try {
-      await requestAdminMagicLink(normalizedEmail)
-      setMessage('A secure sign-in link is on its way. Open it in this browser to enter Studio.')
+      await signInAdminWithPassword(normalizedEmail, password)
+      setMessage('Signed in. Opening Studio...')
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : 'Could not send the sign-in link.')
+      setError(requestError instanceof Error ? requestError.message : 'Could not sign in.')
     } finally {
       setPending(false)
+    }
+  }
+
+  const requestPasswordReset = async () => {
+    setError('')
+    setMessage('')
+    const normalizedEmail = email.trim()
+    if (!normalizedEmail) {
+      setError('Enter your administrator email address first.')
+      return
+    }
+
+    setResetPending(true)
+    try {
+      await requestAdminPasswordReset(normalizedEmail)
+      setMessage('Check your inbox for a password reset email. Use it to choose a new password, then sign in here with your email and password.')
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Could not send the password reset email.')
+    } finally {
+      setResetPending(false)
     }
   }
 
@@ -407,15 +442,116 @@ function AdminLogin() {
             required
           />
         </label>
+        <label>
+          <span className="admin-label">Password</span>
+          <input
+            className="admin-field"
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Enter your password"
+            required
+          />
+        </label>
         {error ? <p className="text-sm text-[var(--admin-danger)]">{error}</p> : null}
         {message ? <p className="text-sm text-[var(--admin-success)]">{message}</p> : null}
         <AdminButton type="submit" loading={pending} className="w-full">
-          <span>Send secure sign-in link</span>
+          <span>Sign in to Studio</span>
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
         </AdminButton>
+        <AdminButton
+          variant="quiet"
+          className="w-full"
+          loading={resetPending}
+          disabled={pending}
+          onClick={() => void requestPasswordReset()}
+        >
+          Forgot password?
+        </AdminButton>
         <p className="pt-1 text-center text-xs leading-relaxed text-[var(--admin-muted)]">
-          Access is checked again in the database after sign-in. Unknown emails cannot create an account here.
+          Sign in with your email and password. Access is checked again in the database after sign-in.
         </p>
+      </form>
+    </FullPageState>
+  )
+}
+
+function AdminPasswordReset({ onComplete }: { onComplete: () => void }) {
+  const [password, setPassword] = useState('')
+  const [confirmation, setConfirmation] = useState('')
+  const [pending, setPending] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setError('')
+    setMessage('')
+
+    if (password.length < 8) {
+      setError('Choose a password with at least 8 characters.')
+      return
+    }
+    if (password !== confirmation) {
+      setError('Your passwords do not match.')
+      return
+    }
+
+    setPending(true)
+    try {
+      await updateAdminPassword(password)
+      setPassword('')
+      setConfirmation('')
+      setMessage('Password updated successfully.')
+    } catch (updateError) {
+      setError(updateError instanceof Error ? updateError.message : 'Could not update your password.')
+    } finally {
+      setPending(false)
+    }
+  }
+
+  return (
+    <FullPageState
+      icon={ShieldCheck}
+      title="Choose a new password"
+      description="Set a password for your Studio account. Future sign-ins will use your email and password."
+    >
+      <form onSubmit={submit} className="space-y-4">
+        <label>
+          <span className="admin-label">New password</span>
+          <input
+            className="admin-field"
+            type="password"
+            autoComplete="new-password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="At least 8 characters"
+            required
+          />
+        </label>
+        <label>
+          <span className="admin-label">Confirm new password</span>
+          <input
+            className="admin-field"
+            type="password"
+            autoComplete="new-password"
+            value={confirmation}
+            onChange={(event) => setConfirmation(event.target.value)}
+            placeholder="Repeat your new password"
+            required
+          />
+        </label>
+        {error ? <p className="text-sm text-[var(--admin-danger)]">{error}</p> : null}
+        {message ? <p className="text-sm text-[var(--admin-success)]">{message}</p> : null}
+        <AdminButton type="submit" loading={pending} className="w-full">
+          Save new password
+        </AdminButton>
+        {message ? (
+          <AdminButton variant="secondary" className="w-full" onClick={onComplete}>
+            Continue to Studio
+          </AdminButton>
+        ) : null}
       </form>
     </FullPageState>
   )

@@ -336,16 +336,24 @@ export async function getAdminRole(userId: string) {
   return data.role === 'owner' || data.role === 'editor' ? data.role : null
 }
 
-export async function requestAdminMagicLink(email: string) {
+export async function signInAdminWithPassword(email: string, password: string) {
   const client = requireSupabase()
-  const { error } = await client.auth.signInWithOtp({
-    email,
-    options: {
-      shouldCreateUser: false,
-      emailRedirectTo: `${window.location.origin}/admin`,
-    },
+  const { error } = await client.auth.signInWithPassword({ email, password })
+  if (error) throw new Error(toErrorMessage(error, 'Email or password is incorrect.'))
+}
+
+export async function requestAdminPasswordReset(email: string) {
+  const client = requireSupabase()
+  const { error } = await client.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/admin`,
   })
-  if (error) throw new Error(toErrorMessage(error, 'Could not send the sign-in link.'))
+  if (error) throw new Error(toErrorMessage(error, 'Could not send the password reset email.'))
+}
+
+export async function updateAdminPassword(password: string) {
+  const client = requireSupabase()
+  const { error } = await client.auth.updateUser({ password })
+  if (error) throw new Error(toErrorMessage(error, 'Could not update your password.'))
 }
 
 export async function signOutAdmin() {
