@@ -184,7 +184,7 @@ export function Discover() {
 
                 </Link>
                 <div className="border-t border-ivory/10 bg-noir/30 p-4">
-                  <p className="min-h-[4.5rem] text-xs leading-relaxed text-ivory-dim line-clamp-3">{c.description || `${c.tagline} Clear availability and respectful communication guide every private introduction.`}</p>
+                  <p className="min-h-[5rem] text-xs leading-relaxed text-ivory-dim/90 line-clamp-4">{c.description || (c.bio && c.bio.join(' ')) || c.tagline}</p>
                   <ProfileContactActions name={c.name} phone={c.contactPhone} whatsapp={c.whatsappNumber} className="mt-3" />
                 </div>
               </article>

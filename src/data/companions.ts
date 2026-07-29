@@ -26,6 +26,7 @@ export type Companion = {
 
 type CompanionSource = Omit<Companion, 'image' | 'imageKind'> & {
   images: string[]
+  description?: string
 }
 
 export const CITIES = [
@@ -88,10 +89,12 @@ const companionSources: CompanionSource[] = [
       "Personal Meetings",
       "Social Companionship"
     ],
+    "description": "Explore local adult classified listings and verified independent companion profiles across India. Offering dedicated female call girls, male escorts, shemale companions, and therapeutic massage services with complete discretion. Arranged privately with mutual respect and agreed boundaries for discerning clients.",
     "bio": [
-      "Aanya is an independent companion based in Surat, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Explore local adult classified listings and verified independent companion profiles across India.",
+      "Offering dedicated female call girls, male escorts, shemale companions, and therapeutic massage services with complete discretion.",
+      "Arranged privately with mutual respect and agreed boundaries for discerning clients."
+],
     "availability": [
       {
         "day": "Friday",
@@ -142,10 +145,12 @@ const companionSources: CompanionSource[] = [
       "Travel Companionship",
       "Cultural Evenings"
     ],
+    "description": "Independent Noida Escorts & Call Girl Service offering 24/7 safe and secure outcall services. Featuring VIP profiles, high-class college companions, and genuine 5-star category hotel & home arrangements. Guaranteed complete satisfaction with clear communication and total privacy.",
     "bio": [
-      "Arjun is an independent male companion in Delhi, equally suited to a business evening or a relaxed night out.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Noida Escorts & Call Girl Service offering 24/7 safe and secure outcall services.",
+      "Featuring VIP profiles, high-class college companions, and genuine 5-star category hotel & home arrangements.",
+      "Guaranteed complete satisfaction with clear communication and total privacy."
+],
     "availability": [
       {
         "day": "Wednesday",
@@ -195,10 +200,12 @@ const companionSources: CompanionSource[] = [
       "Travel Companionship",
       "Cultural Evenings"
     ],
+    "description": "Unhurried, restorative massage and wellness sessions in major cities across India. Choose from verified profiles offering therapeutic body massage, tension relief, and deep relaxation. Focused entirely on your comfort, privacy, and personal well-being.",
     "bio": [
-      "Anaya offers discreet, professional wellness sessions in Goa, focused entirely on your comfort.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Unhurried, restorative massage and wellness sessions in major cities across India.",
+      "Choose from verified profiles offering therapeutic body massage, tension relief, and deep relaxation.",
+      "Focused entirely on your comfort, privacy, and personal well-being."
+],
     "availability": [
       {
         "day": "Thursday",
@@ -249,10 +256,13 @@ const companionSources: CompanionSource[] = [
       "Personal Meetings",
       "Social Companionship"
     ],
+    "description": "Hi, I’m Olivia — your sexy trans twifey with a taste for power, control, and playful submission I love exploring BDSM dynamics and creating experiences that feel intense, personal, and tailored just for you. Whether you’re more dominant or submissive, I know how to match your energy—soft and obedient one moment, teasing and in control the next. It’s all about the connection, the tension, and giving you exactly what you crave. I’m very open-minded, discreet, and focused on making sure you feel comfortable while we explore your desires together. I really care about being attentive and fully present with you—when we’re together, my focus is completely on you and how you want to feel. If you’re looking for someone who understands both sides of control and enjoys slipping into a more submissive, playful energy for the right dynamic… I’d love to explore that with you",
     "bio": [
-      "Olivia is an independent trans companion in Bengaluru, warm, self-assured, and wonderful company.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Hi, I’m Olivia — your sexy trans twifey with a taste for power, control, and playful submission",
+      "I love exploring BDSM dynamics and creating experiences that feel intense, personal, and tailored just for you. Whether you’re more dominant or submissive, I know how to match your energy—soft and obedient one moment, teasing and in control the next. It’s all about the connection, the tension, and giving you exactly what you crave.",
+      "I’m very open-minded, discreet, and focused on making sure you feel comfortable while we explore your desires together. I really care about being attentive and fully present with you—when we’re together, my focus is completely on you and how you want to feel.",
+      "If you’re looking for someone who understands both sides of control and enjoys slipping into a more submissive, playful energy for the right dynamic… I’d love to explore that with you"
+],
     "availability": [
       {
         "day": "Tuesday",
@@ -301,10 +311,17 @@ const companionSources: CompanionSource[] = [
       "Private City Experiences",
       "Private Celebrations"
     ],
+    "description": "heyy its breebaby here im 28 slim fit blonde hair blue eyed and ready to have tons of fun and cum. If you're looking for fantasy im your girl i love to explore all people's fantasy's and take you to your limit i also explore fetishes and like to be the dominant one when its called for so tell me what it is you like. majority of the time im the classy but nasty perfect little blonde that all y'all are looking for.... i love sucking dick and it show i get told a lot that I'm the best they have had and i like to believe their right. i take pride in what i do and hold myself to a high standard i would m a if you like it i LOVE it kind of girl and love to make your time all about you and your experience and needs I promises I'll keep you cumming back. no bare no greek no gfe no low baller i need a man that can see my worth along with his own and isn't okay with just any ol girl my pictures dont do me justice is what i hear on a daily basis and i would have to agree! anyone i see come too see me for me i love to just be myself and aim for us both to be comfortable and enjoy our times together. and absolutely no law enforcement.",
     "bio": [
-      "Bree is an independent companion based in Surat, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "heyy its breebaby here",
+      "im 28 slim fit blonde hair blue eyed and ready to have tons of fun and cum. If you're looking for fantasy im your girl i love to explore all people's fantasy's and take you to your limit i also explore fetishes and like to be the dominant one when its called for so tell me what it is you like. majority of the time im the classy but nasty perfect little blonde that all y'all are looking for.... i love sucking dick and it show i get told a lot that I'm the best they have had and i like to believe their right. i take pride in what i do and hold myself to a high standard i would m a if you like it i LOVE it kind of girl and love to make your time all about you and your experience and needs I promises I'll keep you cumming back.",
+      "no bare",
+      "no greek",
+      "no gfe",
+      "no low baller i need a man that can see my worth along with his own and isn't okay with just any ol girl my pictures dont do me justice is what i hear on a daily basis and i would have to agree!",
+      "anyone i see come too see me for me i love to just be myself and aim for us both to be comfortable and enjoy our times together.",
+      "and absolutely no law enforcement."
+],
     "availability": [
       {
         "day": "Thursday",
@@ -354,10 +371,11 @@ const companionSources: CompanionSource[] = [
       "Private City Experiences",
       "Private Celebrations"
     ],
+    "description": "I am enticing, passionate, and wholly devoted to fulfilling your desires. Whether day or night, I am here to cater to your every whim. Simply send me a message, and let’s explore the depths of your fantasies together. Once you experience the allure of my company, you’ll find it irresistibly captivating. For those who value refinement and excellence, you’ve truly arrived at your destination. With love Luna",
     "bio": [
-      "Luna is an independent companion based in Surat, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "I am enticing, passionate, and wholly devoted to fulfilling your desires. Whether day or night, I am here to cater to your every whim. Simply send me a message, and let’s explore the depths of your fantasies together. Once you experience the allure of my company, you’ll find it irresistibly captivating. For those who value refinement and excellence, you’ve truly arrived at your destination.",
+      "With love Luna"
+],
     "availability": [
       {
         "day": "Tuesday",
@@ -407,10 +425,15 @@ const companionSources: CompanionSource[] = [
       "Private City Experiences",
       "Private Celebrations"
     ],
+    "description": "8137387835 Hello, love! My name is Roxy and friends I'm an exotic Latina with a spectacular body. I’m super fun, I am an elegant, polite, unique, sensual and passionate princess who seeks to satisfy your desires, needs and desires! 👸🏻100% real photos 🍓 Evaluation is required🩵Proper hygiene is essential 💎Exclusive experiences only.💎 Upscale Professional & Discreet 🥂• 100% REAL & Willing to FaceTime Verify ✔️• Fetish Friendly, O *** ¡¡¡ Multiple hours, dinner appointments, and overnight specials available !!!*** ¡ I am pleased to serve men who value the good things in life ! ¡ Making you feel more satisfied and helping you relax whether you are in the city on a business trip, looking for a new experience, a relaxing night or a fun night in the city! ¡ I'm her ! 👸🏻- I require a light screening for all new friends. ¡ I look forward to meeting you ! Don't hesitate to communicate ¡ I'll wait for you handsome ! Text me:8137387835",
     "bio": [
-      "Roxy is an independent male companion in Goa, equally suited to a business evening or a relaxed night out.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "8137387835 Hello, love! My name is Roxy and friends I'm an exotic Latina with a spectacular body. I’m super fun, I am an elegant, polite, unique, sensual and passionate princess who seeks to satisfy your desires, needs and desires! 👸🏻100% real photos 🍓 Evaluation is required🩵Proper hygiene is essential",
+      "💎Exclusive experiences only.💎",
+      "Upscale Professional & Discreet 🥂• 100% REAL & Willing to FaceTime Verify ✔️• Fetish Friendly, O",
+      "*** ¡¡¡ Multiple hours, dinner appointments, and overnight specials available !!!*** ¡ I am pleased to serve men who value the good things in life ! ¡ Making you feel more satisfied and helping you relax whether you are in the city on a business trip, looking for a new experience, a relaxing night or a fun night in the city!",
+      "¡ I'm her ! 👸🏻- I require a light screening for all new friends. ¡ I look forward to meeting you ! Don't hesitate to communicate ¡ I'll wait for you handsome !",
+      "Text me:8137387835"
+],
     "availability": [
       {
         "day": "Friday",
@@ -463,10 +486,12 @@ const companionSources: CompanionSource[] = [
       "Private City Experiences",
       "Private Celebrations"
     ],
+    "description": "Independent Ahmedabad Escorts & Call Girl Service available 24/7. High-class North & South Indian models, college girls, and foreign companions providing hotel outcalls and incall sessions. Discreet, safe, and tailored for gentlemen seeking genuine company and quality time.",
     "bio": [
-      "Ishita is an independent companion based in Delhi, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Ahmedabad Escorts & Call Girl Service available 24/7.",
+      "High-class North & South Indian models, college girls, and foreign companions providing hotel outcalls and incall sessions.",
+      "Discreet, safe, and tailored for gentlemen seeking genuine company and quality time."
+],
     "availability": [
       {
         "day": "Wednesday",
@@ -515,10 +540,12 @@ const companionSources: CompanionSource[] = [
       "Private City Experiences",
       "Private Celebrations"
     ],
+    "description": "Independent Bengaluru Escorts - Call Girl & Companion Service. VIP models, college companions, and high-profile independent escorts available for hotel and home visits. 100% safe and secure introductions with flexible timing and complete privacy.",
     "bio": [
-      "Meera offers discreet, professional wellness sessions in Bengaluru, focused entirely on your comfort.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Bengaluru Escorts - Call Girl & Companion Service.",
+      "VIP models, college companions, and high-profile independent escorts available for hotel and home visits.",
+      "100% safe and secure introductions with flexible timing and complete privacy."
+],
     "availability": [
       {
         "day": "Thursday",
@@ -571,10 +598,12 @@ const companionSources: CompanionSource[] = [
       "Travel Companionship",
       "Cultural Evenings"
     ],
+    "description": "Independent Guwahati Escorts & Call Girl Service. Featuring verified independent models, college companions, and hostesses for hotel outcalls. Professional door-step service with complete privacy and friendly, attentive company.",
     "bio": [
-      "Rhea is an independent companion based in Kolkata, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Guwahati Escorts & Call Girl Service.",
+      "Featuring verified independent models, college companions, and hostesses for hotel outcalls.",
+      "Professional door-step service with complete privacy and friendly, attentive company."
+],
     "availability": [
       {
         "day": "Tuesday",
@@ -625,10 +654,12 @@ const companionSources: CompanionSource[] = [
       "Travel Companionship",
       "Cultural Evenings"
     ],
+    "description": "Independent Hyderabad Escorts & VIP Hotel Service. High-class models available 24 hours for dinner dates, social companionship, and private hotel sessions. Attentive, refined companions accustomed to meeting discerning gentlemen.",
     "bio": [
-      "Sara is an independent companion based in Hyderabad, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Hyderabad Escorts & VIP Hotel Service.",
+      "High-class models available 24 hours for dinner dates, social companionship, and private hotel sessions.",
+      "Attentive, refined companions accustomed to meeting discerning gentlemen."
+],
     "availability": [
       {
         "day": "Friday",
@@ -681,10 +712,12 @@ const companionSources: CompanionSource[] = [
       "Personal Meetings",
       "Social Companionship"
     ],
+    "description": "Independent Indore Escorts & Companionship Service. High-profile VIP companions providing 24-hour hotel outcall and private apartment sessions. Safe, trusted, and discreet arrangements focused on mutual comfort and quality time.",
     "bio": [
-      "Kabir is an independent male companion in Jaipur, equally suited to a business evening or a relaxed night out.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Indore Escorts & Companionship Service.",
+      "High-profile VIP companions providing 24-hour hotel outcall and private apartment sessions.",
+      "Safe, trusted, and discreet arrangements focused on mutual comfort and quality time."
+],
     "availability": [
       {
         "day": "Wednesday",
@@ -734,10 +767,12 @@ const companionSources: CompanionSource[] = [
       "Personal Meetings",
       "Social Companionship"
     ],
+    "description": "Independent Jaipur Escorts & Call Girl Service. High-profile genuine companions available for 5-star hotel outcalls and heritage city dates. Charming, poised, and discreet companions tailored for memorable Jaipur evenings.",
     "bio": [
-      "Priya is an independent companion based in Jaipur, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Jaipur Escorts & Call Girl Service.",
+      "High-profile genuine companions available for 5-star hotel outcalls and heritage city dates.",
+      "Charming, poised, and discreet companions tailored for memorable Jaipur evenings."
+],
     "availability": [
       {
         "day": "Thursday",
@@ -789,10 +824,12 @@ const companionSources: CompanionSource[] = [
       "Private City Experiences",
       "Private Celebrations"
     ],
+    "description": "Independent Kolkata Escorts & Call Girl Service. Verified profiles offering relaxing companionship, private hotel meetings, and full-night social sessions. Genuine cash-on-meet service with high standards of privacy and hospitality.",
     "bio": [
-      "Tara offers discreet, professional wellness sessions in Kolkata, focused entirely on your comfort.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Kolkata Escorts & Call Girl Service.",
+      "Verified profiles offering relaxing companionship, private hotel meetings, and full-night social sessions.",
+      "Genuine cash-on-meet service with high standards of privacy and hospitality."
+],
     "availability": [
       {
         "day": "Tuesday",
@@ -843,10 +880,12 @@ const companionSources: CompanionSource[] = [
       "Private City Experiences",
       "Private Celebrations"
     ],
+    "description": "Independent Mumbai Escorts & Call Girl Service. High-profile genuine models, college girls, and independent companions available across South Mumbai, Bandra, Juhu, and Andheri. 24/7 hotel outcall service for private dinners, events, and unhurried city experiences.",
     "bio": [
-      "Zoya is an independent companion based in Mumbai, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Independent Mumbai Escorts & Call Girl Service.",
+      "High-profile genuine models, college girls, and independent companions available across South Mumbai, Bandra, Juhu, and Andheri.",
+      "24/7 hotel outcall service for private dinners, events, and unhurried city experiences."
+],
     "availability": [
       {
         "day": "Friday",
@@ -894,10 +933,13 @@ const companionSources: CompanionSource[] = [
       "Personal Meetings",
       "Social Companionship"
     ],
+    "description": "Hey, I’m Alesia 😊 Hey, I’m Alesia  a real mix of Brazilian fire and German sweetness. I’ve got that warm, exotic look with soft curves and a smile that comes easy. I love good conversation, genuine connection, and of course, making you feel completely wanted.  I’m very open-minded, always clean and well-groomed, and super discreet. If you’re looking for a fun, passionate time with a girl who actually enjoys what she does… come say hi.",
     "bio": [
-      "Alesia is an independent companion based in Goa, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Hey, I’m Alesia 😊",
+      "Hey, I’m Alesia  a real mix of Brazilian fire and German sweetness. I’ve got that warm, exotic look with soft curves and a smile that comes easy.",
+      "I love good conversation, genuine connection, and of course, making you feel completely wanted.  I’m very open-minded, always clean and well-groomed, and super discreet.",
+      "If you’re looking for a fun, passionate time with a girl who actually enjoys what she does… come say hi."
+],
     "availability": [
       {
         "day": "Friday",
@@ -947,10 +989,14 @@ const companionSources: CompanionSource[] = [
       "Private City Experiences",
       "Private Celebrations"
     ],
+    "description": "I am currently blonde with new photos on my website: www.date-av.com ———————- I reserve myself for  discerning, refined gentlemen who appreciate timeless beauty and intentional moments together. The veil over my face adds mystique. There’s anticipation leading to the moment of the reveal. Let’s embrace the reveal upon our eyes locking for the first time. Behind the soft veil, you’ll find light, almond shaped eyes framed by natural, long lashes, and plush lips. At a glance, my narrow, petite figure is captivating and inviting, showcasing evident care and devotion to looking and feeling my best. I exude the warmth and down-to-earth nature of the girl next door, where the simplicity of sharing laughter, smiles and conversation is what brings me the most joy. Being effervescent and sincere, I have a true wonder and appreciation for the world and those around me, especially building connection. Don't worry about perfection when together. I am the perfect host. You will feel at ease in my presence. With a curious mind and a wide range of interests, conversation flows easily  and you will feel at ease. Some topics I am fascinated by are: health, history, cooking, fitness, photography and reading. Even if we do not share similar interests, I know I will be drawn to learn and experience more with you. Think of me as the missing piece that completes you, making you feel whole after we depart. If I am lucky to see you again, you'll recognize I cherish our time together by recalling details about you. It would be a privilege to have an ongoing, deeper connection with you, but even if our time together is a one time and fleeting moment, I will look back and cherish it. . Together, we will go beyond reverie.If I’ve intrigued your senses, allow me  to let you into my world. -Ashley Victoria",
     "bio": [
-      "Ashley is an independent companion based in Delhi, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "I am currently blonde with new photos on my website: www.date-av.com",
+      "———————-",
+      "I reserve myself for  discerning, refined gentlemen who appreciate timeless beauty and intentional moments together.",
+      "The veil over my face adds mystique. There’s anticipation leading to the moment of the reveal. Let’s embrace the reveal upon our eyes locking for the first time. Behind the soft veil, you’ll find light, almond shaped eyes framed by natural, long lashes, and plush lips. At a glance, my narrow, petite figure is captivating and inviting, showcasing evident care and devotion to looking and feeling my best. I exude the warmth and down-to-earth nature of the girl next door, where the simplicity of sharing laughter, smiles and conversation is what brings me the most joy. Being effervescent and sincere, I have a true wonder and appreciation for the world and those around me, especially building connection. Don't worry about perfection when together. I am the perfect host. You will feel at ease in my presence. With a curious mind and a wide range of interests, conversation flows easily  and you will feel at ease. Some topics I am fascinated by are: health, history, cooking, fitness, photography and reading. Even if we do not share similar interests, I know I will be drawn to learn and experience more with you. Think of me as the missing piece that completes you, making you feel whole after we depart. If I am lucky to see you again, you'll recognize I cherish our time together by recalling details about you. It would be a privilege to have an ongoing, deeper connection with you, but even if our time together is a one time and fleeting moment, I will look back and cherish it. . Together, we will go beyond reverie.If I’ve intrigued your senses, allow me  to let you into my world.",
+      "-Ashley Victoria"
+],
     "availability": [
       {
         "day": "Wednesday",
@@ -999,10 +1045,14 @@ const companionSources: CompanionSource[] = [
       "Travel Companionship",
       "Cultural Evenings"
     ],
+    "description": "Hey guys, I’ll be available in Baton Rouge for outcall. I’m a total sweetheart with a bubbly personality and a tight curvy body. Im pretty vocal and can be very naughty. I love fetishes and roll playing. Whatever it is you like, I’ll make sure it’s the best. I’m real and I have great reviews! Give me a call or text for more info. ***When contacting me please be respectful and polite I don't engage in explicit conversations*** I look forward to meeting you! Kristin 504-812-4777",
     "bio": [
-      "Kristin is an independent companion based in Hyderabad, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Hey guys,",
+      "I’ll be available in Baton Rouge for outcall. I’m a total sweetheart with a bubbly personality and a tight curvy body. Im pretty vocal and can be very naughty. I love fetishes and roll playing. Whatever it is you like, I’ll make sure it’s the best. I’m real and I have great reviews! Give me a call or text for more info.",
+      "***When contacting me please be respectful and polite I don't engage in explicit conversations***",
+      "I look forward to meeting you!",
+      "Kristin 504-812-4777"
+],
     "availability": [
       {
         "day": "Tuesday",
@@ -1050,10 +1100,18 @@ const companionSources: CompanionSource[] = [
       "Travel Companionship",
       "Cultural Evenings"
     ],
+    "description": "Soft, sweet, and just a little edgy—the kind of warmth that feels effortless, with a playful spark that keeps things interesting. I’m flirty, feminine, and very easy to talk to… the “good girl” vibe with a hint of trouble when the chemistry is right. I love creating a relaxed, cozy atmosphere where you can actually unwind. Discretion is important to me, and I’m best matched with respectful gentlemen who value privacy, cleanliness, and clear communication. What you can expect: •Sweet, attentive, and genuinely welcoming energy •Polished, punctual, and easy to plan with •A calm, private vibe from start to finish •Screening required & quick verification available Availability: Incalls in Aurora, CO (private apartment). Outcalls available to DTC, Downtown Denver, LoDo, and RiNo. If you’d like to meet, send a polite intro with your name, preferred date/time, duration, and whether you prefer incall or outcall. If it’s a fit, I’ll take it from there.",
     "bio": [
-      "Scarlett is an independent companion based in Mumbai, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Soft, sweet, and just a little edgy—the kind of warmth that feels effortless, with a playful spark that keeps things interesting. I’m flirty, feminine, and very easy to talk to… the “good girl” vibe with a hint of trouble when the chemistry is right.",
+      "I love creating a relaxed, cozy atmosphere where you can actually unwind. Discretion is important to me, and I’m best matched with respectful gentlemen who value privacy, cleanliness, and clear communication.",
+      "What you can expect:",
+      "•Sweet, attentive, and genuinely welcoming energy",
+      "•Polished, punctual, and easy to plan with",
+      "•A calm, private vibe from start to finish",
+      "•Screening required & quick verification available",
+      "Availability: Incalls in Aurora, CO (private apartment). Outcalls available to DTC, Downtown Denver, LoDo, and RiNo.",
+      "If you’d like to meet, send a polite intro with your name, preferred date/time, duration, and whether you prefer incall or outcall. If it’s a fit, I’ll take it from there."
+],
     "availability": [
       {
         "day": "Friday",
@@ -1103,10 +1161,16 @@ const companionSources: CompanionSource[] = [
       "Personal Meetings",
       "Social Companionship"
     ],
+    "description": "I may be small… but that just makes everything feel a little more intense, doesn’t it?  If you like a girl who listens… who follows… who gives in easily… you’re going to love me. If you’re serious, Message me for FREE on my Private WEBSITE… that’s where I really focus on you. The ones who message me there always get my full attention first. Use my private WEBSITE and message me for FREE and I’ll move you right to the top… no waiting, no distractions… just me, ready for you There’s something about having a small, playful girl all to yourself… the way I look up at you, the way I react to every little thing you do… it’s hard to resist. I don’t need to take control… I prefer when you do. Just tell me what you want… and I’ll be right there, exactly how you like it. So don’t stay here wondering… you already know where to find me",
     "bio": [
-      "Lulu is an independent companion based in Bengaluru, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "I may be small… but that just makes everything feel a little more intense, doesn’t it?  If you like a girl who listens… who follows… who gives in easily… you’re going to love me.",
+      "If you’re serious, Message me for FREE on my Private WEBSITE… that’s where I really focus on you. The ones who message me there always get my full attention first.",
+      "Use my private WEBSITE and message me for FREE and I’ll move you right to the top… no waiting, no distractions… just me, ready for you",
+      "There’s something about having a small, playful girl all to yourself… the way I look up at you, the way I react to every little thing you do… it’s hard to resist.",
+      "I don’t need to take control… I prefer when you do.",
+      "Just tell me what you want… and I’ll be right there, exactly how you like it.",
+      "So don’t stay here wondering… you already know where to find me"
+],
     "availability": [
       {
         "day": "Wednesday",
@@ -1154,10 +1218,15 @@ const companionSources: CompanionSource[] = [
       "Personal Meetings",
       "Social Companionship"
     ],
+    "description": "I’m naturally warm, a little playful, and easy to be around. I enjoy good conversation, shared laughter, and creating an atmosphere where people can relax and simply be themselves. I appreciate genuine moments and the kind of connection that feels natural rather than forced. Whether it’s easy conversation, a little laughter, or simply enjoying the moment, I value time that feels comfortable and real. Kindness, respect, and clear communication matter to me, and I believe the best experiences are the ones where both people feel at ease and genuinely enjoy the time they share. Select couples inquiries are welcome with advance discussion. Clever, classy, and impossible to forget. Mia",
     "bio": [
-      "Mia is an independent trans companion in Delhi, warm, self-assured, and wonderful company.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "I’m naturally warm, a little playful, and easy to be around. I enjoy good conversation, shared laughter, and creating an atmosphere where people can relax and simply be themselves.",
+      "I appreciate genuine moments and the kind of connection that feels natural rather than forced. Whether it’s easy conversation, a little laughter, or simply enjoying the moment, I value time that feels comfortable and real.",
+      "Kindness, respect, and clear communication matter to me, and I believe the best experiences are the ones where both people feel at ease and genuinely enjoy the time they share.",
+      "Select couples inquiries are welcome with advance discussion.",
+      "Clever, classy, and impossible to forget.",
+      "Mia"
+],
     "availability": [
       {
         "day": "Thursday",
@@ -1207,10 +1276,20 @@ const companionSources: CompanionSource[] = [
       "Travel Companionship",
       "Cultural Evenings"
     ],
+    "description": "you found your way here. this is presence-based, embodied work for those drawn to depth and a more conscious relationship with intimacy. my approach is slow, attuned, and tantric-informed — oriented toward listening to the body and staying with sensation, rather than rushing toward a goal or needing to be a certain way. many people arrive carrying pressure, shame, or patterns of performing. here, there is space to slow down, be real, and stay with what is actually happening, without expectation. sessions may include conversation, breath, eye contact, guided attention, ritual elements, embodied practices, and touch. when touch is included, it is practitioner-to-client and offered intentionally; this may include sacred spot work (g-spot or prostate), approached slowly and with care. i also offer preparation and integration support for psychedelic journeys and other major life transitions. this work is best suited for those able to meet it with maturity, respect, and responsibility. availability is limited and offered by inquiry. client reflections \"the energy of that day stayed with me a long time and remained on my mind. i can say truthfully it was the first time i felt connected in a long time.\" \"your session helped me be vulnerable enough to enter a relationship after a long hiatus. i credit that experience with helping me open in that way.\" \"therapy never helped, but one experience with you and i felt a weight lifted off my chest. thank you for helping me, for listening and not judging me. my heart is so full.\"",
     "bio": [
-      "Monique is an independent companion based in Jaipur, at ease anywhere from a quiet dinner to a gallery opening.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "you found your way here.",
+      "this is presence-based, embodied work for those drawn to depth and a more conscious relationship with intimacy.",
+      "my approach is slow, attuned, and tantric-informed — oriented toward listening to the body and staying with sensation, rather than rushing toward a goal or needing to be a certain way.",
+      "many people arrive carrying pressure, shame, or patterns of performing. here, there is space to slow down, be real, and stay with what is actually happening, without expectation.",
+      "sessions may include conversation, breath, eye contact, guided attention, ritual elements, embodied practices, and touch. when touch is included, it is practitioner-to-client and offered intentionally; this may include sacred spot work (g-spot or prostate), approached slowly and with care.",
+      "i also offer preparation and integration support for psychedelic journeys and other major life transitions.",
+      "this work is best suited for those able to meet it with maturity, respect, and responsibility. availability is limited and offered by inquiry.",
+      "client reflections",
+      "\"the energy of that day stayed with me a long time and remained on my mind. i can say truthfully it was the first time i felt connected in a long time.\"",
+      "\"your session helped me be vulnerable enough to enter a relationship after a long hiatus. i credit that experience with helping me open in that way.\"",
+      "\"therapy never helped, but one experience with you and i felt a weight lifted off my chest. thank you for helping me, for listening and not judging me. my heart is so full.\""
+],
     "availability": [
       {
         "day": "Wednesday",
@@ -1258,10 +1337,17 @@ const companionSources: CompanionSource[] = [
       "Travel Companionship",
       "Cultural Evenings"
     ],
+    "description": "Hey, I’m Jaz, I’m 4’9, but don’t let that fool you, I definitely know how to move 🥰 I’m here to tease, please, and leave you wanting more every single time I aim to give you pleasure only. If thats what you want my love. thats what you will get ! my favourite positions online are cowgirl and doggy, you can find out more on my link below ☺️ littlewildjaz.com ❤️ And just a warning… if you fall fast, that’s on you 😉 My only goal is to make you lose control and come back for more 😈",
     "bio": [
-      "Jaz is an independent male companion in Hyderabad, equally suited to a business evening or a relaxed night out.",
-      "Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected."
-    ],
+      "Hey, I’m Jaz,",
+      "I’m 4’9, but don’t let that fool you, I definitely know how to move 🥰",
+      "I’m here to tease, please, and leave you wanting more every single time",
+      "I aim to give you pleasure only. If thats what you want my love. thats what you will get !",
+      "my favourite positions online are cowgirl and doggy, you can find out more on my link below ☺️",
+      "littlewildjaz.com ❤️",
+      "And just a warning… if you fall fast, that’s on you 😉",
+      "My only goal is to make you lose control and come back for more 😈"
+],
     "availability": [
       {
         "day": "Thursday",
@@ -1329,10 +1415,8 @@ const photoProfiles: Companion[] = companionSources.flatMap(({ images, ...profil
         (photoIndex === 0
           ? profile.tagline
           : `A considered presence for ${city} evenings.`),
-      bio: [
-        `${name} is an independent companion based in ${city}, at ease anywhere from a quiet dinner to a gallery opening.`,
-        'Every introduction is mutual and consent-based, arranged privately through our concierge. Boundaries are agreed in advance and always respected.',
-      ],
+      description: (override?.description ?? profile.description ?? profile.tagline).replaceAll(profile.name, name),
+      bio: (override?.bio ?? profile.bio).map((b) => b.replaceAll(profile.name, name)),
     }
   }),
 )
@@ -1340,6 +1424,7 @@ const photoProfiles: Companion[] = companionSources.flatMap(({ images, ...profil
 const independentPortraits: Companion[] = [
   {
     id: 'independent-saree-1',
+    description: 'Avni brings a relaxed, thoughtful presence to dinners, openings, and unhurried city evenings. Introductions are made privately through our concierge, with comfort and clear boundaries at the centre.',
     name: 'Avni',
     image: 'model-1',
     imageKind: 'decor',
@@ -1363,6 +1448,7 @@ const independentPortraits: Companion[] = [
   },
   {
     id: 'independent-saree-2',
+    description: 'Kiana is at home in lively rooms and thoughtful conversation, with an instinct for making any occasion feel easy. Each introduction is considered and mutual, arranged around privacy and shared comfort.',
     name: 'Kiana',
     image: 'model-2',
     imageKind: 'decor',
@@ -1386,6 +1472,7 @@ const independentPortraits: Companion[] = [
   },
   {
     id: 'independent-saree-3',
+    description: 'Ishani pairs a calm, observant nature with a love of the small details that make an evening memorable. Your introduction is private, intentional, and always centred on mutual respect.',
     name: 'Ishani',
     image: 'model-3',
     imageKind: 'decor',
@@ -1409,6 +1496,7 @@ const independentPortraits: Companion[] = [
   },
   {
     id: 'independent-saree-4',
+    description: 'Raina brings an assured, welcoming energy to celebrations and cultural evenings across Jaipur. Our concierge makes every introduction discreetly and only after both sides are comfortable.',
     name: 'Raina',
     image: 'model-4',
     imageKind: 'decor',
@@ -1432,6 +1520,7 @@ const independentPortraits: Companion[] = [
   },
   {
     id: 'independent-saree-5',
+    description: 'Samira is a considered, engaging presence for a dinner, an event, or a beautifully unplanned evening. All introductions remain private and are arranged around clear expectations and mutual comfort.',
     name: 'Samira',
     image: 'model-5',
     imageKind: 'decor',
