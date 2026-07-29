@@ -24,7 +24,7 @@ type SiteDataState = {
 }
 
 const defaultState: SiteDataState = {
-  companions: fallbackCompanions,
+  companions: suratOnly(fallbackCompanions),
   contentBlocks: {},
   offers: [],
   settings: {},
@@ -40,12 +40,21 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+function suratOnly(items: Companion[]) {
+  return items
+    .filter((item) => item.city === 'Surat' || item.cities.includes('Surat'))
+    .map((item) => ({ ...item, city: 'Surat', cities: ['Surat'] }))
+}
+
 export function profileRowToCompanion(profile: AdminProfile): Companion {
   return {
     id: profile.slug,
     name: profile.name,
     image: profile.primary_image_url || '',
     tagline: profile.tagline,
+    description: profile.description || profile.tagline,
+    contactPhone: profile.contact_phone,
+    whatsappNumber: profile.whatsapp_number,
     age: profile.age,
     city: profile.city,
     cities: profile.cities.length > 0 ? profile.cities : [profile.city],
@@ -64,7 +73,7 @@ export function profileRowToCompanion(profile: AdminProfile): Companion {
 
 export function SiteDataProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<Omit<SiteDataState, 'refresh'>>({
-    companions: fallbackCompanions,
+    companions: suratOnly(fallbackCompanions),
     contentBlocks: {},
     offers: [],
     settings: {},
@@ -111,9 +120,13 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     })
 
     setState({
-      // An empty live dataset is intentional: it must not make old bundled
-      // cards reappear after an editor unpublishes every remote profile.
-      companions: profileRows.map(profileRowToCompanion),
+      // Surat is the only active market for this version of the directory.
+      // Bundled portraits remain as one-photo cards until they are optionally
+      // uploaded and managed individually in Studio.
+      companions: [
+        ...suratOnly(profileRows.map(profileRowToCompanion)),
+        ...suratOnly(fallbackCompanions),
+      ],
       contentBlocks: Object.fromEntries(contentRows.map((block) => [block.key, block])),
       offers: scheduledOffers,
       settings: Object.fromEntries(settingRows.map((setting) => [setting.key, setting])),
@@ -200,6 +213,9 @@ export function toEditableProfile(profile?: AdminProfile): ProfileInputState {
     primary_image_url: null,
     primary_image_alt: '',
     tagline: '',
+    description: '',
+    contact_phone: '+91 98765 43210',
+    whatsapp_number: '+91 98765 43210',
     age: 25,
     city: 'Surat',
     cities: ['Surat'],

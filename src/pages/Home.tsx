@@ -6,6 +6,7 @@ import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { OfferBanner } from '../components/OfferBanner'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
+import { ProfileContactActions } from '../components/ProfileContactActions'
 import { HeartIcon, LockIcon, ShieldIcon, CheckIcon, iconMap } from '../components/icons'
 import { CITIES } from '../data/companions'
 import { experiences, testimonials, privacyFeatures } from '../data/content'
@@ -24,19 +25,15 @@ const categories: {
   {
     id: 'call-girls',
     title: 'Call Girls',
-    description: 'Verified independent female companions across India.',
+    description: 'A curated Surat selection for discreet, considered introductions.',
     icon: 'spark',
     image: 'in-khopal-com-1', // Aanya — Call Girls
-    links: [
-      { name: 'Delhi', city: 'Delhi' },
-      { name: 'Mumbai', city: 'Mumbai' },
-      { name: 'Jaipur', city: 'Jaipur' },
-    ],
+    links: [{ name: 'Surat', city: 'Surat' }],
   },
   {
     id: 'male-escorts',
     title: 'Male Escorts',
-    description: 'Elite and verified male companions near you.',
+    description: 'Thoughtful, verified male companionship for Surat occasions.',
     icon: 'crown',
     image: 'in-khopal-com-2', // Aarav — Male Escorts
     links: [],
@@ -44,7 +41,7 @@ const categories: {
   {
     id: 'shemale-escorts',
     title: 'Shemale Escorts',
-    description: 'Independent trans companions across India.',
+    description: 'Independent trans companionship, currently curated for Surat.',
     icon: 'orchid',
     image: 'tryst-link-bdsm-tsoliviarhodes-1', // Olivia — Shemale Escorts
     links: [],
@@ -52,7 +49,7 @@ const categories: {
   {
     id: 'massages',
     title: 'Massages',
-    description: 'Discreet spa and sensual massage sessions.',
+    description: 'A calm, restorative Surat selection for unhurried sessions.',
     icon: 'lotus',
     image: 'in-khopal-com-massages-1', // Anaya — Massages
     links: [],
@@ -167,9 +164,9 @@ function CategorySection() {
         <p className="mt-4 text-ivory-dim">Choose a classification to explore verified, independent companions.</p>
       </Reveal>
 
-      <RevealGroup className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <RevealGroup className="-mx-5 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-5 [scrollbar-width:thin] sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
         {categories.map((cat) => (
-          <RevealItem key={cat.id}>
+          <RevealItem key={cat.id} className="w-[17.5rem] shrink-0 snap-start sm:w-[19rem]">
             <div
               onClick={() => navigate(`/discover?category=${encodeURIComponent(cat.title)}`)}
               className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/30 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-noir-soft/50"
@@ -275,8 +272,8 @@ function DiscoverPreview() {
         <RevealGroup key={city} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((c) => (
             <RevealItem key={c.id}>
-              <Link to={`/profile/${c.id}`} className="group block h-full">
-                <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
+              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
+                <Link to={`/profile/${c.id}`} className="block">
                   <div className="relative aspect-[4/5] overflow-hidden">
                     <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
                       <Portrait image={c.image} kind={c.imageKind} name={c.name} />
@@ -297,8 +294,12 @@ function DiscoverPreview() {
                       </p>
                     </div>
                   </div>
-                </article>
-              </Link>
+                </Link>
+                <div className="border-t border-ivory/10 bg-noir/30 p-4">
+                  <p className="min-h-10 text-xs leading-relaxed text-ivory-dim line-clamp-2">{c.description || c.tagline}</p>
+                  <ProfileContactActions name={c.name} phone={c.contactPhone} whatsapp={c.whatsappNumber} className="mt-3" />
+                </div>
+              </article>
             </RevealItem>
           ))}
         </RevealGroup>

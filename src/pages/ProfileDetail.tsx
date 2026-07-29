@@ -5,6 +5,7 @@ import { Reveal } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { ShieldIcon, LockIcon, CheckIcon } from '../components/icons'
 import { useSiteData } from '../lib/site-data'
+import { ProfileContactActions } from '../components/ProfileContactActions'
 
 function RequestForm({ name }: { name: string }) {
   const [sent, setSent] = useState(false)
@@ -130,6 +131,14 @@ export function ProfileDetail() {
           <Reveal delay={0.1}>
             <div className="mt-8 space-y-4 leading-relaxed text-ivory-dim">
               {c.bio.map((p, i) => <p key={i}>{p}</p>)}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.12}>
+            <div className="mt-7 rounded-2xl border border-gold/20 bg-gold/5 p-4 sm:p-5">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold-soft">Direct contact</p>
+              <p className="mt-2 text-sm leading-relaxed text-ivory-dim">Choose a contact method that feels comfortable. Calling opens your phone dialler; WhatsApp opens a private chat.</p>
+              <ProfileContactActions name={c.name} phone={c.contactPhone} whatsapp={c.whatsappNumber} className="mt-4 max-w-sm" />
             </div>
           </Reveal>
 

@@ -5,6 +5,9 @@ export type Companion = {
   image: string
   imageKind?: 'model' | 'decor'
   tagline: string
+  description?: string
+  contactPhone?: string
+  whatsappNumber?: string
   age: number
   city: string
   cities: string[]
@@ -25,15 +28,7 @@ type CompanionSource = Omit<Companion, 'image' | 'imageKind'> & {
 }
 
 export const CITIES = [
-  'All Cities',
   'Surat',
-  'Mumbai',
-  'Delhi',
-  'Bengaluru',
-  'Jaipur',
-  'Goa',
-  'Hyderabad',
-  'Kolkata',
 ]
 
 export const CATEGORIES = [

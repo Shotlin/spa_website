@@ -1030,8 +1030,8 @@ function ProfileEditor({
         ...form,
         slug,
         name,
-        city: form.city.trim(),
-        cities: Array.from(new Set([...form.cities, form.city.trim()])).filter(Boolean),
+        city: 'Surat',
+        cities: ['Surat'],
         age: Math.max(18, Math.round(form.age || 18)),
         rate: Math.max(0, Math.round(form.rate || 0)),
       }, user.id)
@@ -1080,14 +1080,19 @@ function ProfileEditor({
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <Field label="Display name"><input className="admin-field" value={form.name} onChange={(event) => update({ name: event.target.value, slug: form.slug || slugify(event.target.value) })} placeholder="Profile name" required /></Field>
               <Field label="URL slug" help="Lowercase, space-free URL used by the profile page."><input className="admin-field" value={form.slug} onChange={(event) => update({ slug: slugify(event.target.value) })} placeholder="elegant-name" required /></Field>
-              <Field label="Primary city"><select className="admin-select" value={form.city} onChange={(event) => update({ city: event.target.value })}>{cityOptions.map((city) => <option key={city}>{city}</option>)}</select></Field>
+              <Field label="Primary city"><select className="admin-select" value={form.city} onChange={(event) => update({ city: event.target.value })}>{cityOptions.filter((city) => city === 'Surat').map((city) => <option key={city}>{city}</option>)}</select></Field>
               <Field label="Category"><select className="admin-select" value={form.category} onChange={(event) => update({ category: event.target.value })}>{categoryOptions.map((category) => <option key={category}>{category}</option>)}</select></Field>
               <Field label="Age"><input className="admin-field" type="number" min="18" value={form.age} onChange={(event) => update({ age: Number(event.target.value) })} /></Field>
               <Field label="Rate (₹)"><input className="admin-field" type="number" min="0" step="100" value={form.rate} onChange={(event) => update({ rate: Number(event.target.value) })} /></Field>
               <Field label="Tier"><select className="admin-select" value={form.tier} onChange={(event) => update({ tier: event.target.value as ProfileInputState['tier'] })}><option>Signature</option><option>Elite</option><option>Muse</option></select></Field>
               <Field label="Sort order" help="Lower numbers appear first."><input className="admin-field" type="number" value={form.sort_order} onChange={(event) => update({ sort_order: Number(event.target.value) })} /></Field>
             </div>
-            <div className="mt-4"><Field label="Short introduction"><input className="admin-field" value={form.tagline} onChange={(event) => update({ tagline: event.target.value })} placeholder="A concise reason to meet this profile." /></Field></div>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <Field label="Short introduction"><input className="admin-field" value={form.tagline} onChange={(event) => update({ tagline: event.target.value })} placeholder="A concise reason to meet this profile." /></Field>
+              <Field label="Card description" help="Shown directly on every public card."><input className="admin-field" value={form.description} onChange={(event) => update({ description: event.target.value })} placeholder="A short, welcoming profile description." /></Field>
+              <Field label="Call number" help="Use international format. This opens the visitor's dialler."><input className="admin-field" type="tel" value={form.contact_phone} onChange={(event) => update({ contact_phone: event.target.value })} placeholder="+91 98765 43210" /></Field>
+              <Field label="WhatsApp number" help="Use digits with country code; no spaces required."><input className="admin-field" type="tel" value={form.whatsapp_number} onChange={(event) => update({ whatsapp_number: event.target.value })} placeholder="+91 98765 43210" /></Field>
+            </div>
           </section>
 
           <section className="admin-panel rounded-3xl p-5 sm:p-6">
@@ -1105,7 +1110,7 @@ function ProfileEditor({
           <section className="admin-panel rounded-3xl p-5 sm:p-6">
             <SectionTitle title="Profile detail" body="Comma-separate short lists. Each biography line becomes a separate readable paragraph." />
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <Field label="Available cities"><input className="admin-field" value={toCsv(form.cities)} onChange={(event) => updateList('cities', event.target.value)} placeholder="Surat, Mumbai, Goa" /></Field>
+              <Field label="Available cities"><input className="admin-field" value={toCsv(form.cities)} onChange={(event) => updateList('cities', event.target.value)} placeholder="Surat" /></Field>
               <Field label="Languages"><input className="admin-field" value={toCsv(form.languages)} onChange={(event) => updateList('languages', event.target.value)} placeholder="English, Hindi" /></Field>
               <Field label="Interests"><input className="admin-field" value={toCsv(form.interests)} onChange={(event) => updateList('interests', event.target.value)} placeholder="Art, music, travel" /></Field>
               <Field label="Traits"><input className="admin-field" value={toCsv(form.traits)} onChange={(event) => updateList('traits', event.target.value)} placeholder="Warm, discreet, curious" /></Field>

@@ -108,6 +108,9 @@ export type AdminProfile = {
   primary_image_url: string | null
   primary_image_alt: string | null
   tagline: string
+  description: string
+  contact_phone: string
+  whatsapp_number: string
   age: number
   city: string
   cities: string[]
@@ -234,6 +237,9 @@ export function mapAdminProfile(row: DbProfile): AdminProfile {
     primary_image_url: primaryImage?.public_url || null,
     primary_image_alt: row.primary_image_alt,
     tagline: valueString(metadata, 'tagline', row.short_bio || ''),
+    description: valueString(metadata, 'description', row.short_bio || ''),
+    contact_phone: valueString(metadata, 'contact_phone', ''),
+    whatsapp_number: valueString(metadata, 'whatsapp_number', ''),
     age: valueNumber(metadata, 'age', 25),
     city: row.city,
     cities: stringList(metadata.cities).length > 0 ? stringList(metadata.cities) : [row.city],
@@ -386,6 +392,9 @@ export async function saveAdminProfile(input: ProfileInput, userId: string) {
   const client = requireSupabase()
   const metadata = {
     tagline: input.tagline,
+    description: input.description,
+    contact_phone: input.contact_phone,
+    whatsapp_number: input.whatsapp_number,
     age: input.age,
     cities: input.cities,
     rate: input.rate,

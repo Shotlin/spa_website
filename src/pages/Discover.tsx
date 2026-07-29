@@ -8,12 +8,13 @@ import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { CITIES, CATEGORIES } from '../data/companions'
 import { MapPin } from 'lucide-react'
 import { useSiteData } from '../lib/site-data'
+import { ProfileContactActions } from '../components/ProfileContactActions'
 
 export function Discover() {
   const [searchParams] = useSearchParams()
   const { companions } = useSiteData()
 
-  const initialCity = searchParams.get('city') || 'All Cities'
+  const initialCity = 'Surat'
   const initialCategory = searchParams.get('category') || 'All Categories'
 
   const [city, setCity] = useState(initialCity)
@@ -24,13 +25,13 @@ export function Discover() {
 
   // Sync state with query parameters
   useEffect(() => {
-    if (searchParams.get('city')) setCity(searchParams.get('city') || 'All Cities')
+    setCity('Surat')
     if (searchParams.get('category')) setCategory(searchParams.get('category') || 'All Categories')
   }, [searchParams])
 
   const filtered = useMemo(() => {
     return companions.filter((c) => {
-      const cityOk = city === 'All Cities' || c.cities.includes(city)
+      const cityOk = c.cities.includes('Surat')
       const categoryOk = category === 'All Categories' || c.category === category
       const q = query.trim().toLowerCase()
       const queryOk =
@@ -69,8 +70,8 @@ export function Discover() {
             <Eyebrow>Discover</Eyebrow>
             <h1 className="mt-5 text-5xl text-ivory sm:text-6xl font-serif">The Circle</h1>
             <p className="mt-5 text-lg text-ivory-dim">
-              A secure directory of companions across India. Browse with
-              discretion; every introduction is mutual.
+              A curated Surat directory. Browse with discretion; every
+              introduction is mutual.
             </p>
           </Reveal>
         </div>
@@ -134,8 +135,8 @@ export function Discover() {
         <RevealGroup key={`${city}-${category}-${query}-${page}`} className="mt-8 grid gap-6 pb-8 sm:grid-cols-2 lg:grid-cols-3">
           {pageCards.map((c) => (
             <RevealItem key={c.id}>
-              <Link to={`/profile/${c.id}`} className="group block h-full">
-                <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:border-gold/30 hover:-translate-y-1">
+              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:border-gold/30 hover:-translate-y-1">
+                <Link to={`/profile/${c.id}`} className="block">
 
                   {/* Image Container */}
                   <div className="relative aspect-[4/5] overflow-hidden">
@@ -172,7 +173,7 @@ export function Discover() {
                     <div className="mt-auto pt-4 flex items-center justify-between text-[0.7rem] text-ivory-dim">
                       <span className="flex items-center gap-1 font-light">
                         <MapPin aria-hidden="true" className="h-3.5 w-3.5 text-gold-soft" />
-                        {city === 'All Cities' ? c.city : city}, India
+                        Surat, India
                       </span>
                       <span className="flex items-center gap-1 text-emerald-400">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -181,8 +182,12 @@ export function Discover() {
                     </div>
                   </div>
 
-                </article>
-              </Link>
+                </Link>
+                <div className="border-t border-ivory/10 bg-noir/30 p-4">
+                  <p className="min-h-10 text-xs leading-relaxed text-ivory-dim line-clamp-2">{c.description || c.tagline}</p>
+                  <ProfileContactActions name={c.name} phone={c.contactPhone} whatsapp={c.whatsappNumber} className="mt-3" />
+                </div>
+              </article>
             </RevealItem>
           ))}
         </RevealGroup>
