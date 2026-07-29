@@ -86,7 +86,7 @@ function CategoryGlyph({ icon }: { icon: CategoryIcon }) {
 
 function Hero() {
   const ref = useRef<HTMLDivElement>(null)
-  const { companions: siteCompanions, contentBlocks } = useSiteData()
+  const { contentBlocks } = useSiteData()
   const hero = getHomeHero(contentBlocks)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
@@ -109,42 +109,17 @@ function Hero() {
       <Section className="relative flex min-h-[44rem] items-end pt-28 pb-7 sm:pb-10 md:block md:min-h-0 md:pt-32 md:pb-24">
         <motion.div
           style={{ opacity }}
-          className="max-w-2xl rounded-[1.75rem] border border-ivory/12 bg-noir/34 p-5 shadow-[0_22px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-[1px] sm:p-7 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
+          className="max-w-xl rounded-[1.75rem] border border-ivory/12 bg-noir/34 p-5 shadow-[0_22px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-[1px] sm:p-7 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
         >
-          <Reveal>
-            <Eyebrow>{hero.eyebrow}</Eyebrow>
-          </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="mt-5 text-[2.7rem] leading-[0.93] tracking-tight text-ivory sm:text-6xl lg:text-7.5xl font-serif">
+            <h1 className="text-[2.7rem] leading-[0.93] tracking-tight text-ivory sm:text-6xl lg:text-7.5xl font-serif">
               {hero.heading}
               <span className="block italic text-gold-soft">{hero.accent}</span>
             </h1>
           </Reveal>
-          <Reveal delay={0.2}>
-            <p className="mt-5 max-w-md text-base font-light leading-relaxed text-ivory-dim sm:mt-7 sm:text-lg">
-              {hero.body}
-            </p>
-          </Reveal>
           <Reveal delay={0.3}>
-            <div className="mt-7 flex flex-col items-stretch gap-2.5 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+            <div className="mt-7 flex items-center sm:mt-9">
               <Button to={hero.primaryCtaHref} className="w-full sm:w-auto">{hero.primaryCtaLabel}</Button>
-              <Button to={hero.secondaryCtaHref} variant="ghost" className="w-full sm:w-auto">
-                {hero.secondaryCtaLabel} →
-              </Button>
-            </div>
-          </Reveal>
-          <Reveal delay={0.4}>
-            <div className="mt-8 grid grid-cols-3 gap-3 sm:mt-12 sm:flex sm:flex-wrap sm:gap-x-10 sm:gap-y-4">
-              {[
-                { k: `${siteCompanions.length}+`, v: 'Curated profiles' },
-                { k: '8', v: 'Cities pan-India' },
-                { k: '24/7', v: 'Concierge & safety' },
-              ].map((s) => (
-                <div key={s.v}>
-                  <div className="font-serif text-2xl text-gold-soft sm:text-3xl">{s.k}</div>
-                  <div className="mt-1 text-[0.55rem] uppercase tracking-[0.14em] text-ivory-dim sm:text-[0.7rem] sm:tracking-[0.2em]">{s.v}</div>
-                </div>
-              ))}
             </div>
           </Reveal>
         </motion.div>

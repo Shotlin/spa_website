@@ -23,6 +23,13 @@ type SiteDataState = {
   refresh: () => Promise<void>
 }
 
+const CATEGORY_IMAGE_KEYS = new Set([
+  'in-khopal-com-1',
+  'in-khopal-com-2',
+  'tryst-link-bdsm-tsoliviarhodes-1',
+  'in-khopal-com-massages-1',
+])
+
 const defaultState: SiteDataState = {
   companions: suratOnly(fallbackCompanions),
   contentBlocks: {},
@@ -39,13 +46,6 @@ const SiteDataContext = createContext<SiteDataState>(defaultState)
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
-
-const CATEGORY_IMAGE_KEYS = new Set([
-  'in-khopal-com-1',
-  'in-khopal-com-2',
-  'tryst-link-bdsm-tsoliviarhodes-1',
-  'in-khopal-com-massages-1',
-])
 
 function suratOnly(items: Companion[]) {
   return items
