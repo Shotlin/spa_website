@@ -8,6 +8,7 @@ export type Companion = {
   description?: string
   contactPhone?: string
   whatsappNumber?: string
+  telegramUsername?: string
   age: number
   city: string
   cities: string[]

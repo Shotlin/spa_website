@@ -1092,6 +1092,7 @@ function ProfileEditor({
               <Field label="Card description" help="Shown directly on every public card."><input className="admin-field" value={form.description} onChange={(event) => update({ description: event.target.value })} placeholder="A short, welcoming profile description." /></Field>
               <Field label="Call number" help="Use international format. This opens the visitor's dialler."><input className="admin-field" type="tel" value={form.contact_phone} onChange={(event) => update({ contact_phone: event.target.value })} placeholder="+91 98765 43210" /></Field>
               <Field label="WhatsApp number" help="Use digits with country code; no spaces required."><input className="admin-field" type="tel" value={form.whatsapp_number} onChange={(event) => update({ whatsapp_number: event.target.value })} placeholder="+91 98765 43210" /></Field>
+              <Field label="Telegram username" help="Optional. Without one, Telegram opens a secure share composer."><input className="admin-field" value={form.telegram_username} onChange={(event) => update({ telegram_username: event.target.value.replace(/^@/, '') })} placeholder="your_telegram_handle" /></Field>
             </div>
           </section>
 

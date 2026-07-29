@@ -40,10 +40,27 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+const CATEGORY_IMAGE_KEYS = new Set([
+  'in-khopal-com-1',
+  'in-khopal-com-2',
+  'tryst-link-bdsm-tsoliviarhodes-1',
+  'in-khopal-com-massages-1',
+])
+
 function suratOnly(items: Companion[]) {
   return items
-    .filter((item) => item.city === 'Surat' || item.cities.includes('Surat'))
-    .map((item) => ({ ...item, city: 'Surat', cities: ['Surat'] }))
+    // Category artwork remains unique to the category rail; it never becomes
+    // a profile card. Every remaining bundled portrait is a Surat listing.
+    .filter((item) => !CATEGORY_IMAGE_KEYS.has(item.image))
+    .map((item) => ({
+      ...item,
+      city: 'Surat',
+      cities: ['Surat'],
+      description: `${item.description?.trim() || item.tagline} Clear availability, respectful communication, and a considered introduction are part of every profile.`,
+      bio: item.bio.length >= 3
+        ? item.bio
+        : [...item.bio, 'The profile includes a clear introduction, availability, and preferred contact options so each enquiry can begin with comfort, privacy, and mutual respect.'],
+    }))
 }
 
 export function profileRowToCompanion(profile: AdminProfile): Companion {
@@ -55,6 +72,7 @@ export function profileRowToCompanion(profile: AdminProfile): Companion {
     description: profile.description || profile.tagline,
     contactPhone: profile.contact_phone,
     whatsappNumber: profile.whatsapp_number,
+    telegramUsername: profile.telegram_username,
     age: profile.age,
     city: profile.city,
     cities: profile.cities.length > 0 ? profile.cities : [profile.city],
@@ -216,6 +234,7 @@ export function toEditableProfile(profile?: AdminProfile): ProfileInputState {
     description: '',
     contact_phone: '+91 98765 43210',
     whatsapp_number: '+91 98765 43210',
+    telegram_username: '',
     age: 25,
     city: 'Surat',
     cities: ['Surat'],

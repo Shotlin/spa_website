@@ -232,7 +232,7 @@ function DiscoverPreview() {
     const rank = { Signature: 0, Elite: 1, Muse: 2 } as Record<string, number>
     return [...pool]
       .sort((a, b) => Number(b.verified) - Number(a.verified) || rank[a.tier] - rank[b.tier])
-      .slice(0, 6)
+      .slice(0, 9)
   }, [city, siteCompanions])
 
   return (
@@ -296,7 +296,7 @@ function DiscoverPreview() {
                   </div>
                 </Link>
                 <div className="border-t border-ivory/10 bg-noir/30 p-4">
-                  <p className="min-h-10 text-xs leading-relaxed text-ivory-dim line-clamp-2">{c.description || c.tagline}</p>
+                  <p className="min-h-[4.5rem] text-xs leading-relaxed text-ivory-dim line-clamp-3">{c.description || `${c.tagline} Clear availability and respectful communication guide every private introduction.`}</p>
                   <ProfileContactActions name={c.name} phone={c.contactPhone} whatsapp={c.whatsappNumber} className="mt-3" />
                 </div>
               </article>

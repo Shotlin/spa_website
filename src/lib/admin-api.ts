@@ -111,6 +111,7 @@ export type AdminProfile = {
   description: string
   contact_phone: string
   whatsapp_number: string
+  telegram_username: string
   age: number
   city: string
   cities: string[]
@@ -240,6 +241,7 @@ export function mapAdminProfile(row: DbProfile): AdminProfile {
     description: valueString(metadata, 'description', row.short_bio || ''),
     contact_phone: valueString(metadata, 'contact_phone', ''),
     whatsapp_number: valueString(metadata, 'whatsapp_number', ''),
+    telegram_username: valueString(metadata, 'telegram_username', ''),
     age: valueNumber(metadata, 'age', 25),
     city: row.city,
     cities: stringList(metadata.cities).length > 0 ? stringList(metadata.cities) : [row.city],
@@ -395,6 +397,7 @@ export async function saveAdminProfile(input: ProfileInput, userId: string) {
     description: input.description,
     contact_phone: input.contact_phone,
     whatsapp_number: input.whatsapp_number,
+    telegram_username: input.telegram_username,
     age: input.age,
     cities: input.cities,
     rate: input.rate,
