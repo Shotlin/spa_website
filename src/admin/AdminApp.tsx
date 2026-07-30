@@ -1272,6 +1272,9 @@ function MediaPage({ data, refresh, user }: { data: AdminData; refresh: () => Pr
       setAltText('')
       setSuccess(`${total} ${total === 1 ? 'image was' : 'images were'} added to the media library. They are ready to attach to profiles, banners, offers, or page blocks.`)
     } catch (uploadError) {
+      const remainingFiles = files.slice(completed)
+      setFiles(remainingFiles)
+      setUploadProgress({ completed: 0, total: remainingFiles.length })
       setError(`${completed} of ${total} images uploaded. ${uploadError instanceof Error ? uploadError.message : 'Could not upload the remaining images.'}`)
     } finally {
       setUploading(false)
