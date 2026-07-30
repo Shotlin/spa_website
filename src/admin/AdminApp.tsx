@@ -1226,9 +1226,10 @@ function EmptyState({ icon: Icon, title, body, action, onAction }: { icon: Lucid
 }
 
 function MediaPage({ data, refresh, user }: { data: AdminData; refresh: () => Promise<void>; user: User | null }) {
-  const [file, setFile] = useState<File | null>(null)
+  const [files, setFiles] = useState<File[]>([])
   const [altText, setAltText] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState({ completed: 0, total: 0 })
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [query, setQuery] = useState('')
@@ -1238,23 +1239,40 @@ function MediaPage({ data, refresh, user }: { data: AdminData; refresh: () => Pr
     return data.media.filter((asset) => `${asset.alt_text} ${asset.storage_path}`.toLowerCase().includes(search))
   }, [data.media, query])
 
-  const upload = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (!file || !user) {
-      setError('Choose an image before uploading.')
-      return
-    }
-    setUploading(true)
+  const chooseFiles = (event: ChangeEvent<HTMLInputElement>) => {
+    const selected = Array.from(event.target.files || [])
+    event.target.value = ''
     setError('')
     setSuccess('')
+    setFiles(selected)
+    setUploadProgress({ completed: 0, total: selected.length })
+  }
+
+  const upload = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!files.length || !user) {
+      setError('Choose one or more images before uploading.')
+      return
+    }
+    const total = files.length
+    setUploading(true)
+    setUploadProgress({ completed: 0, total })
+    setError('')
+    setSuccess('')
+    let completed = 0
     try {
-      await uploadMediaAsset(file, altText || file.name.replace(/\.[^.]+$/, ''), user.id)
+      for (const selectedFile of files) {
+        const filenameDescription = selectedFile.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ')
+        await uploadMediaAsset(selectedFile, altText.trim() || filenameDescription, user.id)
+        completed += 1
+        setUploadProgress({ completed, total })
+      }
       await refresh()
-      setFile(null)
+      setFiles([])
       setAltText('')
-      setSuccess('Image added to the media library. It is ready to attach to one profile, a banner, or an offer.')
+      setSuccess(`${total} ${total === 1 ? 'image was' : 'images were'} added to the media library. They are ready to attach to profiles, banners, offers, or page blocks.`)
     } catch (uploadError) {
-      setError(uploadError instanceof Error ? uploadError.message : 'Could not upload the image.')
+      setError(`${completed} of ${total} images uploaded. ${uploadError instanceof Error ? uploadError.message : 'Could not upload the remaining images.'}`)
     } finally {
       setUploading(false)
     }
@@ -1265,13 +1283,14 @@ function MediaPage({ data, refresh, user }: { data: AdminData; refresh: () => Pr
       <PageHeader eyebrow="Assets" title="Media library" description="Upload public-ready images once, describe them clearly, and reuse them in profiles, banners, offers, and page blocks." />
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_21rem]">
         <section className="admin-panel rounded-3xl p-5 sm:p-6">
-          <SectionTitle title="Upload an image" body="JPG, PNG, WebP, and AVIF up to 10 MB. Every upload gets an accessible description before it is placed on the site." />
+          <SectionTitle title="Add images from your device" body="Choose one or many JPG, PNG, WebP, or AVIF files directly from your phone gallery or computer. Each file can be uploaded to the library in one batch." />
           <form className="mt-5 grid gap-4" onSubmit={upload}>
-            <label className="admin-upload-zone flex min-h-32 cursor-pointer flex-col items-center justify-center rounded-2xl p-5 text-center"><UploadCloud className="h-6 w-6 text-gold" /><span className="mt-2 text-sm font-medium text-[var(--admin-ink)]">{file ? file.name : 'Choose an image to upload'}</span><span className="mt-1 text-xs text-[var(--admin-muted)]">The file stays local until you press Upload.</span><input className="sr-only" type="file" accept="image/jpeg,image/png,image/webp,image/avif" onChange={(event) => setFile(event.target.files?.[0] || null)} /></label>
-            <Field label="Image description" help="This becomes the alt text used on the public site."><input className="admin-field" value={altText} onChange={(event) => setAltText(event.target.value)} placeholder="A concise, accurate description of this image" /></Field>
+            <label className="admin-upload-zone flex min-h-32 cursor-pointer flex-col items-center justify-center rounded-2xl p-5 text-center"><UploadCloud className="h-6 w-6 text-gold" /><span className="mt-2 text-sm font-medium text-[var(--admin-ink)]">{files.length ? `${files.length} ${files.length === 1 ? 'image' : 'images'} selected` : 'Choose images from gallery or files'}</span><span className="mt-1 text-xs text-[var(--admin-muted)]">You can select multiple files. Nothing uploads until you press Upload.</span><input className="sr-only" type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple onChange={chooseFiles} /></label>
+            {files.length ? <div className="admin-subtle-panel max-h-44 overflow-y-auto rounded-2xl p-3"><ul className="space-y-2">{files.map((selectedFile) => <li key={`${selectedFile.name}-${selectedFile.lastModified}`} className="flex items-center gap-2 text-xs text-[var(--admin-ink)]"><ImagePlus className="h-3.5 w-3.5 shrink-0 text-gold" /><span className="truncate">{selectedFile.name}</span><span className="ml-auto shrink-0 text-[var(--admin-muted)]">{Math.max(1, Math.round(selectedFile.size / 1024))} KB</span></li>)}</ul></div> : null}
+            <Field label="Shared image description (optional)" help="Used for every selected image. Leave blank to use each filename as its alt text."><input className="admin-field" value={altText} onChange={(event) => setAltText(event.target.value)} placeholder="A concise description for all selected images" /></Field>
             {error ? <Notice tone="error">{error}</Notice> : null}
             {success ? <Notice tone="success">{success}</Notice> : null}
-            <AdminButton type="submit" loading={uploading} disabled={!file}><UploadCloud className="h-4 w-4" /> Upload to library</AdminButton>
+            <AdminButton type="submit" loading={uploading} disabled={!files.length}>{uploading ? `Uploading ${Math.min(uploadProgress.completed + 1, uploadProgress.total)} of ${uploadProgress.total}` : `Upload ${files.length || ''} ${files.length === 1 ? 'image' : 'images'} to library`}</AdminButton>
           </form>
         </section>
 
