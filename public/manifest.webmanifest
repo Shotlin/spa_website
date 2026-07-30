@@ -1,0 +1,25 @@
+{
+  "name": "VIP Spa Studio",
+  "short_name": "Studio",
+  "description": "A private publishing workspace for VIP Spa profiles, media, offers, and site content.",
+  "start_url": "/admin/",
+  "scope": "/admin/",
+  "display": "standalone",
+  "background_color": "#100b0d",
+  "theme_color": "#100b0d",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/studio-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/studio-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

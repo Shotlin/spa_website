@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   ChevronRight,
   Clock3,
+  Download,
   ExternalLink,
   FilePenLine,
   ImagePlus,
@@ -629,6 +630,7 @@ function AdminShell({ user }: { user: User | null }) {
           ))}
         </nav>
         <div className="mt-auto space-y-3 border-t border-[var(--admin-border)] pt-4">
+          <InstallStudioButton />
           <Link to="/" className="admin-nav-link flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium">
             <ExternalLink className="h-4 w-4" aria-hidden="true" />
             View public site
@@ -659,6 +661,7 @@ function AdminShell({ user }: { user: User | null }) {
               <p className="mt-0.5 text-sm text-[var(--admin-ink)]">{user?.email || 'Administrator'}</p>
             </div>
             <div className="ml-auto flex items-center gap-2">
+              <InstallStudioButton compact />
               <button className="admin-button admin-button-secondary grid h-11 w-11 place-items-center px-0" onClick={() => void refresh()} aria-label="Refresh Studio data">
                 <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} aria-hidden="true" />
               </button>
@@ -688,6 +691,62 @@ function AdminShell({ user }: { user: User | null }) {
         })}
       </nav>
     </div>
+  )
+}
+
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
+}
+
+function InstallStudioButton({ compact = false }: { compact?: boolean }) {
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
+  const [installed, setInstalled] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia('(display-mode: standalone)')
+    const updateInstalled = () => setInstalled(media.matches || Boolean((navigator as Navigator & { standalone?: boolean }).standalone))
+    updateInstalled()
+
+    const onBeforeInstall = (event: Event) => {
+      event.preventDefault()
+      setInstallPrompt(event as BeforeInstallPromptEvent)
+    }
+    const onInstalled = () => {
+      setInstalled(true)
+      setInstallPrompt(null)
+    }
+
+    window.addEventListener('beforeinstallprompt', onBeforeInstall)
+    window.addEventListener('appinstalled', onInstalled)
+    media.addEventListener?.('change', updateInstalled)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onBeforeInstall)
+      window.removeEventListener('appinstalled', onInstalled)
+      media.removeEventListener?.('change', updateInstalled)
+    }
+  }, [])
+
+  if (installed || !installPrompt) return null
+
+  const install = async () => {
+    await installPrompt.prompt()
+    const choice = await installPrompt.userChoice
+    if (choice.outcome === 'accepted') setInstalled(true)
+    setInstallPrompt(null)
+  }
+
+  return (
+    <button
+      className={compact
+        ? 'admin-button admin-button-secondary inline-flex items-center gap-2 px-3 sm:px-4'
+        : 'admin-nav-link flex min-h-11 w-full items-center gap-3 rounded-xl px-3 text-left text-sm font-medium'}
+      onClick={() => void install()}
+      aria-label="Install Studio app"
+    >
+      <Download className="h-4 w-4" aria-hidden="true" />
+      <span className={compact ? 'hidden sm:inline' : ''}>Install Studio app</span>
+    </button>
   )
 }
 
