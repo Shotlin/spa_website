@@ -10,7 +10,7 @@ import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
 import { HeartIcon, LockIcon, ShieldIcon, CheckIcon, iconMap } from '../components/icons'
 import { CITIES } from '../data/companions'
 import { experiences, testimonials, privacyFeatures } from '../data/content'
-import { getHomeHero, useSiteData } from '../lib/site-data'
+import { getHomeHero, getSiteContactSettings, useSiteData } from '../lib/site-data'
 
 type CategoryIcon = 'spark' | 'crown' | 'orchid' | 'lotus'
 
@@ -145,7 +145,7 @@ function CategorySection() {
     : defaultCategories
 
   return (
-    <Section className="py-20">
+    <Section className="py-14">
       <Reveal className="mx-auto max-w-2xl text-center">
         <Eyebrow>Classifications</Eyebrow>
         <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Browse by Category</h2>
@@ -208,7 +208,8 @@ function CategorySection() {
 function DiscoverPreview() {
   // City tabs (Surat leads), plus "All Cities". Live-filters the grid below.
   const cityTabs = CITIES
-  const { companions: siteCompanions } = useSiteData()
+  const { companions: siteCompanions, settings } = useSiteData()
+  const contacts = getSiteContactSettings(settings)
   const [city, setCity] = useState('Surat')
 
   const shown = useMemo(() => {
@@ -223,7 +224,7 @@ function DiscoverPreview() {
   }, [city, siteCompanions])
 
   return (
-    <Section className="py-20">
+    <Section className="py-14">
       <Reveal className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-xl">
           <Eyebrow>Discover the Circle</Eyebrow>
@@ -254,7 +255,7 @@ function DiscoverPreview() {
         </div>
       </Reveal>
 
-      <InfiniteProfileFeed companions={shown} className="mt-8" />
+      <InfiniteProfileFeed companions={shown} contacts={contacts} className="mt-6" />
     </Section>
   )
 }

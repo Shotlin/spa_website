@@ -5,10 +5,11 @@ import { Portrait } from '../components/Portrait'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
 import { experiences } from '../data/content'
-import { useSiteData } from '../lib/site-data'
+import { getSiteContactSettings, useSiteData } from '../lib/site-data'
 
 export function Experiences() {
-  const { companions } = useSiteData()
+  const { companions, settings } = useSiteData()
+  const contacts = getSiteContactSettings(settings)
 
   return (
     <div className="pt-32">
@@ -55,9 +56,10 @@ export function Experiences() {
         ))}
       </Section>
 
-      <Section className="py-20">
+      <Section className="py-14">
         <InfiniteProfileFeed
           companions={companions}
+          contacts={contacts}
           title="Companions for the occasion"
           description="Browse the live Surat roster and choose the presence that fits the evening you have in mind."
         />

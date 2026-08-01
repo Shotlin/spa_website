@@ -4,6 +4,7 @@ import { MapPin } from 'lucide-react'
 import type { Companion } from '../data/companions'
 import { Portrait } from './Portrait'
 import { ProfileContactActions } from './ProfileContactActions'
+import type { SiteContactSettings } from '../lib/site-data'
 
 const PAGE_SIZE = 6
 
@@ -28,7 +29,7 @@ function ProfileSkeletonCard({ index }: { index: number }) {
   )
 }
 
-function ProfileCard({ companion }: { companion: Companion }) {
+function ProfileCard({ companion, contacts }: { companion: Companion; contacts?: SiteContactSettings }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
       <Link to={`/profile/${companion.id}`} className="block">
@@ -47,7 +48,7 @@ function ProfileCard({ companion }: { companion: Companion }) {
       </Link>
       <div className="border-t border-ivory/10 bg-noir/30 p-4">
         <p className="min-h-[5rem] line-clamp-4 text-xs leading-relaxed text-ivory-dim/90">{companion.description || companion.bio.join(' ') || companion.tagline}</p>
-        <ProfileContactActions name={companion.name} phone={companion.contactPhone} whatsapp={companion.whatsappNumber} className="mt-3" />
+        <ProfileContactActions name={companion.name} phone={contacts?.phone || companion.contactPhone} whatsapp={contacts?.whatsapp || companion.whatsappNumber} telegramUsername={contacts?.telegram || companion.telegramUsername} className="mt-3" />
       </div>
     </article>
   )
@@ -58,9 +59,10 @@ type InfiniteProfileFeedProps = {
   title?: string
   description?: string
   className?: string
+  contacts?: SiteContactSettings
 }
 
-export function InfiniteProfileFeed({ companions, title, description, className = '' }: InfiniteProfileFeedProps) {
+export function InfiniteProfileFeed({ companions, title, description, className = '', contacts }: InfiniteProfileFeedProps) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const sentinelRef = useRef<HTMLDivElement>(null)
 
@@ -92,8 +94,8 @@ export function InfiniteProfileFeed({ companions, title, description, className 
       ) : null}
 
       {companions.length ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {companions.slice(0, visibleCount).map((companion) => <ProfileCard key={companion.id} companion={companion} />)}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {companions.slice(0, visibleCount).map((companion) => <ProfileCard key={companion.id} companion={companion} contacts={contacts} />)}
         </div>
       ) : (
         <div>
@@ -104,7 +106,7 @@ export function InfiniteProfileFeed({ companions, title, description, className 
             </div>
             <p className="hidden text-right text-xs uppercase tracking-[0.16em] text-ivory-dim/60 sm:block">Client-ready placeholders</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: PAGE_SIZE }, (_, index) => <ProfileSkeletonCard key={index} index={index} />)}
           </div>
           <p className="mt-6 text-center text-xs uppercase tracking-[0.18em] text-ivory-dim/60">Add profiles and photos in Studio to fill this feed.</p>

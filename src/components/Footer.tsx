@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom'
-import { getSiteIdentity, useSiteData } from '../lib/site-data'
+import { getSiteContactSettings, getSiteIdentity, useSiteData } from '../lib/site-data'
+import { profileContactDetails } from './ProfileContactActions'
+import { FaTelegramPlane, FaWhatsapp } from 'react-icons/fa'
+import { Phone } from 'lucide-react'
 
 export function Footer() {
   const { settings } = useSiteData()
   const identity = getSiteIdentity(settings)
+  const universalContacts = getSiteContactSettings(settings)
+  const contact = profileContactDetails(universalContacts.phone, universalContacts.whatsapp, universalContacts.telegram)
 
   return (
     <footer className="relative mt-32 border-t border-ivory/10 bg-noir-soft/60">
@@ -21,6 +26,11 @@ export function Footer() {
             A consent-first, privacy-first platform for curated companionship and
             private social experiences. Discreet by design. Pan-India.
           </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <a href={contact.telHref} className="inline-flex items-center gap-2 rounded-full border border-gold/25 px-3 py-2 text-[0.62rem] uppercase tracking-[0.12em] text-gold-soft hover:border-gold"><Phone className="h-3.5 w-3.5" /> Call</a>
+            <a href={contact.whatsappHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#25D366]/35 px-3 py-2 text-[0.62rem] uppercase tracking-[0.12em] text-[#72e79a] hover:border-[#25D366]"><FaWhatsapp className="h-3.5 w-3.5" /> WhatsApp</a>
+            <a href={contact.telegramHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#2AABEE]/35 px-3 py-2 text-[0.62rem] uppercase tracking-[0.12em] text-[#8bd7ff] hover:border-[#2AABEE]"><FaTelegramPlane className="h-3.5 w-3.5" /> Telegram</a>
+          </div>
           {identity.conciergeEmail || identity.conciergePhone ? <p className="mt-4 text-xs tracking-wide text-gold-soft">{identity.conciergeEmail}{identity.conciergeEmail && identity.conciergePhone ? ' · ' : ''}{identity.conciergePhone}</p> : null}
         </div>
 

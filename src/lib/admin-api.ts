@@ -448,9 +448,10 @@ export async function saveAdminProfile(input: ProfileInput, userId: string) {
     live_profile: true,
     tagline: input.tagline,
     description: input.description,
-    contact_phone: input.contact_phone,
-    whatsapp_number: input.whatsapp_number,
-    telegram_username: input.telegram_username,
+    // Contact channels are managed once in site_settings.site_contacts.
+    contact_phone: '',
+    whatsapp_number: '',
+    telegram_username: '',
     age: input.age,
     cities: input.cities,
     rate: input.rate,

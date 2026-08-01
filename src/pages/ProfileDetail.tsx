@@ -1,31 +1,18 @@
 import { useParams, Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useRef } from 'react'
 import { Section, Eyebrow, VerifiedBadge, Tag, Button } from '../components/ui'
 import { Reveal } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
-import { ShieldIcon, LockIcon, CheckIcon } from '../components/icons'
-import { useSiteData } from '../lib/site-data'
-import { ProfileContactPanel } from '../components/ProfileContactActions'
+import { ShieldIcon, LockIcon } from '../components/icons'
+import { getSiteContactSettings, useSiteData } from '../lib/site-data'
+import { InquiryActions, ProfileContactPanel } from '../components/ProfileContactActions'
 
-function RequestForm({ name }: { name: string }) {
-  const [sent, setSent] = useState(false)
-
-  if (sent) {
-    return (
-      <div className="rounded-2xl border border-gold/30 bg-gold/5 p-8 text-center">
-        <div className="mx-auto h-10 w-10 text-gold"><CheckIcon /></div>
-        <h3 className="mt-4 font-serif text-2xl text-ivory">Enquiry received</h3>
-        <p className="mt-3 text-sm text-ivory-dim">
-          Your request has been sent privately to our concierge. We will respond
-          discreetly within your membership window. Nothing is shared publicly.
-        </p>
-      </div>
-    )
-  }
-
+function RequestForm({ name, contacts }: { name: string; contacts: { phone: string; whatsapp: string; telegram: string } }) {
+  const formRef = useRef<HTMLFormElement>(null)
   return (
     <form
-      onSubmit={(e) => { e.preventDefault(); setSent(true) }}
+      ref={formRef}
+      onSubmit={(e) => e.preventDefault()}
       className="rounded-2xl border border-ivory/10 bg-noir-soft/50 p-7"
     >
       <h3 className="font-serif text-2xl text-ivory">Request an experience with {name}</h3>
@@ -37,16 +24,16 @@ function RequestForm({ name }: { name: string }) {
       <div className="mt-6 grid gap-4">
         <label className="block">
           <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">Preferred name / alias</span>
-          <input required className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="How should we address you?" />
+          <input name="Preferred name / alias" required className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="How should we address you?" />
         </label>
         <label className="block">
           <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">Secure contact</span>
-          <input required className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Encrypted email or signal handle" />
+          <input name="Secure contact" required className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Encrypted email or signal handle" />
         </label>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
             <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">Experience</span>
-            <select className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory focus:border-gold/50 focus:outline-none">
+            <select name="Experience" className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory focus:border-gold/50 focus:outline-none">
               <option>Personal meeting</option>
               <option>Social companionship</option>
               <option>City experience</option>
@@ -56,23 +43,24 @@ function RequestForm({ name }: { name: string }) {
           </label>
           <label className="block">
             <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">Preferred date</span>
-            <input type="date" className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory focus:border-gold/50 focus:outline-none" />
+            <input name="Preferred date" type="date" className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory focus:border-gold/50 focus:outline-none" />
           </label>
         </div>
         <label className="block">
           <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">A note (optional)</span>
-          <textarea rows={3} className="w-full resize-none rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Anything that helps us tailor the experience." />
+          <textarea name="Note" rows={3} className="w-full resize-none rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Anything that helps us tailor the experience." />
         </label>
 
         <label className="flex items-start gap-3 text-xs text-ivory-dim">
-          <input type="checkbox" required className="mt-0.5 h-4 w-4 accent-[#9b1b2e]" />
+          <input type="checkbox" name="18+ consent" required className="mt-0.5 h-4 w-4 accent-[#9b1b2e]" />
           <span>
             I am 18+ and I understand this is a mutual, consent-based introduction.
             Either party may decline or end an engagement at any time.
           </span>
         </label>
 
-        <Button type="submit" className="mt-2 w-full">Send private enquiry</Button>
+        <InquiryActions subject={`Request for ${name}`} formRef={formRef} contacts={contacts} />
+        <p className="text-center text-[0.7rem] text-ivory-dim/60">Choose WhatsApp or Telegram to send the filled enquiry. Call opens your dialler.</p>
       </div>
     </form>
   )
@@ -80,7 +68,8 @@ function RequestForm({ name }: { name: string }) {
 
 export function ProfileDetail() {
   const { id } = useParams()
-  const { companions } = useSiteData()
+  const { companions, settings } = useSiteData()
+  const contacts = getSiteContactSettings(settings)
   const c = id ? companions.find((companion) => companion.id === id) : undefined
 
   if (!c) {
@@ -138,7 +127,7 @@ export function ProfileDetail() {
             <div className="mt-7 rounded-2xl border border-gold/20 bg-gold/5 p-4 sm:p-5">
               <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold-soft">Private contact options</p>
               <p className="mt-2 text-sm leading-relaxed text-ivory-dim">Choose WhatsApp, Telegram, or a phone call. Each option opens a clear contact panel before it leaves this page.</p>
-              <ProfileContactPanel name={c.name} phone={c.contactPhone} whatsapp={c.whatsappNumber} telegramUsername={c.telegramUsername} className="mt-4 max-w-lg" />
+              <ProfileContactPanel name={c.name} phone={contacts.phone} whatsapp={contacts.whatsapp} telegramUsername={contacts.telegram} className="mt-4 max-w-lg" />
             </div>
           </Reveal>
 
@@ -212,7 +201,7 @@ export function ProfileDetail() {
           {/* Request form */}
           <div className="mt-10" id="enquire">
             <Reveal delay={0.35}>
-              <RequestForm name={c.name} />
+              <RequestForm name={c.name} contacts={contacts} />
             </Reveal>
           </div>
         </div>

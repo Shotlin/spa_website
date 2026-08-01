@@ -1,5 +1,5 @@
 import { Phone, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, type MouseEvent, type RefObject } from 'react'
 import { FaTelegramPlane, FaWhatsapp } from 'react-icons/fa'
 
 const DEMO_CONTACT_NUMBER = '+91 98765 43210'
@@ -11,14 +11,15 @@ function digits(value: string) {
 export function profileContactDetails(phone?: string, whatsapp?: string, telegramUsername?: string) {
   const callNumber = phone?.trim() || DEMO_CONTACT_NUMBER
   const whatsappNumber = whatsapp?.trim() || callNumber
-  const username = telegramUsername?.trim().replace(/^@/, '')
+  const telegramValue = telegramUsername?.trim() || ''
+  const username = telegramValue.replace(/^@/, '')
   const shareUrl = typeof window === 'undefined' ? '' : window.location.href
   return {
     displayNumber: callNumber,
     telHref: `tel:${digits(callNumber)}`,
     whatsappHref: `https://wa.me/${digits(whatsappNumber)}`,
     telegramHref: username
-      ? `https://t.me/${encodeURIComponent(username)}`
+      ? (telegramValue.startsWith('http') ? telegramValue : `https://t.me/${encodeURIComponent(username)}`)
       : `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('I would like to enquire privately about this Surat profile.')}`,
   }
 }
@@ -27,14 +28,15 @@ type ProfileContactActionsProps = {
   name: string
   phone?: string
   whatsapp?: string
+  telegramUsername?: string
   className?: string
 }
 
-export function ProfileContactActions({ name, phone, whatsapp, className = '' }: ProfileContactActionsProps) {
-  const contact = profileContactDetails(phone, whatsapp)
+export function ProfileContactActions({ name, phone, whatsapp, telegramUsername, className = '' }: ProfileContactActionsProps) {
+  const contact = profileContactDetails(phone, whatsapp, telegramUsername)
 
   return (
-    <div className={`grid grid-cols-2 gap-2 ${className}`}>
+    <div className={`grid grid-cols-3 gap-2 ${className}`}>
       <a
         href={contact.telHref}
         aria-label={`Call ${name} at ${contact.displayNumber}`}
@@ -42,6 +44,16 @@ export function ProfileContactActions({ name, phone, whatsapp, className = '' }:
       >
         <Phone className="h-3.5 w-3.5" aria-hidden="true" />
         Call me
+      </a>
+      <a
+        href={contact.telegramHref}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Open Telegram to message ${name}`}
+        className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl border border-[#2AABEE]/40 bg-[#2AABEE]/10 px-2 py-2 text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-[#8bd7ff] transition hover:border-[#2AABEE] hover:bg-[#2AABEE]/20 focus:outline-none focus:ring-2 focus:ring-[#2AABEE]"
+      >
+        <FaTelegramPlane className="h-4 w-4" aria-hidden="true" />
+        Telegram
       </a>
       <a
         href={contact.whatsappHref}
@@ -121,6 +133,49 @@ export function ProfileContactPanel({ name, phone, whatsapp, telegramUsername, c
           </a>
         </div>
       ) : null}
+    </div>
+  )
+}
+
+export type InquiryContactSettings = { phone?: string; whatsapp?: string; telegram?: string }
+
+function inquiryMessage(subject: string, details: Record<string, string | boolean>) {
+  const lines = Object.entries(details)
+    .filter(([, value]) => typeof value === 'boolean' ? value : value.trim())
+    .map(([key, value]) => `${key}: ${value}`)
+  return [`Private enquiry: ${subject}`, ...lines, '', 'Please keep this enquiry confidential.'].join('\n')
+}
+
+export function InquiryActions({ subject, details, formRef, contacts, disabled = false }: { subject: string; details?: Record<string, string | boolean>; formRef?: RefObject<HTMLFormElement | null>; contacts: InquiryContactSettings; disabled?: boolean }) {
+  const readDetails = () => {
+    if (!formRef?.current) return details || {}
+    return Object.fromEntries(Array.from(new FormData(formRef.current).entries()).map(([key, value]) => [key, String(value)]))
+  }
+  const liveDetails = readDetails()
+  const message = inquiryMessage(subject, liveDetails)
+  const contact = profileContactDetails(contacts.phone, contacts.whatsapp, contacts.telegram)
+  const whatsappHref = `${contact.whatsappHref}?text=${encodeURIComponent(message)}`
+  const telegramHref = contacts.telegram?.trim()
+    ? `${contact.telegramHref}${contact.telegramHref.includes('?') ? '&' : '?'}text=${encodeURIComponent(message)}`
+    : `https://t.me/share/url?url=${encodeURIComponent(typeof window === 'undefined' ? '' : window.location.href)}&text=${encodeURIComponent(message)}`
+  const classes = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-3 py-3 text-[0.62rem] font-semibold uppercase tracking-[0.08em] transition focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-40'
+  const openChannel = (event: MouseEvent<HTMLAnchorElement>, channel: 'call' | 'whatsapp' | 'telegram') => {
+    if (disabled) { event.preventDefault(); return }
+    if (formRef?.current && !formRef.current.checkValidity()) { event.preventDefault(); formRef.current.reportValidity(); return }
+    if (!formRef?.current) return
+    const currentMessage = inquiryMessage(subject, readDetails())
+    if (channel === 'call') return
+    event.preventDefault()
+    const href = channel === 'whatsapp'
+      ? `${contact.whatsappHref}?text=${encodeURIComponent(currentMessage)}`
+      : (contacts.telegram?.trim() ? `${contact.telegramHref}${contact.telegramHref.includes('?') ? '&' : '?'}text=${encodeURIComponent(currentMessage)}` : `https://t.me/share/url?url=${encodeURIComponent(typeof window === 'undefined' ? '' : window.location.href)}&text=${encodeURIComponent(currentMessage)}`)
+    window.open(href, '_blank', 'noopener,noreferrer')
+  }
+  return (
+    <div className="grid grid-cols-3 gap-2" aria-label="Send enquiry securely">
+      <a aria-disabled={disabled} onClick={(event) => openChannel(event, 'call')} href={contact.telHref} className={`${classes} border border-gold/35 bg-gold/10 text-gold-soft focus:ring-gold/70`}><Phone className="h-4 w-4" /> Call</a>
+      <a aria-disabled={disabled} onClick={(event) => openChannel(event, 'whatsapp')} href={whatsappHref} target="_blank" rel="noreferrer" className={`${classes} bg-[#25D366] text-[#07140c] focus:ring-[#45df7d]`}><FaWhatsapp className="h-4 w-4" /> WhatsApp</a>
+      <a aria-disabled={disabled} onClick={(event) => openChannel(event, 'telegram')} href={telegramHref} target="_blank" rel="noreferrer" className={`${classes} border border-[#2AABEE]/40 bg-[#2AABEE]/10 text-[#8bd7ff] focus:ring-[#2AABEE]`}><FaTelegramPlane className="h-4 w-4" /> Telegram</a>
     </div>
   )
 }

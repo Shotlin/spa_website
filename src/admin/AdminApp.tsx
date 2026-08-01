@@ -73,6 +73,7 @@ import {
 import { isSupabaseConfigured, supabase } from '../lib/supabase'
 import {
   getHomeHero,
+  getSiteContactSettings,
   getSiteIdentity,
   toEditableProfile,
   type HomeHeroContent,
@@ -1167,9 +1168,6 @@ function ProfileEditor({
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <Field label="Short introduction"><input className="admin-field" value={form.tagline} onChange={(event) => update({ tagline: event.target.value })} placeholder="A concise reason to meet this profile." /></Field>
               <Field label="Card description" help="Shown directly on every public card."><input className="admin-field" value={form.description} onChange={(event) => update({ description: event.target.value })} placeholder="A short, welcoming profile description." /></Field>
-              <Field label="Call number" help="Use international format. This opens the visitor's dialler."><input className="admin-field" type="tel" value={form.contact_phone} onChange={(event) => update({ contact_phone: event.target.value })} placeholder="+91 98765 43210" /></Field>
-              <Field label="WhatsApp number" help="Use digits with country code; no spaces required."><input className="admin-field" type="tel" value={form.whatsapp_number} onChange={(event) => update({ whatsapp_number: event.target.value })} placeholder="+91 98765 43210" /></Field>
-              <Field label="Telegram username" help="Optional. Without one, Telegram opens a secure share composer."><input className="admin-field" value={form.telegram_username} onChange={(event) => update({ telegram_username: event.target.value.replace(/^@/, '') })} placeholder="your_telegram_handle" /></Field>
             </div>
           </section>
 
@@ -1718,16 +1716,41 @@ function SettingsPage({ data, refresh, user }: { data: AdminData; refresh: () =>
   const settingsMap = useMemo(() => Object.fromEntries(data.settings.map((setting) => [setting.key, setting])), [data.settings])
   const stored = settingsMap.site_identity
   const identity = getSiteIdentity(settingsMap)
+  const contacts = getSiteContactSettings(settingsMap)
+  const { phone: storedPhone, whatsapp: storedWhatsapp, telegram: storedTelegram } = contacts
   const [form, setForm] = useState({ siteName: identity.siteName, conciergeEmail: identity.conciergeEmail, conciergePhone: identity.conciergePhone, tagline: asString(stored?.value.tagline) })
   const [saving, setSaving] = useState(false)
   const [notice, setNotice] = useState('')
   const [error, setError] = useState('')
+  const [contactForm, setContactForm] = useState({ phone: storedPhone, whatsapp: storedWhatsapp, telegram: storedTelegram })
+  const [contactSaving, setContactSaving] = useState(false)
+  const [contactNotice, setContactNotice] = useState('')
+  const [contactError, setContactError] = useState('')
 
   const identityTagline = asString(stored?.value.tagline)
 
   useEffect(() => {
     setForm({ siteName: identity.siteName, conciergeEmail: identity.conciergeEmail, conciergePhone: identity.conciergePhone, tagline: identityTagline })
   }, [identity.conciergeEmail, identity.conciergePhone, identity.siteName, identityTagline])
+
+  useEffect(() => setContactForm({ phone: storedPhone, whatsapp: storedWhatsapp, telegram: storedTelegram }), [storedPhone, storedWhatsapp, storedTelegram])
+
+  const saveContacts = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!user) return
+    setContactSaving(true)
+    setContactNotice('')
+    setContactError('')
+    try {
+      await saveSiteSetting({ key: 'site_contacts', value: contactForm, published: true }, user.id)
+      await refresh()
+      setContactNotice('Universal contact channels saved and published.')
+    } catch (saveError) {
+      setContactError(saveError instanceof Error ? saveError.message : 'Could not save contact channels.')
+    } finally {
+      setContactSaving(false)
+    }
+  }
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -1750,7 +1773,7 @@ function SettingsPage({ data, refresh, user }: { data: AdminData; refresh: () =>
     <div className="space-y-7">
       <PageHeader eyebrow="Site controls" title="Settings" description="Set the public identity and keep the security/deployment hand-off visible for the person operating the site." />
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_21rem]">
-        <form onSubmit={submit} className="admin-panel rounded-3xl p-5 sm:p-6"><SectionTitle title="Public identity" body="These details are available to the public site through one published settings record." /><div className="mt-5 grid gap-4 sm:grid-cols-2"><Field label="Site name"><input className="admin-field" value={form.siteName} onChange={(event) => setForm((current) => ({ ...current, siteName: event.target.value }))} /></Field><Field label="Concierge email"><input className="admin-field" type="email" value={form.conciergeEmail} onChange={(event) => setForm((current) => ({ ...current, conciergeEmail: event.target.value }))} placeholder="hello@example.com" /></Field><Field label="Concierge phone"><input className="admin-field" value={form.conciergePhone} onChange={(event) => setForm((current) => ({ ...current, conciergePhone: event.target.value }))} placeholder="Optional phone or Signal handle" /></Field><Field label="Short site line" className="sm:col-span-2"><input className="admin-field" value={form.tagline} onChange={(event) => setForm((current) => ({ ...current, tagline: event.target.value }))} placeholder="Private company, thoughtfully arranged" /></Field></div>{error ? <div className="mt-4"><Notice tone="error">{error}</Notice></div> : null}{notice ? <div className="mt-4"><Notice tone="success">{notice}</Notice></div> : null}<AdminButton type="submit" loading={saving} className="mt-5"><Save className="h-4 w-4" /> Save identity</AdminButton></form>
+        <div className="space-y-6"><form onSubmit={submit} className="admin-panel rounded-3xl p-5 sm:p-6"><SectionTitle title="Public identity" body="These details are available to the public site through one published settings record." /><div className="mt-5 grid gap-4 sm:grid-cols-2"><Field label="Site name"><input className="admin-field" value={form.siteName} onChange={(event) => setForm((current) => ({ ...current, siteName: event.target.value }))} /></Field><Field label="Concierge email"><input className="admin-field" type="email" value={form.conciergeEmail} onChange={(event) => setForm((current) => ({ ...current, conciergeEmail: event.target.value }))} placeholder="hello@example.com" /></Field><Field label="Concierge phone"><input className="admin-field" value={form.conciergePhone} onChange={(event) => setForm((current) => ({ ...current, conciergePhone: event.target.value }))} placeholder="Optional phone or Signal handle" /></Field><Field label="Short site line" className="sm:col-span-2"><input className="admin-field" value={form.tagline} onChange={(event) => setForm((current) => ({ ...current, tagline: event.target.value }))} placeholder="Private company, thoughtfully arranged" /></Field></div>{error ? <div className="mt-4"><Notice tone="error">{error}</Notice></div> : null}{notice ? <div className="mt-4"><Notice tone="success">{notice}</Notice></div> : null}<AdminButton type="submit" loading={saving} className="mt-5"><Save className="h-4 w-4" /> Save identity</AdminButton></form><form onSubmit={saveContacts} className="admin-panel rounded-3xl p-5 sm:p-6"><SectionTitle title="Universal contact channels" body="Set these once. Every profile card, detail page, and enquiry action uses these channels." /><div className="mt-5 grid gap-4"><Field label="Call number" help="International format; opens the visitor's dialler."><input className="admin-field" type="tel" value={contactForm.phone} onChange={(event) => setContactForm((current) => ({ ...current, phone: event.target.value }))} placeholder="+91 98765 43210" /></Field><Field label="WhatsApp number" help="Use the same number or a dedicated WhatsApp line."><input className="admin-field" type="tel" value={contactForm.whatsapp} onChange={(event) => setContactForm((current) => ({ ...current, whatsapp: event.target.value }))} placeholder="+91 98765 43210" /></Field><Field label="Telegram username or link" help="Enter a username without @ or a full t.me link."><input className="admin-field" value={contactForm.telegram} onChange={(event) => setContactForm((current) => ({ ...current, telegram: event.target.value.replace(/^@/, '') }))} placeholder="your_telegram_handle" /></Field></div>{contactError ? <div className="mt-4"><Notice tone="error">{contactError}</Notice></div> : null}{contactNotice ? <div className="mt-4"><Notice tone="success">{contactNotice}</Notice></div> : null}<AdminButton type="submit" loading={contactSaving} className="mt-5"><Save className="h-4 w-4" /> Save contact channels</AdminButton></form></div>
         <div className="space-y-5"><section className="admin-subtle-panel rounded-3xl p-5"><ShieldCheck className="h-5 w-5 text-gold" /><h2 className="mt-4 font-serif text-3xl text-[var(--admin-ink)]">Admin access stays deliberate.</h2><p className="mt-3 text-sm leading-relaxed text-[var(--admin-muted)]">Only users listed in <code>public.admin_users</code> can edit Studio. Add or remove access from Supabase’s SQL Editor, not from an open browser form.</p></section><section className="admin-panel rounded-3xl p-5"><p className="admin-label">Production checklist</p><ol className="mt-3 space-y-3 text-sm leading-relaxed text-[var(--admin-muted)]"><li className="flex gap-2"><span className="text-gold">1.</span> Add the two Vite Supabase variables in Vercel.</li><li className="flex gap-2"><span className="text-gold">2.</span> Add your Vercel URL to Supabase Auth redirect URLs.</li><li className="flex gap-2"><span className="text-gold">3.</span> Create an Auth user, then give its UUID an owner or editor role.</li><li className="flex gap-2"><span className="text-gold">4.</span> Publish a profile and test the public page.</li></ol></section></div>
       </div>
     </div>

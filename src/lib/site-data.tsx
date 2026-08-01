@@ -228,6 +228,17 @@ export function getSiteIdentity(settings: Record<string, SiteSetting>) {
   }
 }
 
+export type SiteContactSettings = { phone: string; whatsapp: string; telegram: string }
+
+export function getSiteContactSettings(settings: Record<string, SiteSetting>): SiteContactSettings {
+  const value = settings.site_contacts?.value
+  if (!isRecord(value)) return { phone: '', whatsapp: '', telegram: '' }
+  const phone = typeof value.phone === 'string' ? value.phone : ''
+  const whatsapp = typeof value.whatsapp === 'string' ? value.whatsapp : phone
+  const telegram = typeof value.telegram === 'string' ? value.telegram : ''
+  return { phone, whatsapp, telegram }
+}
+
 export function toEditableProfile(profile?: AdminProfile): ProfileInputState {
   if (profile) return { ...profile }
   return {
@@ -238,8 +249,8 @@ export function toEditableProfile(profile?: AdminProfile): ProfileInputState {
     primary_image_alt: '',
     tagline: '',
     description: '',
-    contact_phone: '+91 98765 43210',
-    whatsapp_number: '+91 98765 43210',
+    contact_phone: '',
+    whatsapp_number: '',
     telegram_username: '',
     age: 25,
     city: 'Surat',

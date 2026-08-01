@@ -6,12 +6,13 @@ import { Portrait } from '../components/Portrait'
 import { OfferBanner } from '../components/OfferBanner'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { CITIES, CATEGORIES } from '../data/companions'
-import { useSiteData } from '../lib/site-data'
+import { getSiteContactSettings, useSiteData } from '../lib/site-data'
 import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
 
 export function Discover() {
   const [searchParams] = useSearchParams()
-  const { companions } = useSiteData()
+  const { companions, settings } = useSiteData()
+  const contacts = getSiteContactSettings(settings)
 
   const initialCity = 'Surat'
   const initialCategory = searchParams.get('category') || 'All Categories'
@@ -119,7 +120,7 @@ export function Discover() {
           {category !== 'All Categories' && ` · ${category}`}
         </p>
 
-        <InfiniteProfileFeed companions={filtered} className="mt-8 pb-8" />
+        <InfiniteProfileFeed companions={filtered} contacts={contacts} className="mt-6 pb-8" />
       </Section>
       <ManagedContentBlocks page="discover" />
     </div>

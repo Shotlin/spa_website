@@ -1,35 +1,19 @@
-import { useState } from 'react'
+import { useRef } from 'react'
 import { Section, Eyebrow, Button } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { OfferBanner } from '../components/OfferBanner'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
+import { InquiryActions } from '../components/ProfileContactActions'
 import { ShieldIcon, LockIcon, CheckIcon, HeartIcon } from '../components/icons'
 import { tiers } from '../data/content'
-import { useSiteData } from '../lib/site-data'
+import { getSiteContactSettings, useSiteData } from '../lib/site-data'
 
-function EnquiryForm() {
-  const [sent, setSent] = useState(false)
-
-  if (sent) {
-    return (
-      <div className="rounded-3xl border border-gold/30 bg-gold/5 p-10 text-center">
-        <div className="mx-auto h-11 w-11 text-gold"><CheckIcon /></div>
-        <h3 className="mt-4 font-serif text-3xl text-ivory">Thank you</h3>
-        <p className="mx-auto mt-3 max-w-md text-ivory-dim">
-          Your private enquiry has reached our concierge. We will respond
-          discreetly through the secure channel you provided.
-        </p>
-      </div>
-    )
-  }
-
+function EnquiryForm({ contacts }: { contacts: { phone: string; whatsapp: string; telegram: string } }) {
+  const formRef = useRef<HTMLFormElement>(null)
   return (
-    <form
-      onSubmit={(e) => { e.preventDefault(); setSent(true) }}
-      className="rounded-3xl border border-ivory/10 bg-noir-soft/50 p-8 md:p-10"
-    >
+    <form ref={formRef} onSubmit={(e) => e.preventDefault()} className="rounded-3xl border border-ivory/10 bg-noir-soft/50 p-8 md:p-10">
       <Eyebrow>Private Enquiry</Eyebrow>
       <h2 className="mt-4 text-3xl text-ivory sm:text-4xl">Speak with our concierge</h2>
       <p className="mt-3 text-sm text-ivory-dim">
@@ -40,38 +24,39 @@ function EnquiryForm() {
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
             <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">Preferred name / alias</span>
-            <input required className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="How to address you" />
+            <input name="Preferred name / alias" required className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="How to address you" />
           </label>
           <label className="block">
             <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">City of interest</span>
-            <input className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Mumbai, Delhi, Surat…" />
+            <input name="City of interest" className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Mumbai, Delhi, Surat…" />
           </label>
         </div>
         <label className="block">
           <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">Secure contact</span>
-          <input required className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Encrypted email or Signal handle" />
+          <input name="Secure contact" required className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Encrypted email or Signal handle" />
         </label>
         <label className="block">
           <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">Membership tier of interest</span>
-          <select className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory focus:border-gold/50 focus:outline-none">
+          <select name="Membership tier" className="w-full rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory focus:border-gold/50 focus:outline-none">
             {tiers.map((t) => <option key={t.name}>{t.name}</option>)}
             <option>Not sure yet</option>
           </select>
         </label>
         <label className="block">
           <span className="mb-1.5 block text-xs uppercase tracking-[0.16em] text-ivory-dim">How can we help?</span>
-          <textarea rows={4} className="w-full resize-none rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Tell us a little about what you're looking for." />
+          <textarea name="How can we help" rows={4} className="w-full resize-none rounded-xl border border-ivory/15 bg-noir/60 px-4 py-3 text-sm text-ivory placeholder:text-ivory-dim/40 focus:border-gold/50 focus:outline-none" placeholder="Tell us a little about what you're looking for." />
         </label>
 
         <label className="flex items-start gap-3 text-xs text-ivory-dim">
-          <input type="checkbox" required className="mt-0.5 h-4 w-4 accent-[#9b1b2e]" />
+          <input type="checkbox" name="18+ consent" required className="mt-0.5 h-4 w-4 accent-[#9b1b2e]" />
           <span>
             I confirm I am 18 or older and I accept the consent and conduct policy.
             I understand introductions are mutual and either party may decline.
           </span>
         </label>
 
-        <Button type="submit" className="mt-2 w-full">Send private enquiry</Button>
+        <InquiryActions subject="Membership concierge" formRef={formRef} contacts={contacts} />
+        <p className="text-center text-[0.7rem] text-ivory-dim/60">Choose WhatsApp or Telegram to send the filled enquiry. Call opens your dialler.</p>
         <p className="text-center text-[0.7rem] text-ivory-dim/60">
           Encrypted end to end · Never shared or resold · Deleted on request
         </p>
@@ -81,7 +66,8 @@ function EnquiryForm() {
 }
 
 export function Membership() {
-  const { companions } = useSiteData()
+  const { companions, settings } = useSiteData()
+  const contacts = getSiteContactSettings(settings)
   const guarantees = [
     { icon: HeartIcon, title: 'Consent policy', body: 'Every engagement is mutual and revocable. Boundaries are set in advance and always honoured.' },
     { icon: LockIcon, title: 'Privacy guarantee', body: 'Aliases by default, end-to-end encryption, and a strict no-resale commitment on all data.' },
@@ -175,9 +161,10 @@ export function Membership() {
         </RevealGroup>
       </Section>
 
-      <Section className="py-20">
+      <Section className="py-14">
         <InfiniteProfileFeed
           companions={companions}
+          contacts={contacts}
           title="Meet the live circle"
           description="The roster stays intentionally focused. New client profiles will appear here as soon as they are published from Studio."
         />
@@ -215,7 +202,7 @@ export function Membership() {
       </Section>
 
       <Section id="enquire" className="grid gap-10 pb-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <Reveal><EnquiryForm /></Reveal>
+        <Reveal><EnquiryForm contacts={contacts} /></Reveal>
         <Reveal delay={0.15}>
           <div className="relative flex h-full overflow-hidden rounded-3xl border border-ivory/10 bg-noir-soft">
             <div className="absolute inset-0">
