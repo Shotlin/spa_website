@@ -110,6 +110,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
         .from('profiles')
         .select('*, primary_image:media_assets!profiles_primary_image_id_fkey(*)')
         .eq('published', true)
+        .eq('metadata->>live_profile', 'true')
         .order('sort_order', { ascending: true }),
       supabase.from('content_blocks').select('*, media_asset:media_assets!content_blocks_media_asset_id_fkey(*)').eq('published', true),
       supabase.from('offers').select('*, media_asset:media_assets!offers_media_asset_id_fkey(*)').eq('active', true).order('sort_order', { ascending: true }),

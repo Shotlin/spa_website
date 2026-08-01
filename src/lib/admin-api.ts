@@ -382,6 +382,7 @@ export async function listAdminProfiles() {
   const { data, error } = await client
     .from('profiles')
     .select('*, primary_image:media_assets!profiles_primary_image_id_fkey(*)')
+    .eq('metadata->>live_profile', 'true')
     .order('featured', { ascending: false })
     .order('sort_order', { ascending: true })
     .order('updated_at', { ascending: false })
@@ -393,6 +394,7 @@ export async function listAdminProfiles() {
 export async function saveAdminProfile(input: ProfileInput, userId: string) {
   const client = requireSupabase()
   const metadata = {
+    live_profile: true,
     tagline: input.tagline,
     description: input.description,
     contact_phone: input.contact_phone,
@@ -450,7 +452,12 @@ export async function archiveAdminProfile(id: string, userId: string) {
 
 export async function listMediaAssets() {
   const client = requireSupabase()
-  const { data, error } = await client.from('media_assets').select('*').order('created_at', { ascending: false })
+  const { data, error } = await client
+    .from('media_assets')
+    .select('*')
+    .eq('published', true)
+    .eq('is_public', true)
+    .order('created_at', { ascending: false })
   if (error) throw new Error(toErrorMessage(error, 'Could not load the media library.'))
   return (data ?? []).map((row) => mapMediaAsset(row as DbMediaAsset))
 }

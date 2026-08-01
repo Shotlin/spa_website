@@ -3,9 +3,13 @@ import { Section, Eyebrow, Button } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
+import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
 import { experiences } from '../data/content'
+import { useSiteData } from '../lib/site-data'
 
 export function Experiences() {
+  const { companions } = useSiteData()
+
   return (
     <div className="pt-32">
       <Section>
@@ -49,6 +53,14 @@ export function Experiences() {
             </article>
           </Reveal>
         ))}
+      </Section>
+
+      <Section className="py-20">
+        <InfiniteProfileFeed
+          companions={companions}
+          title="Companions for the occasion"
+          description="Browse the live Surat roster and choose the presence that fits the evening you have in mind."
+        />
       </Section>
 
       {/* How it works */}

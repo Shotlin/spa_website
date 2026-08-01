@@ -6,7 +6,7 @@ import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { OfferBanner } from '../components/OfferBanner'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
-import { ProfileContactActions } from '../components/ProfileContactActions'
+import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
 import { HeartIcon, LockIcon, ShieldIcon, CheckIcon, iconMap } from '../components/icons'
 import { CITIES } from '../data/companions'
 import { experiences, testimonials, privacyFeatures } from '../data/content'
@@ -207,7 +207,6 @@ function DiscoverPreview() {
     const rank = { Signature: 0, Elite: 1, Muse: 2 } as Record<string, number>
     return [...pool]
       .sort((a, b) => Number(b.verified) - Number(a.verified) || rank[a.tier] - rank[b.tier])
-      .slice(0, 9)
   }, [city, siteCompanions])
 
   return (
@@ -242,47 +241,7 @@ function DiscoverPreview() {
         </div>
       </Reveal>
 
-      {/* Live grid — keyed so it re-runs the reveal on every city change */}
-      {shown.length > 0 ? (
-        <RevealGroup key={city} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {shown.map((c) => (
-            <RevealItem key={c.id}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/40 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30">
-                <Link to={`/profile/${c.id}`} className="block">
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
-                      <Portrait image={c.image} kind={c.imageKind} name={c.name} />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-noir/80 via-transparent to-transparent" />
-                    {c.verified && (
-                      <span className="absolute left-3 top-3 rounded bg-gold px-1.5 py-0.5 text-[0.6rem] font-bold text-noir shadow-lg">
-                        ★
-                      </span>
-                    )}
-                    <span className="absolute right-3 top-3 rounded bg-noir/70 px-2 py-0.5 text-[0.6rem] uppercase tracking-wider text-gold-soft backdrop-blur-sm">
-                      {c.tier}
-                    </span>
-                    <div className="absolute inset-x-0 bottom-0 p-4">
-                      <h3 className="font-serif text-xl text-ivory group-hover:text-gold-soft">{c.name}</h3>
-                      <p className="text-[0.7rem] uppercase tracking-[0.18em] text-ivory-dim">
-                        {city === 'All Cities' ? c.city : city} · {c.category.replace(' Girls', '').replace(' Escorts', '')}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-                <div className="border-t border-ivory/10 bg-noir/30 p-4">
-                  <p className="min-h-[5rem] text-xs leading-relaxed text-ivory-dim/90 line-clamp-4">{c.description || (c.bio && c.bio.join(' ')) || c.tagline}</p>
-                  <ProfileContactActions name={c.name} phone={c.contactPhone} whatsapp={c.whatsappNumber} className="mt-3" />
-                </div>
-              </article>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      ) : (
-        <p className="mt-8 rounded-2xl border border-ivory/10 bg-noir-soft/40 py-12 text-center text-ivory-dim">
-          No companions listed in {city} yet. <Link to="/discover" className="text-gold-soft hover:text-gold">Browse the full directory →</Link>
-        </p>
-      )}
+      <InfiniteProfileFeed companions={shown} className="mt-8" />
     </Section>
   )
 }

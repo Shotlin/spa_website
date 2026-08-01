@@ -4,8 +4,10 @@ import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { OfferBanner } from '../components/OfferBanner'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
+import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
 import { ShieldIcon, LockIcon, CheckIcon, HeartIcon } from '../components/icons'
 import { tiers } from '../data/content'
+import { useSiteData } from '../lib/site-data'
 
 function EnquiryForm() {
   const [sent, setSent] = useState(false)
@@ -79,6 +81,7 @@ function EnquiryForm() {
 }
 
 export function Membership() {
+  const { companions } = useSiteData()
   const guarantees = [
     { icon: HeartIcon, title: 'Consent policy', body: 'Every engagement is mutual and revocable. Boundaries are set in advance and always honoured.' },
     { icon: LockIcon, title: 'Privacy guarantee', body: 'Aliases by default, end-to-end encryption, and a strict no-resale commitment on all data.' },
@@ -170,6 +173,14 @@ export function Membership() {
             </RevealItem>
           ))}
         </RevealGroup>
+      </Section>
+
+      <Section className="py-20">
+        <InfiniteProfileFeed
+          companions={companions}
+          title="Meet the live circle"
+          description="The roster stays intentionally focused. New client profiles will appear here as soon as they are published from Studio."
+        />
       </Section>
 
       <Section className="py-24">
