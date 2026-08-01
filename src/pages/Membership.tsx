@@ -88,7 +88,7 @@ export function Membership() {
     { icon: ShieldIcon, title: 'Identity verification', body: 'A discreet, secure process verifies both members and companions before any introduction.' },
     { icon: CheckIcon, title: 'Secure communication', body: 'All messaging runs through encrypted channels with a 24/7 concierge on hand.' },
   ]
-  const tierImages = ['model-1', 'model-3', 'model-5']
+  const tierImages = ['scene-3', 'scene-5', 'scene-6']
 
   return (
     <div className="overflow-hidden pt-32">
@@ -107,7 +107,7 @@ export function Membership() {
 
           <Reveal delay={0.12} className="mx-auto w-full max-w-md lg:mr-0">
             <figure className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-gold/20 bg-noir-soft shadow-[0_28px_80px_-34px_rgba(155,27,46,0.75)]">
-              <Portrait image="model-1" name="A private Circle member" kind="decor" loading="eager" />
+              <Portrait image="scene-2" name="A private Circle setting" kind="decor" loading="eager" />
               <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/10 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-6">
                 <span className="block text-[0.65rem] uppercase tracking-[0.28em] text-gold-soft">The inner circle</span>

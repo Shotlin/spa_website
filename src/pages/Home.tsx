@@ -27,7 +27,7 @@ const categories: {
     title: 'Call Girls',
     description: 'A curated Surat selection for discreet, considered introductions.',
     icon: 'spark',
-    image: 'in-khopal-com-1', // Aanya — Call Girls
+    image: '',
     links: [{ name: 'Surat', city: 'Surat' }],
   },
   {
@@ -35,7 +35,7 @@ const categories: {
     title: 'Male Escorts',
     description: 'Thoughtful, verified male companionship for Surat occasions.',
     icon: 'crown',
-    image: 'in-khopal-com-2', // Aarav — Male Escorts
+    image: '',
     links: [],
   },
   {
@@ -43,7 +43,7 @@ const categories: {
     title: 'Shemale Escorts',
     description: 'Independent trans companionship, currently curated for Surat.',
     icon: 'orchid',
-    image: 'tryst-link-bdsm-tsoliviarhodes-1', // Olivia — Shemale Escorts
+    image: '',
     links: [],
   },
   {
@@ -51,7 +51,7 @@ const categories: {
     title: 'Massages',
     description: 'A calm, restorative Surat selection for unhurried sessions.',
     icon: 'lotus',
-    image: 'in-khopal-com-massages-1', // Anaya — Massages
+    image: '',
     links: [],
   },
 ]
