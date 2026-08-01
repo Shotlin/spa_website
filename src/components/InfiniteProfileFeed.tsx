@@ -48,7 +48,7 @@ function ProfileCard({ companion, contacts }: { companion: Companion; contacts?:
       </Link>
       <div className="border-t border-ivory/10 bg-noir/30 p-4">
         <p className="min-h-[5rem] line-clamp-4 text-xs leading-relaxed text-ivory-dim/90">{companion.description || companion.bio.join(' ') || companion.tagline}</p>
-        <ProfileContactActions name={companion.name} phone={contacts?.phone || companion.contactPhone} whatsapp={contacts?.whatsapp || companion.whatsappNumber} telegramUsername={contacts?.telegram || companion.telegramUsername} className="mt-3" />
+        <ProfileContactActions name={companion.name} phone={contacts?.phone} whatsapp={contacts?.whatsapp} telegramUsername={contacts?.telegram} className="mt-3" />
       </div>
     </article>
   )
