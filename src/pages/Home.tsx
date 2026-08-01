@@ -14,7 +14,7 @@ import { getHomeHero, useSiteData } from '../lib/site-data'
 
 type CategoryIcon = 'spark' | 'crown' | 'orchid' | 'lotus'
 
-const categories: {
+const defaultCategories: {
   id: string
   title: string
   description: string
@@ -130,6 +130,19 @@ function Hero() {
 
 function CategorySection() {
   const navigate = useNavigate()
+  const { categories: managedCategories } = useSiteData()
+  const categories = managedCategories.length
+    ? managedCategories.map((category) => ({
+      id: category.slug,
+      title: category.title,
+      description: category.description,
+      icon: (['spark', 'crown', 'orchid', 'lotus'] as string[]).includes(category.icon)
+        ? category.icon as CategoryIcon
+        : 'spark' as CategoryIcon,
+      image: category.image_url || '',
+      links: [] as { name: string; city: string }[],
+    }))
+    : defaultCategories
 
   return (
     <Section className="py-20">

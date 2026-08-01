@@ -63,6 +63,21 @@ create table if not exists public.profiles (
 comment on column public.profiles.primary_image_id is
   'The single image used for this profile. It references one media_assets row.';
 
+create table if not exists public.categories (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null unique,
+  title text not null,
+  description text,
+  icon text not null default 'spark',
+  media_asset_id uuid references public.media_assets (id) on delete set null,
+  sort_order integer not null default 0,
+  published boolean not null default false,
+  is_public boolean not null default true,
+  created_by uuid references auth.users (id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.content_blocks (
   id uuid primary key default gen_random_uuid(),
   block_key text not null unique,
@@ -139,6 +154,10 @@ create index if not exists profiles_public_listing_idx
   on public.profiles (featured desc, sort_order, created_at desc)
   where published and is_public;
 
+create index if not exists categories_public_listing_idx
+  on public.categories (sort_order, updated_at desc)
+  where published and is_public;
+
 create index if not exists media_assets_public_listing_idx
   on public.media_assets (created_at desc)
   where published and is_public;
@@ -165,6 +184,7 @@ revoke all on table
   public.admin_users,
   public.media_assets,
   public.profiles,
+  public.categories,
   public.content_blocks,
   public.offers,
   public.site_settings,
@@ -175,6 +195,7 @@ from anon, authenticated;
 grant select on table
   public.media_assets,
   public.profiles,
+  public.categories,
   public.content_blocks,
   public.offers,
   public.site_settings
@@ -183,6 +204,7 @@ to anon, authenticated;
 grant insert, update, delete on table
   public.media_assets,
   public.profiles,
+  public.categories,
   public.content_blocks,
   public.offers,
   public.site_settings
@@ -196,6 +218,7 @@ grant select, update, delete on table public.enquiries to authenticated;
 alter table public.admin_users enable row level security;
 alter table public.media_assets enable row level security;
 alter table public.profiles enable row level security;
+alter table public.categories enable row level security;
 alter table public.content_blocks enable row level security;
 alter table public.offers enable row level security;
 alter table public.site_settings enable row level security;
@@ -252,6 +275,37 @@ using (published and is_public);
 drop policy if exists "Active admins can manage profiles" on public.profiles;
 create policy "Active admins can manage profiles"
 on public.profiles
+for all
+to authenticated
+using (
+  exists (
+    select 1
+    from public.admin_users as administrator
+    where administrator.user_id = (select auth.uid())
+      and administrator.is_active
+      and administrator.role in ('owner', 'editor')
+  )
+)
+with check (
+  exists (
+    select 1
+    from public.admin_users as administrator
+    where administrator.user_id = (select auth.uid())
+      and administrator.is_active
+      and administrator.role in ('owner', 'editor')
+  )
+);
+
+drop policy if exists "Public can read published categories" on public.categories;
+create policy "Public can read published categories"
+on public.categories
+for select
+to anon, authenticated
+using (published and is_public);
+
+drop policy if exists "Active admins can manage categories" on public.categories;
+create policy "Active admins can manage categories"
+on public.categories
 for all
 to authenticated
 using (

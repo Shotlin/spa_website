@@ -3,10 +3,12 @@ import { type Companion } from '../data/companions'
 import { supabase } from './supabase'
 import {
   mapAdminProfile,
+  mapAdminCategory,
   mapContentBlock,
   mapOffer,
   mapSiteSetting,
   type AdminProfile,
+  type AdminCategory,
   type ContentBlock,
   type Offer,
   type SiteSetting,
@@ -14,6 +16,7 @@ import {
 
 type SiteDataState = {
   companions: Companion[]
+  categories: AdminCategory[]
   contentBlocks: Record<string, ContentBlock>
   offers: Offer[]
   settings: Record<string, SiteSetting>
@@ -32,6 +35,7 @@ const CATEGORY_IMAGE_KEYS = new Set([
 
 const defaultState: SiteDataState = {
   companions: [],
+  categories: [],
   contentBlocks: {},
   offers: [],
   settings: {},
@@ -90,6 +94,7 @@ export function profileRowToCompanion(profile: AdminProfile): Companion {
 export function SiteDataProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<Omit<SiteDataState, 'refresh'>>({
     companions: [],
+    categories: [],
     contentBlocks: {},
     offers: [],
     settings: {},
@@ -105,7 +110,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     }
 
     setState((current) => ({ ...current, loading: true, configured: true, error: null }))
-    const [profilesResult, contentResult, offersResult, settingsResult] = await Promise.all([
+    const [profilesResult, contentResult, offersResult, settingsResult, categoriesResult] = await Promise.all([
       supabase
         .from('profiles')
         .select('*, primary_image:media_assets!profiles_primary_image_id_fkey(*)')
@@ -115,6 +120,12 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
       supabase.from('content_blocks').select('*, media_asset:media_assets!content_blocks_media_asset_id_fkey(*)').eq('published', true),
       supabase.from('offers').select('*, media_asset:media_assets!offers_media_asset_id_fkey(*)').eq('active', true).order('sort_order', { ascending: true }),
       supabase.from('site_settings').select('*'),
+      supabase
+        .from('categories')
+        .select('*, media_asset:media_assets!categories_media_asset_id_fkey(*)')
+        .eq('published', true)
+        .eq('is_public', true)
+        .order('sort_order', { ascending: true }),
     ])
 
     const queryError = [profilesResult.error, contentResult.error, offersResult.error, settingsResult.error]
@@ -129,6 +140,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     const contentRows = (contentResult.data ?? []).map((row) => mapContentBlock(row as never))
     const offerRows = (offersResult.data ?? []).map((row) => mapOffer(row as never))
     const settingRows = (settingsResult.data ?? []).map((row) => mapSiteSetting(row as never))
+    const categoryRows = categoriesResult.error ? [] : (categoriesResult.data ?? []).map((row) => mapAdminCategory(row as never))
     const now = Date.now()
     const scheduledOffers = offerRows.filter((offer) => {
       const startsAt = offer.starts_at ? Date.parse(offer.starts_at) : Number.NEGATIVE_INFINITY
@@ -138,6 +150,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
     setState({
       companions: suratOnly(profileRows.map(profileRowToCompanion)),
+      categories: categoryRows,
       contentBlocks: Object.fromEntries(contentRows.map((block) => [block.key, block])),
       offers: scheduledOffers,
       settings: Object.fromEntries(settingRows.map((setting) => [setting.key, setting])),

@@ -34,6 +34,7 @@ import {
   Settings2,
   ShieldCheck,
   Sparkles,
+  Tags,
   UploadCloud,
   UsersRound,
   X,
@@ -41,16 +42,19 @@ import {
 import { ThemeToggle } from '../components/ThemeToggle'
 import {
   archiveAdminProfile,
+  deleteAdminCategory,
   deactivateOffer,
   getAdminRole,
   getCurrentUser,
   listAdminProfiles,
+  listAdminCategories,
   listContentBlocks,
   listMediaAssets,
   listOffers,
   listSiteSettings,
   requestAdminPasswordReset,
   saveAdminProfile,
+  saveAdminCategory,
   saveContentBlock,
   saveOffer,
   saveSiteSetting,
@@ -59,6 +63,8 @@ import {
   updateAdminPassword,
   uploadMediaAsset,
   type AdminProfile,
+  type AdminCategory,
+  type CategoryInput,
   type ContentBlock,
   type MediaAsset,
   type Offer,
@@ -74,10 +80,11 @@ import {
 } from '../lib/site-data'
 import './admin.css'
 
-type AdminSection = 'overview' | 'profiles' | 'media' | 'content' | 'offers' | 'settings'
+type AdminSection = 'overview' | 'profiles' | 'media' | 'categories' | 'content' | 'offers' | 'settings'
 
 type AdminData = {
   profiles: AdminProfile[]
+  categories: AdminCategory[]
   media: MediaAsset[]
   content: ContentBlock[]
   offers: Offer[]
@@ -86,6 +93,7 @@ type AdminData = {
 
 const emptyAdminData: AdminData = {
   profiles: [],
+  categories: [],
   media: [],
   content: [],
   offers: [],
@@ -95,6 +103,7 @@ const emptyAdminData: AdminData = {
 const navItems: { section: AdminSection; label: string; href: string; icon: LucideIcon }[] = [
   { section: 'overview', label: 'Overview', href: '/admin', icon: LayoutDashboard },
   { section: 'profiles', label: 'Profiles', href: '/admin/profiles', icon: UsersRound },
+  { section: 'categories', label: 'Categories', href: '/admin/categories', icon: Tags },
   { section: 'media', label: 'Media', href: '/admin/media', icon: ImagePlus },
   { section: 'content', label: 'Content', href: '/admin/content', icon: PanelsTopLeft },
   { section: 'offers', label: 'Offers', href: '/admin/offers', icon: BadgePercent },
@@ -106,6 +115,7 @@ const cityOptions = ['Surat', 'Mumbai', 'Delhi', 'Bengaluru', 'Jaipur', 'Goa', '
 
 function sectionFromPath(pathname: string): AdminSection {
   if (pathname.startsWith('/admin/profiles')) return 'profiles'
+  if (pathname.startsWith('/admin/categories')) return 'categories'
   if (pathname.startsWith('/admin/media')) return 'media'
   if (pathname.startsWith('/admin/content')) return 'content'
   if (pathname.startsWith('/admin/offers')) return 'offers'
@@ -120,6 +130,11 @@ function profileIdFromPath(pathname: string) {
 
 function offerIdFromPath(pathname: string) {
   const match = pathname.match(/^\/admin\/offers\/([^/]+)$/)
+  return match && match[1] !== 'new' ? decodeURIComponent(match[1]) : null
+}
+
+function categoryIdFromPath(pathname: string) {
+  const match = pathname.match(/^\/admin\/categories\/([^/]+)$/)
   return match && match[1] !== 'new' ? decodeURIComponent(match[1]) : null
 }
 
@@ -571,14 +586,15 @@ function AdminShell({ user }: { user: User | null }) {
     setLoading(true)
     setError('')
     try {
-      const [profiles, media, content, offers, settings] = await Promise.all([
+      const [profiles, media, categories, content, offers, settings] = await Promise.all([
         listAdminProfiles(),
         listMediaAssets(),
+        listAdminCategories().catch(() => []),
         listContentBlocks(),
         listOffers(),
         listSiteSettings(),
       ])
-      setData({ profiles, media, content, offers, settings })
+      setData({ profiles, media, categories, content, offers, settings })
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : 'Could not load the Studio workspace.')
     } finally {
@@ -607,6 +623,8 @@ function AdminShell({ user }: { user: User | null }) {
     switch (section) {
       case 'profiles':
         return <ProfilesPage {...common} />
+      case 'categories':
+        return <CategoriesPage {...common} />
       case 'media':
         return <MediaPage {...common} />
       case 'content':
@@ -1197,6 +1215,154 @@ function ProfileEditor({
           {profile?.published ? <AdminButton type="button" variant="danger" className="w-full" loading={saving} onClick={() => void removeFromPublicSite()}>Remove from public site</AdminButton> : null}
         </aside>
       </div>
+    </form>
+  )
+}
+
+type CategoryDraft = CategoryInput & { image_url: string | null }
+
+const categoryIconOptions = [
+  { value: 'spark', label: 'Spark' },
+  { value: 'crown', label: 'Crown' },
+  { value: 'orchid', label: 'Orchid' },
+  { value: 'lotus', label: 'Lotus' },
+]
+
+function makeEmptyCategory(): CategoryDraft {
+  return {
+    id: '',
+    slug: '',
+    title: '',
+    description: '',
+    icon: 'spark',
+    media_asset_id: null,
+    image_url: null,
+    sort_order: 0,
+    published: false,
+    is_public: true,
+  }
+}
+
+function CategoriesPage({ data, refresh, user }: { data: AdminData; refresh: () => Promise<void>; user: User | null }) {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const categoryId = categoryIdFromPath(location.pathname)
+  const isNew = location.pathname === '/admin/categories/new'
+
+  if (isNew || categoryId) {
+    const category = categoryId ? data.categories.find((item) => item.id === categoryId) : undefined
+    if (categoryId && !category) {
+      return <section className="admin-panel rounded-3xl p-7 text-center"><h1 className="font-serif text-3xl text-[var(--admin-ink)]">Category not found</h1><p className="mt-3 text-sm text-[var(--admin-muted)]">It may have been removed in another Studio session.</p><AdminButton variant="secondary" className="mt-5" onClick={() => navigate('/admin/categories')}>Back to categories</AdminButton></section>
+    }
+    return <CategoryEditor category={category} media={data.media} user={user} refresh={refresh} />
+  }
+
+  return <CategoryList categories={data.categories} onCreate={() => navigate('/admin/categories/new')} onEdit={(id) => navigate(`/admin/categories/${id}`)} />
+}
+
+function CategoryList({ categories, onCreate, onEdit }: { categories: AdminCategory[]; onCreate: () => void; onEdit: (id: string) => void }) {
+  const [query, setQuery] = useState('')
+  const filtered = useMemo(() => {
+    const search = query.trim().toLowerCase()
+    return categories.filter((category) => !search || `${category.title} ${category.slug} ${category.description}`.toLowerCase().includes(search))
+  }, [categories, query])
+
+  return (
+    <div className="space-y-7">
+      <PageHeader eyebrow="Site structure" title="Categories" description="Create the sections visitors browse on the homepage. Give each category its own description, icon, order, and photo." actions={<AdminButton onClick={onCreate}><Plus className="h-4 w-4" /> New category</AdminButton>} />
+      <section className="admin-panel rounded-3xl p-5 sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-[0.67rem] font-bold uppercase tracking-[0.16em] text-gold-soft">Homepage taxonomy</p><h2 className="mt-1 font-serif text-3xl text-[var(--admin-ink)]">{categories.length} {categories.length === 1 ? 'category' : 'categories'}</h2></div><label className="relative block sm:w-72"><span className="sr-only">Search categories</span><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--admin-muted)]" /><input className="admin-field pl-10" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search categories" /></label></div>
+        {filtered.length ? <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">{filtered.map((category) => <article key={category.id} className="admin-panel overflow-hidden rounded-3xl"><div className="relative aspect-[16/10]"><MediaThumb src={category.image_url} alt={category.title} /><div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" /><div className="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-3"><div><p className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-gold-soft">{category.slug}</p><h3 className="mt-1 font-serif text-2xl text-white">{category.title}</h3></div><StatusPill live={category.published} /></div></div><div className="p-5"><p className="line-clamp-2 min-h-10 text-sm leading-relaxed text-[var(--admin-muted)]">{category.description || 'No category description yet.'}</p><div className="mt-4 flex items-center justify-between gap-3 border-t border-[var(--admin-border)] pt-4"><span className="text-xs text-[var(--admin-muted)]">Order {category.sort_order}</span><AdminButton variant="secondary" onClick={() => onEdit(category.id)}><Pencil className="h-4 w-4" /> Edit</AdminButton></div></div></article>)}</div> : <EmptyState icon={Tags} title="No categories yet" body="Create the first homepage category, then attach a photo from your media library or upload one directly." action="Create category" onAction={onCreate} />}
+      </section>
+    </div>
+  )
+}
+
+function CategoryEditor({ category, media, user, refresh }: { category?: AdminCategory; media: MediaAsset[]; user: User | null; refresh: () => Promise<void> }) {
+  const navigate = useNavigate()
+  const [form, setForm] = useState<CategoryDraft>(() => category ? { ...category } : makeEmptyCategory())
+  const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+
+  useEffect(() => {
+    setForm(category ? { ...category } : makeEmptyCategory())
+    setError('')
+    setSuccess('')
+  }, [category])
+
+  const update = (patch: Partial<CategoryDraft>) => setForm((current) => ({ ...current, ...patch }))
+
+  const upload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    if (!file || !user) return
+    setUploading(true)
+    setError('')
+    try {
+      const asset = await uploadMediaAsset(file, `${form.title || 'Category'} image`, user.id)
+      update({ media_asset_id: asset.id, image_url: asset.public_url })
+      await refresh()
+      setSuccess('Photo uploaded and attached to this category.')
+    } catch (uploadError) {
+      setError(uploadError instanceof Error ? uploadError.message : 'Could not upload the category photo.')
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const save = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!user) return
+    const title = form.title.trim()
+    const slug = slugify(form.slug || title)
+    if (!title || !slug) {
+      setError('Add a category name and a valid slug before saving.')
+      return
+    }
+    setSaving(true)
+    setError('')
+    setSuccess('')
+    try {
+      const saved = await saveAdminCategory({ ...form, title, slug }, user.id)
+      await refresh()
+      navigate(`/admin/categories/${saved.id}`, { replace: true })
+      setSuccess(saved.published ? 'Category published on the homepage.' : 'Category saved as a draft.')
+    } catch (saveError) {
+      setError(saveError instanceof Error ? saveError.message : 'Could not save the category.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const remove = async () => {
+    if (!category?.id || !user || !window.confirm(`Delete ${category.title}?`)) return
+    setDeleting(true)
+    setError('')
+    try {
+      await deleteAdminCategory(category.id, user.id)
+      await refresh()
+      navigate('/admin/categories', { replace: true })
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : 'Could not delete the category.')
+    } finally {
+      setDeleting(false)
+    }
+  }
+
+  return (
+    <form onSubmit={save} className="space-y-7">
+      <PageHeader eyebrow={category ? 'Site structure / Edit' : 'Site structure / New'} title={category ? `Edit ${category.title}` : 'Create a category'} description="Categories appear as homepage browse cards when published. Use one photo to give each category a distinctive visual anchor." actions={<><AdminButton variant="secondary" onClick={() => navigate('/admin/categories')}>Cancel</AdminButton><AdminButton type="submit" loading={saving}><Save className="h-4 w-4" /> {form.published ? 'Save & publish' : 'Save draft'}</AdminButton></>} />
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="space-y-6">
+          <section className="admin-panel rounded-3xl p-5 sm:p-6"><SectionTitle title="Category details" body="Keep the name clear and the description short enough to scan on a phone." /><div className="mt-5 grid gap-4 sm:grid-cols-2"><Field label="Category name"><input className="admin-field" value={form.title} onChange={(event) => update({ title: event.target.value, slug: form.slug || slugify(event.target.value) })} placeholder="Private celebrations" required /></Field><Field label="URL slug"><input className="admin-field" value={form.slug} onChange={(event) => update({ slug: slugify(event.target.value) })} placeholder="private-celebrations" required /></Field><Field label="Description" className="sm:col-span-2"><textarea className="admin-textarea" rows={4} value={form.description} onChange={(event) => update({ description: event.target.value })} placeholder="A short invitation to explore this category." /></Field><Field label="Icon"><select className="admin-select" value={form.icon} onChange={(event) => update({ icon: event.target.value })}>{categoryIconOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></Field><Field label="Sort order" help="Lower numbers appear first on the homepage."><input className="admin-field" type="number" value={form.sort_order} onChange={(event) => update({ sort_order: Number(event.target.value) })} /></Field></div></section>
+          <section className="admin-panel rounded-3xl p-5 sm:p-6"><SectionTitle title="Category photo" body="Choose an existing library asset or upload a new photo directly from your device." /><div className="mt-5 grid gap-5 sm:grid-cols-[12rem_minmax(0,1fr)]"><div className="aspect-[4/3] overflow-hidden rounded-2xl border border-[var(--admin-border)]"><MediaThumb src={form.image_url} alt={form.title || 'Category photo preview'} /></div><div className="space-y-4"><Field label="Photo from media library"><MediaSelect media={media} value={form.media_asset_id} onChange={(asset) => update({ media_asset_id: asset?.id || null, image_url: asset?.public_url || null })} /></Field><label className="admin-upload-zone flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-xs font-bold uppercase tracking-[0.08em] text-[var(--admin-ink)]"><UploadCloud className="h-4 w-4 text-gold" /><span>{uploading ? 'Uploading photo…' : 'Upload a new photo'}</span><input className="sr-only" type="file" accept="image/jpeg,image/png,image/webp,image/avif" disabled={uploading} onChange={upload} /></label><p className="admin-help">JPG, PNG, WebP, or AVIF up to 10 MB.</p></div></div></section>
+        </div>
+        <aside className="space-y-5 xl:sticky xl:top-24 xl:self-start"><section className="admin-panel rounded-3xl p-5"><p className="admin-label">Publication</p><div className="mt-4 space-y-3"><ToggleRow label="Show on the homepage" description="Only published categories are visible to visitors." checked={form.published} onChange={(published) => update({ published })} /></div></section><section className="admin-subtle-panel rounded-3xl p-5"><p className="admin-label">Card preview</p><div className="mt-3 overflow-hidden rounded-2xl border border-[var(--admin-border)]"><div className="aspect-[4/3]"><MediaThumb src={form.image_url} alt={form.title || 'Category preview'} /></div><div className="p-4"><p className="font-serif text-2xl text-[var(--admin-ink)]">{form.title || 'Category name'}</p><p className="mt-2 text-sm leading-relaxed text-[var(--admin-muted)]">{form.description || 'Your category description appears here.'}</p></div></div></section>{category ? <AdminButton type="button" variant="danger" className="w-full" loading={deleting} onClick={() => void remove()}>Delete category</AdminButton> : null}</aside>
+      </div>
+      {error ? <Notice tone="error">{error}</Notice> : null}{success ? <Notice tone="success">{success}</Notice> : null}
     </form>
   )
 }

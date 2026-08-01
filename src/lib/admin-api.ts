@@ -39,6 +39,22 @@ type DbProfile = {
   primary_image?: DbMediaAsset | null
 }
 
+type DbCategory = {
+  id: string
+  slug: string
+  title: string
+  description: string | null
+  icon: string | null
+  media_asset_id: string | null
+  sort_order: number
+  published: boolean
+  is_public: boolean
+  created_by: string | null
+  created_at: string
+  updated_at: string
+  media_asset?: DbMediaAsset | null
+}
+
 type DbContentBlock = {
   id: string
   block_key: string
@@ -131,6 +147,23 @@ export type AdminProfile = {
   created_at: string
   updated_at: string
 }
+
+export type AdminCategory = {
+  id: string
+  slug: string
+  title: string
+  description: string
+  icon: string
+  media_asset_id: string | null
+  image_url: string | null
+  sort_order: number
+  published: boolean
+  is_public: boolean
+  created_at: string
+  updated_at: string
+}
+
+export type CategoryInput = Omit<AdminCategory, 'id' | 'created_at' | 'updated_at' | 'image_url'> & { id?: string }
 
 export type ContentBlock = {
   id: string
@@ -258,6 +291,24 @@ export function mapAdminProfile(row: DbProfile): AdminProfile {
     published: row.published,
     featured: row.featured,
     sort_order: row.sort_order,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+  }
+}
+
+export function mapAdminCategory(row: DbCategory): AdminCategory {
+  const media = row.media_asset ? mapMediaAsset(row.media_asset) : null
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    description: row.description || '',
+    icon: row.icon || 'spark',
+    media_asset_id: row.media_asset_id,
+    image_url: media?.public_url || null,
+    sort_order: row.sort_order,
+    published: row.published,
+    is_public: row.is_public,
     created_at: row.created_at,
     updated_at: row.updated_at,
   }
@@ -448,6 +499,47 @@ export async function archiveAdminProfile(id: string, userId: string) {
     .single()
   if (error) throw new Error(toErrorMessage(error, 'Could not remove the profile from the public site.'))
   await writeAuditLog(userId, 'profile.unpublished', 'profiles', id, data?.name || 'Profile unpublished')
+}
+
+export async function listAdminCategories() {
+  const client = requireSupabase()
+  const { data, error } = await client
+    .from('categories')
+    .select('*, media_asset:media_assets!categories_media_asset_id_fkey(*)')
+    .order('sort_order', { ascending: true })
+    .order('updated_at', { ascending: false })
+  if (error) throw new Error(toErrorMessage(error, 'Could not load categories.'))
+  return (data ?? []).map((row) => mapAdminCategory(row as DbCategory))
+}
+
+export async function saveAdminCategory(input: CategoryInput, userId: string) {
+  const client = requireSupabase()
+  const payload = {
+    slug: input.slug,
+    title: input.title,
+    description: input.description || null,
+    icon: input.icon || 'spark',
+    media_asset_id: input.media_asset_id,
+    sort_order: input.sort_order,
+    published: input.published,
+    is_public: true,
+    created_by: userId,
+    updated_at: new Date().toISOString(),
+  }
+  const result = input.id
+    ? await client.from('categories').update(payload).eq('id', input.id).select('*, media_asset:media_assets!categories_media_asset_id_fkey(*)').single()
+    : await client.from('categories').insert(payload).select('*, media_asset:media_assets!categories_media_asset_id_fkey(*)').single()
+  if (result.error) throw new Error(toErrorMessage(result.error, 'Could not save the category.'))
+  const saved = mapAdminCategory(result.data as DbCategory)
+  await writeAuditLog(userId, input.id ? 'category.updated' : 'category.created', 'categories', saved.id, saved.title)
+  return saved
+}
+
+export async function deleteAdminCategory(id: string, userId: string) {
+  const client = requireSupabase()
+  const { data, error } = await client.from('categories').delete().eq('id', id).select('id, title').single()
+  if (error) throw new Error(toErrorMessage(error, 'Could not delete the category.'))
+  await writeAuditLog(userId, 'category.deleted', 'categories', id, data?.title || 'Category deleted')
 }
 
 export async function listMediaAssets() {
