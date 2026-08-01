@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { companions as fallbackCompanions, type Companion } from '../data/companions'
+import { type Companion } from '../data/companions'
 import { supabase } from './supabase'
 import {
   mapAdminProfile,
@@ -31,7 +31,7 @@ const CATEGORY_IMAGE_KEYS = new Set([
 ])
 
 const defaultState: SiteDataState = {
-  companions: suratOnly(fallbackCompanions),
+  companions: [],
   contentBlocks: {},
   offers: [],
   settings: {},
@@ -49,8 +49,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function suratOnly(items: Companion[]) {
   return items
-    // Category artwork remains unique to the category rail; it never becomes
-    // a profile card. Every remaining bundled portrait is a Surat listing.
     .filter((item) => !CATEGORY_IMAGE_KEYS.has(item.image))
     .map((item) => ({
       ...item,
@@ -91,7 +89,7 @@ export function profileRowToCompanion(profile: AdminProfile): Companion {
 
 export function SiteDataProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<Omit<SiteDataState, 'refresh'>>({
-    companions: suratOnly(fallbackCompanions),
+    companions: [],
     contentBlocks: {},
     offers: [],
     settings: {},
@@ -138,13 +136,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     })
 
     setState({
-      // Surat is the only active market for this version of the directory.
-      // Bundled portraits remain as one-photo cards until they are optionally
-      // uploaded and managed individually in Studio.
-      companions: [
-        ...suratOnly(profileRows.map(profileRowToCompanion)),
-        ...suratOnly(fallbackCompanions),
-      ],
+      companions: suratOnly(profileRows.map(profileRowToCompanion)),
       contentBlocks: Object.fromEntries(contentRows.map((block) => [block.key, block])),
       offers: scheduledOffers,
       settings: Object.fromEntries(settingRows.map((setting) => [setting.key, setting])),
