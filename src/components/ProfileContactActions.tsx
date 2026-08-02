@@ -73,18 +73,16 @@ export function ProfileContactActions({ name, phone, whatsapp, telegramUsername,
   })
   const hrefs = channelHrefs(contact, message)
   const actionClass = iconOnly
-    ? 'grid h-12 w-12 place-items-center rounded-full border text-lg transition hover:-translate-y-0.5 focus:outline-none focus:ring-2'
+    ? 'grid h-11 w-11 place-items-center rounded-full text-lg drop-shadow-[0_2px_3px_rgba(0,0,0,0.78)] transition duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2'
     : 'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-3 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.09em] transition focus:outline-none focus:ring-2'
 
-  return (
-    <ContactSurface className={className}>
-      <div className={`relative z-10 grid ${iconOnly ? 'grid-cols-3 place-items-center gap-2' : 'grid-cols-3 gap-2'}`} aria-label={`Contact ${name}`}>
-        <a href={hrefs.call} aria-label={`Call about ${name}`} className={`${actionClass} border-gold/50 bg-gold/15 text-gold-soft hover:border-gold focus:ring-gold`}><Phone className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>Call</span></a>
-        <a href={hrefs.whatsapp} target="_blank" rel="noreferrer" aria-label={`Message about ${name} on WhatsApp`} className={`${actionClass} border border-[#25D366]/55 bg-[#25D366] text-[#07140c] hover:bg-[#45df7d] focus:ring-[#45df7d]`}><FaWhatsapp className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>WhatsApp</span></a>
-        <a href={hrefs.telegram} target="_blank" rel="noreferrer" aria-label={`Share ${name} enquiry on Telegram`} className={`${actionClass} border-[#2AABEE]/55 bg-[#2AABEE]/20 text-[#a9e4ff] hover:bg-[#2AABEE]/30 focus:ring-[#2AABEE]`}><FaTelegramPlane className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>Telegram</span></a>
-      </div>
-    </ContactSurface>
-  )
+  const content = <div className={`grid ${iconOnly ? 'grid-cols-3 place-items-center gap-1' : 'grid-cols-3 gap-2'}`} aria-label={`Contact ${name}`}>
+    <a href={hrefs.call} aria-label={`Call about ${name}`} className={`${actionClass} ${iconOnly ? 'text-gold-soft hover:bg-noir/55 focus:ring-gold' : 'border-gold/50 bg-gold/15 text-gold-soft hover:border-gold focus:ring-gold'}`}><Phone className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>Call</span></a>
+    <a href={hrefs.whatsapp} target="_blank" rel="noreferrer" aria-label={`Message about ${name} on WhatsApp`} className={`${actionClass} ${iconOnly ? 'text-[#45df7d] hover:bg-noir/55 focus:ring-[#45df7d]' : 'border border-[#25D366]/55 bg-[#25D366] text-[#07140c] hover:bg-[#45df7d] focus:ring-[#45df7d]'}`}><FaWhatsapp className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>WhatsApp</span></a>
+    <a href={hrefs.telegram} target="_blank" rel="noreferrer" aria-label={`Share ${name} enquiry on Telegram`} className={`${actionClass} ${iconOnly ? 'text-[#a9e4ff] hover:bg-noir/55 focus:ring-[#2AABEE]' : 'border border-[#2AABEE]/50 bg-[#2AABEE]/20 text-[#a9e4ff] hover:bg-[#2AABEE]/30 focus:ring-[#2AABEE]'}`}><FaTelegramPlane className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>Telegram</span></a>
+  </div>
+
+  return iconOnly ? <div className={className}>{content}</div> : <ContactSurface className={className}>{content}</ContactSurface>
 }
 
 type ContactChannel = 'call' | 'whatsapp' | 'telegram'
