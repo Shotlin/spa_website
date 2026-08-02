@@ -21,11 +21,10 @@ function ProfileCard({ companion, contacts }: { companion: Companion; contacts?:
         <Link to={`/profile/${companion.id}`} className="absolute inset-0 block">
           <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.015]"><Portrait image={companion.image} kind={companion.imageKind} name={companion.name} className="object-contain" /></div>
           <div className="absolute inset-0 bg-gradient-to-t from-noir/45 via-transparent to-transparent" />
-          {companion.verified ? <span className="absolute left-3 top-3 rounded bg-gold px-1.5 py-0.5 text-[0.6rem] font-bold text-noir shadow-lg">★</span> : null}
           <span className="absolute right-3 top-3 rounded bg-noir/70 px-2 py-0.5 text-[0.6rem] uppercase tracking-wider text-gold-soft backdrop-blur-sm">Surat</span>
         </Link>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-noir via-noir/75 to-transparent" />
-        <div className="absolute left-3 top-3 z-10 inline-flex items-center gap-2 rounded-full bg-noir/70 px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-ivory shadow-sm"><span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(74,222,128,0.95)]" aria-hidden="true" />Available all day</div>
+        <div className="absolute left-3 top-3 z-10 inline-flex items-center gap-2 rounded-full bg-noir/70 px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-ivory shadow-sm"><span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(74,222,128,0.95)]" aria-hidden="true" />Available now</div>
         <div className="absolute inset-x-0 bottom-0 z-10 p-4">
           <Link to={`/profile/${companion.id}`} className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-gold">
             <div className="flex items-end justify-between gap-3"><div><p className="text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-soft">{companion.category.replace(' Girls', '').replace(' Escorts', '')}</p><h3 className="mt-1 font-serif text-2xl leading-none text-ivory transition-colors group-hover:text-gold-soft">{companion.name}</h3></div><span className="mb-0.5 shrink-0 text-sm font-medium text-ivory">{companion.age} yrs</span></div>
