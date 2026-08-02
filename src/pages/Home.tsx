@@ -27,7 +27,7 @@ const defaultCategories: {
     title: 'Call Girls',
     description: 'A curated Surat selection for discreet, considered introductions.',
     icon: 'spark',
-    image: '',
+    image: 'in-khopal-com-1',
     links: [{ name: 'Surat', city: 'Surat' }],
   },
   {
@@ -35,7 +35,7 @@ const defaultCategories: {
     title: 'Male Escorts',
     description: 'Thoughtful, verified male companionship for Surat occasions.',
     icon: 'crown',
-    image: '',
+    image: 'in-khopal-com-2',
     links: [],
   },
   {
@@ -43,7 +43,7 @@ const defaultCategories: {
     title: 'Shemale Escorts',
     description: 'Independent trans companionship, currently curated for Surat.',
     icon: 'orchid',
-    image: '',
+    image: 'tryst-link-bdsm-tsoliviarhodes-1',
     links: [],
   },
   {
@@ -51,12 +51,12 @@ const defaultCategories: {
     title: 'Massages',
     description: 'A calm, restorative Surat selection for unhurried sessions.',
     icon: 'lotus',
-    image: '',
+    image: 'in-khopal-com-massages-1',
     links: [],
   },
 ]
 
-// Photo-free decorative glyphs for the category tiles.
+// Category glyphs sit over the curated category photography.
 function CategoryGlyph({ icon }: { icon: CategoryIcon }) {
   const paths: Record<CategoryIcon, string> = {
     spark: 'M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4L12 2z',
