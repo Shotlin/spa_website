@@ -1,113 +1,25 @@
-import { Link } from 'react-router-dom'
-import { Section, Eyebrow, Button } from '../components/ui'
-import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
-import { Portrait } from '../components/Portrait'
+import { Section, Eyebrow } from '../components/ui'
+import { Reveal } from '../components/Reveal'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
+import { InquiryActions } from '../components/ProfileContactActions'
 import { experiences } from '../data/content'
 import { getSiteContactSettings, useSiteData } from '../lib/site-data'
 
 export function Experiences() {
   const { companions, settings } = useSiteData()
   const contacts = getSiteContactSettings(settings)
-
   return (
-    <div className="pt-32">
-      <Section>
-        <Reveal className="max-w-2xl">
-          <Eyebrow>Curated Experiences</Eyebrow>
-          <h1 className="mt-5 text-5xl text-ivory sm:text-6xl">
-            Every evening, composed with intent
-          </h1>
-          <p className="mt-5 text-lg text-ivory-dim">
-            From an unhurried dinner to a private celebration or a weekend by the
-            coast, each experience is arranged around your comfort, your privacy,
-            and mutual consent.
-          </p>
-        </Reveal>
+    <div className="pt-24">
+      <Section className="pb-7">
+        <Reveal className="max-w-2xl"><Eyebrow>Curated Experiences</Eyebrow><h1 className="mt-4 text-4xl text-ivory sm:text-5xl">Every evening, composed with intent</h1><p className="mt-4 text-lg text-ivory-dim">From an unhurried dinner to a private celebration, each experience is arranged around comfort, privacy, and mutual consent.</p></Reveal>
       </Section>
-
       <ManagedContentBlocks page="experiences" />
-
-      <Section className="mt-16 space-y-6 pb-8">
-        {experiences.map((e, i) => (
-          <Reveal key={e.id} delay={i * 0.05}>
-            <article
-              className={`group grid overflow-hidden rounded-3xl border border-ivory/10 bg-noir-soft/40 md:grid-cols-2 ${
-                i % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''
-              }`}
-            >
-              <div className="relative h-72 overflow-hidden md:h-auto">
-                <div className="absolute inset-0 transition-transform duration-[1.5s] group-hover:scale-105">
-                  <Portrait image={e.scene} name={e.title} kind="decor" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-noir/50 to-transparent md:bg-gradient-to-r" />
-              </div>
-              <div className="flex flex-col justify-center p-8 md:p-12">
-                <span className="text-xs uppercase tracking-[0.28em] text-gold-soft">{e.duration}</span>
-                <h2 className="mt-3 text-3xl text-ivory sm:text-4xl">{e.title}</h2>
-                <p className="mt-4 leading-relaxed text-ivory-dim">{e.detail}</p>
-                <div className="mt-7">
-                  <Button to="/discover" variant="outline">Find a companion</Button>
-                </div>
-              </div>
-            </article>
-          </Reveal>
-        ))}
+      <Section className="space-y-4 pb-7 pt-7">
+        {experiences.map((experience, index) => <Reveal key={experience.id} delay={index * 0.04}><article className="rounded-3xl border border-ivory/10 bg-noir-soft/45 p-6 sm:p-8"><div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between"><div className="max-w-2xl"><span className="text-xs uppercase tracking-[0.28em] text-gold-soft">{experience.duration}</span><h2 className="mt-2 text-3xl text-ivory sm:text-4xl">{experience.title}</h2><p className="mt-3 leading-relaxed text-ivory-dim">{experience.detail}</p></div><div className="w-full sm:max-w-sm"><InquiryActions subject={experience.title} details={{ Experience: experience.title, Duration: experience.duration, Details: experience.detail, 'Page link': typeof window === 'undefined' ? '/experiences' : window.location.href }} contacts={contacts} /></div></div></article></Reveal>)}
       </Section>
-
-      <Section className="py-14">
-        <InfiniteProfileFeed
-          companions={companions}
-          contacts={contacts}
-          title="Companions for the occasion"
-          description="Browse the live Surat roster and choose the presence that fits the evening you have in mind."
-        />
-      </Section>
-
-      {/* How it works */}
-      <Section className="py-24">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <Eyebrow>How it works</Eyebrow>
-          <h2 className="mt-5 text-4xl text-ivory sm:text-5xl">Four discreet steps</h2>
-        </Reveal>
-        <RevealGroup className="mt-14 grid gap-6 md:grid-cols-4">
-          {[
-            { n: '01', t: 'Enquire privately', d: 'Send an encrypted enquiry using an alias if you wish.' },
-            { n: '02', t: 'Get verified', d: 'A discreet, secure check confirms identity on both sides.' },
-            { n: '03', t: 'Curated match', d: 'Your concierge proposes companions suited to the occasion.' },
-            { n: '04', t: 'Meet with ease', d: 'Everything is arranged; you simply arrive and enjoy.' },
-          ].map((s) => (
-            <RevealItem key={s.n}>
-              <div className="h-full rounded-2xl border border-ivory/10 bg-noir-soft/40 p-7">
-                <span className="font-serif text-4xl text-gold/40">{s.n}</span>
-                <h3 className="mt-4 font-serif text-xl text-ivory">{s.t}</h3>
-                <p className="mt-2 text-sm text-ivory-dim">{s.d}</p>
-              </div>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </Section>
-
-      {/* CTA */}
-      <Section className="pb-8">
-        <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-gold/20 bg-gradient-to-br from-burgundy-deep/60 to-noir p-12 text-center md:p-16">
-            <h2 className="mx-auto max-w-xl text-4xl text-ivory sm:text-5xl">
-              Ready to design your evening?
-            </h2>
-            <p className="mx-auto mt-4 max-w-md text-ivory-dim">
-              Begin with a private enquiry. No detail is shared publicly, ever.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button to="/membership">Begin an enquiry</Button>
-              <Link to="/discover" className="inline-flex items-center px-4 text-sm uppercase tracking-[0.2em] text-gold-soft">
-                Browse the circle →
-              </Link>
-            </div>
-          </div>
-        </Reveal>
-      </Section>
+      <Section className="py-10"><InfiniteProfileFeed companions={companions} contacts={contacts} title="Companions for the occasion" description="Browse the full live Surat roster without page limits." /></Section>
+      <Section className="pb-10 pt-4"><Reveal><div className="rounded-3xl border border-gold/25 bg-gradient-to-br from-burgundy-deep/60 to-noir p-7 text-center sm:p-10"><h2 className="mx-auto max-w-xl text-4xl text-ivory sm:text-5xl">Ready to design your evening?</h2><p className="mx-auto mt-3 max-w-md text-ivory-dim">Choose a channel and the complete experience details are prepared for the concierge.</p><div className="mx-auto mt-6 max-w-md"><InquiryActions subject="Custom evening enquiry" details={{ Page: 'Experiences', Request: 'I would like help designing a private evening.', 'Page link': typeof window === 'undefined' ? '/experiences' : window.location.href }} contacts={contacts} /></div></div></Reveal></Section>
     </div>
   )
 }

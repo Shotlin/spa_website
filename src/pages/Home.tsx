@@ -1,14 +1,14 @@
 import { useNavigate, Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useMemo } from 'react'
 import { Button, Section, Eyebrow } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { OfferBanner } from '../components/OfferBanner'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
+import { InquiryActions } from '../components/ProfileContactActions'
 import { HeartIcon, LockIcon, ShieldIcon, CheckIcon, iconMap } from '../components/icons'
-import { CITIES } from '../data/companions'
 import { experiences, testimonials, privacyFeatures } from '../data/content'
 import { getHomeHero, getSiteContactSettings, useSiteData } from '../lib/site-data'
 
@@ -56,6 +56,13 @@ const defaultCategories: {
   },
 ]
 
+const categoryFallbackImages: Record<string, string> = {
+  'call-girls': 'in-khopal-com-1',
+  'male-escorts': 'in-khopal-com-2',
+  'shemale-escorts': 'tryst-link-bdsm-tsoliviarhodes-1',
+  massages: 'in-khopal-com-massages-1',
+}
+
 // Category glyphs sit over the curated category photography.
 function CategoryGlyph({ icon }: { icon: CategoryIcon }) {
   const paths: Record<CategoryIcon, string> = {
@@ -93,7 +100,7 @@ function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
   return (
-    <div ref={ref} className="relative isolate flex min-h-[44rem] items-end overflow-hidden md:min-h-[48rem] md:items-center md:overflow-visible">
+    <div ref={ref} className="relative isolate flex min-h-[26rem] items-end overflow-hidden md:min-h-[30rem] md:items-center md:overflow-visible">
       <motion.div style={{ y }} className="absolute inset-0 -z-10">
         <Portrait
           image={hero.imageUrl || 'scene-4'}
@@ -106,19 +113,19 @@ function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-noir/18 via-transparent to-transparent md:from-noir/20" />
       </motion.div>
 
-      <Section className="relative flex min-h-[44rem] items-end pt-28 pb-7 sm:pb-10 md:block md:min-h-0 md:pt-32 md:pb-24">
+      <Section className="relative flex min-h-[26rem] items-end pt-20 pb-5 sm:pb-7 md:block md:min-h-0 md:pt-20 md:pb-16">
         <motion.div
           style={{ opacity }}
           className="max-w-xl rounded-[1.75rem] border border-ivory/12 bg-noir/34 p-5 shadow-[0_22px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-[1px] sm:p-7 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
         >
           <Reveal delay={0.1}>
-            <h1 className="text-[2.7rem] leading-[0.93] tracking-tight text-ivory sm:text-6xl lg:text-7.5xl font-serif">
+            <h1 className="text-[2.15rem] leading-[0.93] tracking-tight text-ivory sm:text-5xl lg:text-6xl font-serif">
               {hero.heading}
               <span className="block italic text-gold-soft">{hero.accent}</span>
             </h1>
           </Reveal>
           <Reveal delay={0.3}>
-            <div className="mt-7 flex items-center sm:mt-9">
+            <div className="mt-5 flex items-center sm:mt-7">
               <Button to={hero.primaryCtaHref} className="w-full sm:w-auto">{hero.primaryCtaLabel}</Button>
             </div>
           </Reveal>
@@ -139,45 +146,45 @@ function CategorySection() {
       icon: (['spark', 'crown', 'orchid', 'lotus'] as string[]).includes(category.icon)
         ? category.icon as CategoryIcon
         : 'spark' as CategoryIcon,
-      image: category.image_url || '',
+      image: category.image_url || categoryFallbackImages[category.slug] || '',
       links: [] as { name: string; city: string }[],
     }))
     : defaultCategories
 
   return (
-    <Section className="py-14">
+    <Section className="pb-4 pt-9">
       <Reveal className="mx-auto max-w-2xl text-center">
         <Eyebrow>Classifications</Eyebrow>
         <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Browse by Category</h2>
         <p className="mt-4 text-ivory-dim">Choose a classification to explore verified, independent companions.</p>
       </Reveal>
 
-      <RevealGroup className="-mx-5 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-5 [scrollbar-width:thin] sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
+      <RevealGroup className="-mx-5 mt-7 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-3 [scrollbar-width:thin] sm:justify-center sm:px-8 lg:-mx-12 lg:px-12">
         {categories.map((cat) => (
-          <RevealItem key={cat.id} className="w-[17.5rem] shrink-0 snap-start sm:w-[19rem]">
+          <RevealItem key={cat.id} className="w-28 shrink-0 snap-start sm:w-32">
             <div
               onClick={() => navigate(`/discover?category=${encodeURIComponent(cat.title)}`)}
-              className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/30 transition-all duration-500 hover:-translate-y-1 hover:border-gold/30 hover:bg-noir-soft/50"
+              className="group cursor-pointer text-center"
             >
               {/* Contextual image header (matched to the category) */}
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
-                  <Portrait image={cat.image} name={cat.title} />
+              <div className="mx-auto grid h-24 w-24 place-items-center rounded-full bg-[conic-gradient(from_220deg,#f5c76a,#9b1b2e,#2AABEE,#25D366,#f5c76a)] p-[3px] shadow-[0_0_26px_rgba(200,163,73,0.26)] transition-transform duration-500 group-hover:scale-105 sm:h-28 sm:w-28">
+                <div className="h-full w-full overflow-hidden rounded-full border-2 border-noir bg-noir">
+                  <Portrait image={cat.image} name={cat.title} className="object-cover" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/40 to-transparent" />
-                <div className="absolute left-4 top-4">
+                <div className="hidden" />
+                <div className="hidden">
                   <CategoryGlyph icon={cat.icon} />
                 </div>
               </div>
 
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className="font-serif text-2xl text-ivory transition-colors group-hover:text-gold-soft">
+              <div className="pt-3">
+                <h3 className="font-serif text-lg leading-tight text-ivory transition-colors group-hover:text-gold-soft">
                   {cat.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ivory-dim">{cat.description}</p>
+                <p className="hidden">{cat.description}</p>
 
                 {cat.links.length > 0 && (
-                  <div className="mt-5 flex flex-wrap gap-2 border-t border-ivory/10 pt-5">
+                  <div className="hidden">
                     {cat.links.map((link) => (
                       <span
                         key={link.name}
@@ -193,7 +200,7 @@ function CategorySection() {
                   </div>
                 )}
 
-                <span className="mt-auto pt-6 text-xs uppercase tracking-[0.2em] text-ivory-dim transition-colors group-hover:text-gold-soft">
+                <span className="hidden">
                   Explore →
                 </span>
               </div>
@@ -206,61 +213,30 @@ function CategorySection() {
 }
 
 function DiscoverPreview() {
-  // City tabs (Surat leads), plus "All Cities". Live-filters the grid below.
-  const cityTabs = CITIES
   const { companions: siteCompanions, settings } = useSiteData()
   const contacts = getSiteContactSettings(settings)
-  const [city, setCity] = useState('Surat')
-
   const shown = useMemo(() => {
-    const pool =
-      city === 'All Cities'
-        ? siteCompanions
-        : siteCompanions.filter((c) => c.cities.includes(city))
+    const pool = siteCompanions.filter((c) => c.cities.includes('Surat'))
     // Verified & higher tiers first so the strongest profiles lead.
     const rank = { Signature: 0, Elite: 1, Muse: 2 } as Record<string, number>
     return [...pool]
       .sort((a, b) => Number(b.verified) - Number(a.verified) || rank[a.tier] - rank[b.tier])
-  }, [city, siteCompanions])
+  }, [siteCompanions])
 
   return (
-    <Section className="py-14">
-      <Reveal className="flex flex-wrap items-end justify-between gap-6">
-        <div className="max-w-xl">
-          <Eyebrow>Discover the Circle</Eyebrow>
-          <h2 className="mt-5 text-4xl text-ivory sm:text-5xl font-serif">Companions near you</h2>
-          <p className="mt-4 text-ivory-dim">
-            Choose a city to preview verified companions. Every introduction is mutual and arranged privately.
-          </p>
-        </div>
-        <Button to="/discover" variant="outline">Open full directory</Button>
+    <Section className="pb-10 pt-3">
+      <Reveal className="text-center">
+        <p className="text-[0.66rem] font-semibold uppercase tracking-[0.28em] text-gold-soft">Surat</p>
+        <h2 className="mt-2 text-4xl text-ivory sm:text-5xl font-serif">The live circle</h2>
       </Reveal>
-
-      {/* City tabs */}
-      <Reveal delay={0.1}>
-        <div className="mt-10 flex flex-wrap gap-2 rounded-2xl border border-ivory/10 bg-noir-soft/40 p-3">
-          {cityTabs.map((c) => (
-            <button
-              key={c}
-              onClick={() => setCity(c)}
-              className={`rounded-full px-4 py-2 text-xs uppercase tracking-[0.16em] transition-colors ${
-                city === c
-                  ? 'bg-gradient-to-r from-ruby to-burgundy text-ivory'
-                  : 'border border-ivory/15 text-ivory-dim hover:border-gold/40 hover:text-gold-soft'
-              }`}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
-      </Reveal>
-
-      <InfiniteProfileFeed companions={shown} contacts={contacts} className="mt-6" />
+      <InfiniteProfileFeed companions={shown} contacts={contacts} className="mt-5" />
     </Section>
   )
 }
 
 function ExperiencesPreview() {
+  const { settings } = useSiteData()
+  const contacts = getSiteContactSettings(settings)
   return (
     <Section className="py-20">
       <Reveal className="mx-auto max-w-2xl text-center">
@@ -289,6 +265,7 @@ function ExperiencesPreview() {
               >
                 Learn more →
               </Link>
+              <div className="mt-4"><InquiryActions subject={e.title} details={{ Experience: e.title, Duration: e.duration, Details: e.summary, 'Page link': typeof window === 'undefined' ? '/experiences' : `${window.location.origin}/experiences` }} contacts={contacts} /></div>
               </div>
             </div>
           </RevealItem>

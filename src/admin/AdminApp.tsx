@@ -19,7 +19,6 @@ import {
   Clock3,
   Download,
   ExternalLink,
-  FilePenLine,
   ImagePlus,
   LayoutDashboard,
   LoaderCircle,
@@ -81,7 +80,7 @@ import {
 } from '../lib/site-data'
 import './admin.css'
 
-type AdminSection = 'overview' | 'profiles' | 'media' | 'categories' | 'content' | 'offers' | 'settings'
+type AdminSection = 'overview' | 'profiles' | 'categories' | 'content' | 'offers' | 'settings'
 
 type AdminData = {
   profiles: AdminProfile[]
@@ -105,7 +104,6 @@ const navItems: { section: AdminSection; label: string; href: string; icon: Luci
   { section: 'overview', label: 'Overview', href: '/admin', icon: LayoutDashboard },
   { section: 'profiles', label: 'Profiles', href: '/admin/profiles', icon: UsersRound },
   { section: 'categories', label: 'Categories', href: '/admin/categories', icon: Tags },
-  { section: 'media', label: 'Media', href: '/admin/media', icon: ImagePlus },
   { section: 'content', label: 'Content', href: '/admin/content', icon: PanelsTopLeft },
   { section: 'offers', label: 'Offers', href: '/admin/offers', icon: BadgePercent },
   { section: 'settings', label: 'Settings', href: '/admin/settings', icon: Settings2 },
@@ -117,7 +115,6 @@ const cityOptions = ['Surat', 'Mumbai', 'Delhi', 'Bengaluru', 'Jaipur', 'Goa', '
 function sectionFromPath(pathname: string): AdminSection {
   if (pathname.startsWith('/admin/profiles')) return 'profiles'
   if (pathname.startsWith('/admin/categories')) return 'categories'
-  if (pathname.startsWith('/admin/media')) return 'media'
   if (pathname.startsWith('/admin/content')) return 'content'
   if (pathname.startsWith('/admin/offers')) return 'offers'
   if (pathname.startsWith('/admin/settings')) return 'settings'
@@ -249,9 +246,9 @@ function PageHeader({
   )
 }
 
-function MediaThumb({ src, alt, className = '' }: { src: string | null; alt: string; className?: string }) {
+function MediaThumb({ src, alt, className = '', fit = 'cover' }: { src: string | null; alt: string; className?: string; fit?: 'cover' | 'contain' }) {
   if (src) {
-    return <img src={src} alt={alt} className={`h-full w-full object-cover ${className}`} loading="lazy" />
+    return <img src={src} alt={alt} className={`h-full w-full ${fit === 'contain' ? 'object-contain' : 'object-cover'} ${className}`} loading="lazy" />
   }
 
   return (
@@ -626,8 +623,6 @@ function AdminShell({ user }: { user: User | null }) {
         return <ProfilesPage {...common} />
       case 'categories':
         return <CategoriesPage {...common} />
-      case 'media':
-        return <MediaPage {...common} />
       case 'content':
         return <ContentPage {...common} />
       case 'offers':
@@ -843,7 +838,6 @@ function OverviewPage({ data }: { data: AdminData; refresh: () => Promise<void>;
   const navigate = useNavigate()
   const publishedProfiles = data.profiles.filter((profile) => profile.published)
   const activeOffers = data.offers.filter((offer) => offer.active)
-  const liveBlocks = data.content.filter((block) => block.published)
   const hero = getHomeHero(Object.fromEntries(data.content.map((block) => [block.key, block])))
 
   return (
@@ -851,18 +845,16 @@ function OverviewPage({ data }: { data: AdminData; refresh: () => Promise<void>;
       <PageHeader
         eyebrow="VIP Spa Studio"
         title="Keep the site current."
-        description="Publish a profile, replace the hero image, place an offer, or update a page block from one calm control room."
-        actions={<><AdminButton variant="secondary" onClick={() => navigate('/admin/media')}><UploadCloud className="h-4 w-4" /> Upload media</AdminButton><AdminButton onClick={() => navigate('/admin/profiles/new')}><Plus className="h-4 w-4" /> New profile</AdminButton></>}
+        description="Create, publish, or remove a profile in one place."
+        actions={<AdminButton onClick={() => navigate('/admin/profiles/new')}><Plus className="h-4 w-4" /> New profile</AdminButton>}
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid max-w-2xl gap-3 sm:grid-cols-2">
         <Kpi icon={UsersRound} label="Live profiles" value={publishedProfiles.length} detail={`${data.profiles.length} total listings`} />
-        <Kpi icon={ImagePlus} label="Media library" value={data.media.length} detail="Images ready to place" />
-        <Kpi icon={BadgePercent} label="Active offers" value={activeOffers.length} detail={`${data.offers.length} offer records`} />
-        <Kpi icon={FilePenLine} label="Published blocks" value={liveBlocks.length} detail="Page content currently live" />
+        <Kpi icon={CheckCircle2} label="Active profiles" value={publishedProfiles.length} detail="Visible on the public site" />
       </div>
 
-      <section className="admin-panel overflow-hidden rounded-3xl">
+      <section className="hidden admin-panel overflow-hidden rounded-3xl">
         <div className="flex flex-col gap-4 border-b border-[var(--admin-border)] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div>
             <p className="text-[0.67rem] font-bold uppercase tracking-[0.16em] text-gold-soft">What is live</p>
@@ -902,7 +894,7 @@ function OverviewPage({ data }: { data: AdminData; refresh: () => Promise<void>;
         </div>
       </section>
 
-      <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="hidden grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
         <section className="admin-panel rounded-3xl p-5 sm:p-6">
           <div className="flex items-center justify-between gap-4"><div><p className="text-[0.67rem] font-bold uppercase tracking-[0.16em] text-gold-soft">Next actions</p><h2 className="mt-1 font-serif text-3xl text-[var(--admin-ink)]">Publishing queue</h2></div><Clock3 className="h-5 w-5 text-[var(--admin-muted)]" /></div>
           <div className="mt-5 divide-y divide-[var(--admin-border)]">
@@ -970,7 +962,7 @@ function ProfilesPage({
         </section>
       )
     }
-    return <ProfileEditor profile={profile} media={data.media} user={user} refresh={refresh} />
+    return <ProfileEditor profile={profile} user={user} refresh={refresh} />
   }
 
   return <ProfileList profiles={data.profiles} onCreate={() => navigate('/admin/profiles/new')} onEdit={(id) => navigate(`/admin/profiles/${id}`)} />
@@ -1048,12 +1040,10 @@ function ProfileList({
 
 function ProfileEditor({
   profile,
-  media,
   user,
   refresh,
 }: {
   profile?: AdminProfile
-  media: MediaAsset[]
   user: User | null
   refresh: () => Promise<void>
 }) {
@@ -1068,15 +1058,16 @@ function ProfileEditor({
 
   const update = (patch: Partial<ProfileInputState>) => setForm((current) => ({ ...current, ...patch }))
   const updateList = (field: 'cities' | 'languages' | 'interests' | 'traits' | 'experiences' | 'bio', value: string) => update({ [field]: field === 'bio' ? value.split('\n').map((entry) => entry.trim()).filter(Boolean) : fromCsv(value) } as Partial<ProfileInputState>)
-
   const upload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
+    const files = Array.from(event.target.files || [])
     event.target.value = ''
-    if (!file || !user) return
+    if (!files.length || !user) return
     setUploading(true)
     setError('')
     try {
-      const asset = await uploadMediaAsset(file, form.primary_image_alt || `${form.name || 'Profile'} portrait`, user.id)
+      const [firstFile, ...remainingFiles] = files
+      const asset = await uploadMediaAsset(firstFile, form.primary_image_alt || `${form.name || 'Profile'} portrait`, user.id)
+      await Promise.all(remainingFiles.map((file) => uploadMediaAsset(file, file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '), user.id)))
       update({ primary_image_id: asset.id, primary_image_url: asset.public_url, primary_image_alt: asset.alt_text })
       await refresh()
     } catch (uploadError) {
@@ -1092,9 +1083,9 @@ function ProfileEditor({
     setSuccess('')
     if (!user) return
     const name = form.name.trim()
-    const slug = slugify(form.slug || name)
+    const slug = slugify(name)
     if (!name || !slug) {
-      setError('Add a name and a valid URL slug before saving.')
+      setError('Add a profile name before saving.')
       return
     }
     if (!form.primary_image_id) {
@@ -1110,11 +1101,18 @@ function ProfileEditor({
         name,
         city: 'Surat',
         cities: ['Surat'],
+        tagline: form.description,
+        tier: 'Signature',
+        sort_order: 0,
+        published: true,
+        featured: false,
+        verified: true,
+        availability: [{ day: 'Every day', slots: 'Available all day' }],
         age: Math.max(18, Math.round(form.age || 18)),
         rate: Math.max(0, Math.round(form.rate || 0)),
       }, user.id)
       await refresh()
-      setSuccess(form.published ? 'Published and visible to public visitors.' : 'Saved as a private draft.')
+      setSuccess('Published and visible to public visitors.')
       if (!profile) navigate(`/admin/profiles/${saved.id}`, { replace: true })
     } catch (saveError) {
       setError(saveError instanceof Error ? saveError.message : 'Could not save the profile.')
@@ -1145,8 +1143,8 @@ function ProfileEditor({
       <PageHeader
         eyebrow={profile ? 'Directory / Edit profile' : 'Directory / New profile'}
         title={profile ? `Edit ${profile.name}` : 'Create a profile'}
-        description="Complete the listing, select its one primary image, and choose whether it is ready to be seen publicly."
-        actions={<><AdminButton variant="secondary" onClick={() => navigate('/admin/profiles')}>Cancel</AdminButton><AdminButton type="submit" loading={saving}><Save className="h-4 w-4" /> {form.published ? 'Save & publish' : 'Save draft'}</AdminButton></>}
+        description="Add the identity and card description, then upload one or more images. The first selected image is the live card image."
+        actions={<><AdminButton variant="secondary" onClick={() => navigate('/admin/profiles')}>Cancel</AdminButton><AdminButton type="submit" loading={saving}><Save className="h-4 w-4" /> Save & publish</AdminButton></>}
       />
       {error ? <Notice tone="error">{error}</Notice> : null}
       {success ? <Notice tone="success">{success}</Notice> : null}
@@ -1156,34 +1154,30 @@ function ProfileEditor({
           <section className="admin-panel rounded-3xl p-5 sm:p-6">
             <SectionTitle title="Identity" body="The basics that appear around the directory card and profile page." />
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <Field label="Display name"><input className="admin-field" value={form.name} onChange={(event) => update({ name: event.target.value, slug: form.slug || slugify(event.target.value) })} placeholder="Profile name" required /></Field>
-              <Field label="URL slug" help="Lowercase, space-free URL used by the profile page."><input className="admin-field" value={form.slug} onChange={(event) => update({ slug: slugify(event.target.value) })} placeholder="elegant-name" required /></Field>
+              <Field label="Display name"><input className="admin-field" value={form.name} onChange={(event) => update({ name: event.target.value, slug: slugify(event.target.value) })} placeholder="Profile name" required /></Field>
               <Field label="Primary city"><select className="admin-select" value={form.city} onChange={(event) => update({ city: event.target.value })}>{cityOptions.filter((city) => city === 'Surat').map((city) => <option key={city}>{city}</option>)}</select></Field>
               <Field label="Category"><select className="admin-select" value={form.category} onChange={(event) => update({ category: event.target.value })}>{categoryOptions.map((category) => <option key={category}>{category}</option>)}</select></Field>
               <Field label="Age"><input className="admin-field" type="number" min="18" value={form.age} onChange={(event) => update({ age: Number(event.target.value) })} /></Field>
               <Field label="Rate (₹)"><input className="admin-field" type="number" min="0" step="100" value={form.rate} onChange={(event) => update({ rate: Number(event.target.value) })} /></Field>
-              <Field label="Tier"><select className="admin-select" value={form.tier} onChange={(event) => update({ tier: event.target.value as ProfileInputState['tier'] })}><option>Signature</option><option>Elite</option><option>Muse</option></select></Field>
-              <Field label="Sort order" help="Lower numbers appear first."><input className="admin-field" type="number" value={form.sort_order} onChange={(event) => update({ sort_order: Number(event.target.value) })} /></Field>
             </div>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <Field label="Short introduction"><input className="admin-field" value={form.tagline} onChange={(event) => update({ tagline: event.target.value })} placeholder="A concise reason to meet this profile." /></Field>
-              <Field label="Card description" help="Shown directly on every public card."><input className="admin-field" value={form.description} onChange={(event) => update({ description: event.target.value })} placeholder="A short, welcoming profile description." /></Field>
+              <Field label="Card description" className="sm:col-span-2" help="Used in the shared enquiry message, not shown as a separate card paragraph."><textarea className="admin-textarea" value={form.description} onChange={(event) => update({ description: event.target.value })} placeholder="A clear profile description for enquiries." /></Field>
             </div>
           </section>
 
-          <section className="admin-panel rounded-3xl p-5 sm:p-6">
-            <SectionTitle title="Primary image" body="This is the only image used on the public profile card. Upload more assets to the library without attaching a gallery to the listing." />
+          <section className="profile-primary-image admin-panel rounded-3xl p-5 sm:p-6">
+            <SectionTitle title="Primary image" body="Choose one or more images directly from your phone or computer. The first selected image automatically becomes the complete, uncropped public card image." />
             <div className="mt-5 grid gap-5 sm:grid-cols-[10rem_minmax(0,1fr)]">
-              <div className="aspect-[4/5] overflow-hidden rounded-2xl border border-[var(--admin-border)]"><MediaThumb src={form.primary_image_url} alt={form.primary_image_alt || form.name || 'Primary profile image'} /></div>
+              <div className="aspect-[4/5] overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-panel-muted)]"><MediaThumb fit="contain" src={form.primary_image_url} alt={form.primary_image_alt || form.name || 'Primary profile image'} /></div>
               <div className="space-y-4">
-                <Field label="Image from media library"><MediaSelect media={media} value={form.primary_image_id} onChange={(asset) => update({ primary_image_id: asset?.id || null, primary_image_url: asset?.public_url || null, primary_image_alt: asset?.alt_text || form.primary_image_alt })} /></Field>
                 <Field label="Image description"><input className="admin-field" value={form.primary_image_alt || ''} onChange={(event) => update({ primary_image_alt: event.target.value })} placeholder="Describe the image for visitors using assistive tech" /></Field>
+                <label className="admin-upload-zone flex min-h-16 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-xs font-bold uppercase tracking-[0.08em] text-[var(--admin-ink)]"><UploadCloud className="h-4 w-4 text-gold" /><span>{uploading ? 'Uploading images…' : 'Choose one or more images'}</span><input className="sr-only" type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple disabled={uploading} onChange={upload} /></label>
                 <label className="admin-upload-zone flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-xs font-bold uppercase tracking-[0.08em] text-[var(--admin-ink)]"><UploadCloud className="h-4 w-4 text-gold" /><span>{uploading ? 'Uploading image…' : 'Upload a new image'}</span><input className="sr-only" type="file" accept="image/jpeg,image/png,image/webp,image/avif" disabled={uploading} onChange={upload} /></label>
               </div>
             </div>
           </section>
 
-          <section className="admin-panel rounded-3xl p-5 sm:p-6">
+          <section className="hidden admin-panel rounded-3xl p-5 sm:p-6">
             <SectionTitle title="Profile detail" body="Comma-separate short lists. Each biography line becomes a separate readable paragraph." />
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <Field label="Available cities"><input className="admin-field" value={toCsv(form.cities)} onChange={(event) => updateList('cities', event.target.value)} placeholder="Surat" /></Field>
@@ -1198,7 +1192,7 @@ function ProfileEditor({
         </div>
 
         <aside className="space-y-5 xl:sticky xl:top-24 xl:self-start">
-          <section className="admin-panel rounded-3xl p-5">
+          <section className="hidden admin-panel rounded-3xl p-5">
             <p className="admin-label">Publication</p>
             <div className="mt-4 space-y-3">
               <ToggleRow label="Visible on the public directory" description="Only published profiles pass the public security policy." checked={form.published} onChange={(checked) => update({ published: checked })} />
@@ -1208,7 +1202,7 @@ function ProfileEditor({
           </section>
           <section className="admin-subtle-panel rounded-3xl p-5">
             <p className="admin-label">Card preview</p>
-            <div className="mt-3 overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-panel)]"><div className="aspect-[4/5]"><MediaThumb src={form.primary_image_url} alt={form.primary_image_alt || form.name || 'Profile preview'} /></div><div className="p-4"><div className="flex items-center justify-between gap-3"><p className="font-medium text-[var(--admin-ink)]">{form.name || 'New profile'}</p><span className="text-xs text-[var(--admin-muted)]">{form.age} yrs</span></div><p className="mt-1 line-clamp-2 text-xs text-[var(--admin-muted)]">{form.tagline || 'The short introduction will appear here.'}</p></div></div>
+            <div className="mt-3 overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-panel)]"><div className="aspect-[4/5] bg-[var(--admin-panel-muted)]"><MediaThumb fit="contain" src={form.primary_image_url} alt={form.primary_image_alt || form.name || 'Profile preview'} /></div><div className="p-4"><p className="font-medium text-[var(--admin-ink)]">{form.name || 'New profile'}</p><p className="mt-1 text-xs text-[var(--admin-muted)]">Complete image preview</p></div></div>
           </section>
           {profile?.published ? <AdminButton type="button" variant="danger" className="w-full" loading={saving} onClick={() => void removeFromPublicSite()}>Remove from public site</AdminButton> : null}
         </aside>
@@ -1389,7 +1383,7 @@ function EmptyState({ icon: Icon, title, body, action, onAction }: { icon: Lucid
   return <section className="admin-panel grid min-h-72 place-items-center rounded-3xl p-7 text-center"><div><div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-gold/10 text-gold"><Icon className="h-6 w-6" /></div><h2 className="mt-4 font-serif text-3xl text-[var(--admin-ink)]">{title}</h2><p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-[var(--admin-muted)]">{body}</p>{action && onAction ? <AdminButton className="mt-5" onClick={onAction}><Plus className="h-4 w-4" /> {action}</AdminButton> : null}</div></section>
 }
 
-function MediaPage({ data, refresh, user }: { data: AdminData; refresh: () => Promise<void>; user: User | null }) {
+export function MediaPage({ data, refresh, user }: { data: AdminData; refresh: () => Promise<void>; user: User | null }) {
   const [files, setFiles] = useState<File[]>([])
   const [altText, setAltText] = useState('')
   const [uploading, setUploading] = useState(false)

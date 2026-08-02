@@ -1,7 +1,6 @@
 import { useRef } from 'react'
-import { Section, Eyebrow, Button } from '../components/ui'
+import { Section, Eyebrow } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
-import { Portrait } from '../components/Portrait'
 import { OfferBanner } from '../components/OfferBanner'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
 import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
@@ -74,7 +73,6 @@ export function Membership() {
     { icon: ShieldIcon, title: 'Identity verification', body: 'A discreet, secure process verifies both members and companions before any introduction.' },
     { icon: CheckIcon, title: 'Secure communication', body: 'All messaging runs through encrypted channels with a 24/7 concierge on hand.' },
   ]
-  const tierImages = ['scene-3', 'scene-5', 'scene-6']
 
   return (
     <div className="overflow-hidden pt-32">
@@ -91,16 +89,7 @@ export function Membership() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.12} className="mx-auto w-full max-w-md lg:mr-0">
-            <figure className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-gold/20 bg-noir-soft shadow-[0_28px_80px_-34px_rgba(155,27,46,0.75)]">
-              <Portrait image="scene-2" name="A private Circle setting" kind="decor" loading="eager" />
-              <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/10 to-transparent" />
-              <figcaption className="absolute inset-x-0 bottom-0 p-6">
-                <span className="block text-[0.65rem] uppercase tracking-[0.28em] text-gold-soft">The inner circle</span>
-                <span className="mt-2 block max-w-[13rem] font-serif text-2xl leading-none text-ivory">A calmer way to make a connection.</span>
-              </figcaption>
-            </figure>
-          </Reveal>
+          <Reveal delay={0.12} className="mx-auto w-full max-w-md lg:mr-0"><div className="rounded-[2rem] border border-gold/20 bg-gradient-to-br from-burgundy-deep/65 to-noir p-8"><span className="text-[0.65rem] uppercase tracking-[0.28em] text-gold-soft">The inner circle</span><p className="mt-4 font-serif text-3xl leading-tight text-ivory">A calmer way to make a connection.</p><p className="mt-4 text-sm leading-relaxed text-ivory-dim">Choose a membership level, then contact the concierge in one tap.</p></div></Reveal>
         </div>
       </Section>
 
@@ -112,7 +101,7 @@ export function Membership() {
 
       <Section className="mt-16">
         <RevealGroup className="grid gap-6 lg:grid-cols-3">
-          {tiers.map((t, index) => (
+          {tiers.map((t) => (
             <RevealItem key={t.name}>
               <article
                 className={`group flex h-full flex-col overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 ${
@@ -121,14 +110,6 @@ export function Membership() {
                     : 'border-ivory/10 bg-noir-soft/40 hover:border-gold/30'
                 }`}
               >
-                <div className="relative h-36 shrink-0 overflow-hidden">
-                  <div className="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-105">
-                    <Portrait image={tierImages[index % tierImages.length]} name={`${t.name} membership`} kind="decor" />
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-noir/70 via-noir/15 to-transparent" />
-                  <span className="absolute bottom-4 left-5 text-[0.6rem] uppercase tracking-[0.24em] text-gold-soft">Private tier</span>
-                </div>
-
                 <div className="flex flex-1 flex-col p-8">
                   {t.featured && (
                     <span className="mb-4 inline-flex w-fit rounded-full bg-gold/20 px-3 py-1 text-[0.6rem] uppercase tracking-[0.2em] text-gold-soft">
@@ -149,11 +130,7 @@ export function Membership() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-8">
-                    <Button href="#enquire" variant={t.featured ? 'solid' : 'outline'} className="w-full">
-                      {t.price === 'By invitation' ? 'Request an invitation' : 'Select ' + t.name}
-                    </Button>
-                  </div>
+                  <div className="mt-8"><InquiryActions subject={`${t.name} membership`} details={{ Membership: t.name, Price: t.price, Benefits: t.features.join(', '), 'Page link': typeof window === 'undefined' ? '/membership' : window.location.href }} contacts={contacts} /></div>
                 </div>
               </article>
             </RevealItem>
@@ -176,13 +153,7 @@ export function Membership() {
             <Eyebrow>Our assurances</Eyebrow>
             <h2 className="mt-5 text-4xl text-ivory sm:text-5xl">What every member is promised</h2>
           </Reveal>
-          <Reveal delay={0.1}>
-            <figure className="relative aspect-[16/7] overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft">
-              <Portrait image="scene-5" name="A warm private lounge" kind="decor" />
-              <div className="absolute inset-0 bg-gradient-to-r from-noir/55 to-transparent" />
-              <figcaption className="absolute bottom-4 left-5 text-[0.6rem] uppercase tracking-[0.26em] text-gold-soft">Made for ease</figcaption>
-            </figure>
-          </Reveal>
+          <Reveal delay={0.1}><div className="rounded-2xl border border-ivory/10 bg-noir-soft/55 p-6 text-sm leading-relaxed text-ivory-dim">One clear line, private communication, and mutual consent from the first message.</div></Reveal>
         </div>
 
         <RevealGroup className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -205,9 +176,6 @@ export function Membership() {
         <Reveal><EnquiryForm contacts={contacts} /></Reveal>
         <Reveal delay={0.15}>
           <div className="relative flex h-full overflow-hidden rounded-3xl border border-ivory/10 bg-noir-soft">
-            <div className="absolute inset-0">
-              <Portrait image="scene-3" name="Your private concierge" kind="decor" />
-            </div>
             <div className="absolute inset-0 bg-gradient-to-br from-noir via-noir/90 to-burgundy-deep/55" />
             <div className="relative z-10 flex h-full w-full flex-col justify-center p-8 md:p-10">
               <Eyebrow>Concierge</Eyebrow>

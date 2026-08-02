@@ -190,6 +190,10 @@
   background: var(--admin-panel-muted);
 }
 
+.profile-primary-image .admin-upload-zone:last-child {
+  display: none;
+}
+
 .admin-upload-zone:hover {
   border-color: var(--color-gold);
   background: var(--admin-hover);

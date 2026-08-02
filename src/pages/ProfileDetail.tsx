@@ -127,7 +127,7 @@ export function ProfileDetail() {
             <div className="mt-7 rounded-2xl border border-gold/20 bg-gold/5 p-4 sm:p-5">
               <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold-soft">Private contact options</p>
               <p className="mt-2 text-sm leading-relaxed text-ivory-dim">Choose WhatsApp, Telegram, or a phone call. Each option opens a clear contact panel before it leaves this page.</p>
-              <ProfileContactPanel name={c.name} phone={contacts.phone} whatsapp={contacts.whatsapp} telegramUsername={contacts.telegram} className="mt-4 max-w-lg" />
+              <ProfileContactPanel name={c.name} description={c.description || c.bio.join(' ') || c.tagline} profileUrl={typeof window === 'undefined' ? `/profile/${c.id}` : window.location.href} phone={contacts.phone} whatsapp={contacts.whatsapp} telegramUsername={contacts.telegram} className="mt-4 max-w-lg" />
             </div>
           </Reveal>
 
