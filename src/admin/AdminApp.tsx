@@ -1056,6 +1056,27 @@ function ProfileEditor({
 
   const update = (patch: Partial<ProfileInputState>) => setForm((current) => ({ ...current, ...patch }))
   const updateList = (field: 'cities' | 'languages' | 'interests' | 'traits' | 'experiences' | 'bio', value: string) => update({ [field]: field === 'bio' ? value.split('\n').map((entry) => entry.trim()).filter(Boolean) : fromCsv(value) } as Partial<ProfileInputState>)
+  const liveInput = (draft: ProfileInputState) => {
+    const name = draft.name.trim()
+    const slug = slugify(name)
+    if (!name || !slug) return null
+    return {
+      ...draft,
+      slug,
+      name,
+      city: 'Surat',
+      cities: ['Surat'],
+      tagline: draft.description,
+      tier: 'Signature' as const,
+      sort_order: 0,
+      published: true,
+      featured: false,
+      verified: true,
+      availability: [{ day: 'Every day', slots: 'Available all day' }],
+      age: Math.max(18, Math.round(draft.age || 18)),
+      rate: Math.max(0, Math.round(draft.rate || 0)),
+    }
+  }
   const upload = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || [])
     event.target.value = ''
@@ -1066,8 +1087,18 @@ function ProfileEditor({
       const [firstFile, ...remainingFiles] = files
       const asset = await uploadMediaAsset(firstFile, form.primary_image_alt || `${form.name || 'Profile'} portrait`, user.id)
       await Promise.all(remainingFiles.map((file) => uploadMediaAsset(file, file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '), user.id)))
-      update({ primary_image_id: asset.id, primary_image_url: asset.public_url, primary_image_alt: asset.alt_text })
+      const nextForm = { ...form, primary_image_id: asset.id, primary_image_url: asset.public_url, primary_image_alt: asset.alt_text }
+      setForm(nextForm)
+      const input = liveInput(nextForm)
+      if (!input) {
+        setSuccess('Photo uploaded and ready. Add the display name, then tap Save & publish to create the live card.')
+        return
+      }
+      const saved = await saveAdminProfile(input, user.id)
+      setForm(toEditableProfile(saved))
       await refresh()
+      setSuccess('Photo uploaded and the profile card is now live.')
+      if (!profile) navigate(`/admin/profiles/${saved.id}`, { replace: true })
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : 'Could not upload the image.')
     } finally {
@@ -1080,9 +1111,8 @@ function ProfileEditor({
     setError('')
     setSuccess('')
     if (!user) return
-    const name = form.name.trim()
-    const slug = slugify(name)
-    if (!name || !slug) {
+    const input = liveInput(form)
+    if (!input) {
       setError('Add a profile name before saving.')
       return
     }
@@ -1093,22 +1123,7 @@ function ProfileEditor({
 
     setSaving(true)
     try {
-      const saved = await saveAdminProfile({
-        ...form,
-        slug,
-        name,
-        city: 'Surat',
-        cities: ['Surat'],
-        tagline: form.description,
-        tier: 'Signature',
-        sort_order: 0,
-        published: true,
-        featured: false,
-        verified: true,
-        availability: [{ day: 'Every day', slots: 'Available all day' }],
-        age: Math.max(18, Math.round(form.age || 18)),
-        rate: Math.max(0, Math.round(form.rate || 0)),
-      }, user.id)
+      const saved = await saveAdminProfile(input, user.id)
       await refresh()
       setSuccess('Published and visible to public visitors.')
       if (!profile) navigate(`/admin/profiles/${saved.id}`, { replace: true })
