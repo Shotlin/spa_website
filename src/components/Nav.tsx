@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Button } from './ui'
-import { ThemeToggle } from './ThemeToggle'
 
 const links = [
   { to: '/discover', label: 'Discover' },
@@ -64,11 +63,9 @@ export function Nav() {
 
         <div className="hidden items-center gap-3 md:flex">
           <Button to="/membership" variant="outline">Private Enquiry</Button>
-          <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-1.5 md:hidden">
-          <ThemeToggle />
           <button
             className="flex h-11 w-11 shrink-0 flex-col items-center justify-center gap-1.5"
             onClick={() => setOpen((o) => !o)}

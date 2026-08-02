@@ -9,7 +9,7 @@ import type { SiteContactSettings } from '../lib/site-data'
 const PAGE_SIZE = 8
 
 function ProfileSkeletonCard({ index }: { index: number }) {
-  return <article className="overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/35" aria-label="Profile placeholder"><div className="relative aspect-[3/4] animate-pulse bg-gradient-to-br from-noir-soft via-noir to-burgundy-deep/35"><span className="absolute right-4 top-4 rounded-full border border-gold/15 px-2 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-gold-soft/45">{String(index + 1).padStart(2, '0')}</span></div></article>
+  return <article className="overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/35" aria-label="Profile placeholder"><div className="relative aspect-[2/3] animate-pulse bg-gradient-to-br from-noir-soft via-noir to-burgundy-deep/35"><span className="absolute right-4 top-4 rounded-full border border-gold/15 px-2 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-gold-soft/45">{String(index + 1).padStart(2, '0')}</span></div></article>
 }
 
 function ProfileCard({ companion, contacts }: { companion: Companion; contacts?: SiteContactSettings }) {
@@ -17,7 +17,7 @@ function ProfileCard({ companion, contacts }: { companion: Companion; contacts?:
   const cardDescription = companion.description || companion.tagline
   return (
     <article className="group overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/55 transition-all duration-500 hover:-translate-y-1 hover:border-gold/45">
-      <div className="relative aspect-[3/4] bg-noir">
+      <div className="relative aspect-[2/3] bg-noir">
         <Link to={`/profile/${companion.id}`} className="absolute inset-0 block">
           <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.015]"><Portrait image={companion.image} kind={companion.imageKind} name={companion.name} className="object-contain" /></div>
           <div className="absolute inset-0 bg-gradient-to-t from-noir/45 via-transparent to-transparent" />

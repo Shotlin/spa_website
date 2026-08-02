@@ -38,7 +38,6 @@ import {
   UsersRound,
   X,
 } from 'lucide-react'
-import { ThemeToggle } from '../components/ThemeToggle'
 import {
   archiveAdminProfile,
   deleteAdminCategory,
@@ -679,7 +678,6 @@ function AdminShell({ user }: { user: User | null }) {
               <button className="admin-button admin-button-secondary grid h-11 w-11 place-items-center px-0" onClick={() => void refresh()} aria-label="Refresh Studio data">
                 <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} aria-hidden="true" />
               </button>
-              <ThemeToggle />
               <Link to="/" className="admin-button admin-button-secondary hidden items-center gap-2 px-4 sm:inline-flex">
                 <span>View site</span>
                 <ExternalLink className="h-4 w-4" aria-hidden="true" />

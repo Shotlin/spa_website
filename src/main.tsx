@@ -5,6 +5,8 @@ import './index.css'
 import App from './App.tsx'
 import { SiteDataProvider } from './lib/site-data.tsx'
 
+document.documentElement.dataset.theme = 'dark'
+
 function setupStudioPwa() {
   if (!window.location.pathname.startsWith('/admin')) return
 

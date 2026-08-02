@@ -81,43 +81,6 @@ html[data-theme='dark'] {
   --page-bloom-right: rgba(200, 163, 73, 0.08);
 }
 
-/* A sunlit counterpart: parchment surfaces, dusty rose depth, and brass
-   accents preserve the intimate lounge feeling without simply inverting it. */
-html[data-theme='light'] {
-  color-scheme: light;
-  --color-noir: #f7ecdf;
-  --color-noir-soft: #ead7c4;
-  --color-burgundy: #8b3348;
-  --color-burgundy-deep: #66243a;
-  --color-ruby: #a93651;
-  --color-ruby-bright: #c34b69;
-  --color-ivory: #301820;
-  --color-ivory-dim: #6f4b55;
-  --color-sand: #cba778;
-  --color-sand-deep: #a87854;
-  --color-gold: #9a6a22;
-  --color-gold-soft: #795018;
-  --color-amber: #bb6a2e;
-  --page-grid: rgba(124, 80, 24, 0.08);
-  --page-bloom-left: rgba(177, 75, 98, 0.18);
-  --page-bloom-right: rgba(195, 148, 86, 0.2);
-  --admin-canvas: #f8f0e6;
-  --admin-sidebar: #fff9f2;
-  --admin-panel: #fffaf5;
-  --admin-panel-muted: #f5e8da;
-  --admin-field: #fffdf9;
-  --admin-ink: #301820;
-  --admin-muted: #76545e;
-  --admin-placeholder: #9b7c75;
-  --admin-border: rgba(84, 46, 55, 0.13);
-  --admin-border-strong: rgba(84, 46, 55, 0.24);
-  --admin-hover: rgba(139, 51, 72, 0.065);
-  --admin-active: rgba(154, 106, 34, 0.12);
-  --admin-success: #18764e;
-  --admin-danger: #b12f47;
-  --admin-shadow: 0 18px 48px -34px rgba(69, 36, 40, 0.3);
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -164,11 +127,6 @@ h1, h2, h3, h4, .font-serif {
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-ruby); }
-
-html[data-theme='light'] .grain::after {
-  opacity: 0.035;
-  mix-blend-mode: multiply;
-}
 
 /* Utility: subtle gold hairline */
 .hairline {
