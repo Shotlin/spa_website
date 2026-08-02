@@ -1,7 +1,6 @@
 import { Phone, X } from 'lucide-react'
 import { useState, type MouseEvent, type ReactNode, type RefObject } from 'react'
 import { FaTelegramPlane, FaWhatsapp } from 'react-icons/fa'
-import contactHalo from '../assets/contact-halo.png'
 
 const DEMO_CONTACT_NUMBER = '+91 98765 43210'
 
@@ -46,8 +45,7 @@ function channelHrefs(contact: ReturnType<typeof profileContactDetails>, message
 
 function ContactSurface({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`relative isolate overflow-hidden rounded-2xl border border-gold/20 bg-noir/90 p-2 ${className}`}>
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center opacity-35 mix-blend-screen" style={{ backgroundImage: `url(${contactHalo})` }} />
+    <div className={`rounded-2xl border border-ivory/12 bg-noir-soft/95 p-2 ${className}`}>
       {children}
     </div>
   )

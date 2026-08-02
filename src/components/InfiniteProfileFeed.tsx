@@ -19,12 +19,17 @@ function ProfileCard({ companion, contacts }: { companion: Companion; contacts?:
       <div className="relative aspect-[3/4] bg-noir">
         <Link to={`/profile/${companion.id}`} className="absolute inset-0 block">
           <div className="absolute inset-0 p-1 transition-transform duration-[1.2s] group-hover:scale-[1.015]"><Portrait image={companion.image} kind={companion.imageKind} name={companion.name} className="object-contain" /></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-noir/90 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-noir/45 via-transparent to-transparent" />
           {companion.verified ? <span className="absolute left-3 top-3 rounded bg-gold px-1.5 py-0.5 text-[0.6rem] font-bold text-noir shadow-lg">★</span> : null}
           <span className="absolute right-3 top-3 rounded bg-noir/70 px-2 py-0.5 text-[0.6rem] uppercase tracking-wider text-gold-soft backdrop-blur-sm">Surat</span>
-          <div className="absolute inset-x-0 bottom-0 p-4 pb-16"><h3 className="font-serif text-xl text-ivory group-hover:text-gold-soft">{companion.name}</h3><p className="text-[0.7rem] uppercase tracking-[0.18em] text-ivory-dim">{companion.category.replace(' Girls', '').replace(' Escorts', '')}</p></div>
         </Link>
-        <div className="absolute inset-x-3 bottom-3 z-10"><ProfileContactActions name={companion.name} description={companion.description || companion.bio.join(' ') || companion.tagline} profileUrl={profileUrl} phone={contacts?.phone} whatsapp={contacts?.whatsapp} telegramUsername={contacts?.telegram} iconOnly /></div>
+      </div>
+      <div className="border-t border-ivory/10 px-3 pb-3 pt-3">
+        <Link to={`/profile/${companion.id}`} className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-gold">
+          <div className="flex items-baseline justify-between gap-3"><h3 className="font-serif text-xl text-ivory transition-colors group-hover:text-gold-soft">{companion.name}</h3><span className="shrink-0 text-xs text-gold-soft">{companion.age} yrs</span></div>
+          <p className="mt-0.5 text-[0.7rem] uppercase tracking-[0.18em] text-ivory-dim">{companion.category.replace(' Girls', '').replace(' Escorts', '')}</p>
+        </Link>
+        <ProfileContactActions className="mt-3" name={companion.name} description={companion.description || companion.bio.join(' ') || companion.tagline} profileUrl={profileUrl} phone={contacts?.phone} whatsapp={contacts?.whatsapp} telegramUsername={contacts?.telegram} iconOnly />
       </div>
     </article>
   )
