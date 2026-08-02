@@ -14,7 +14,6 @@ function ProfileSkeletonCard({ index }: { index: number }) {
 
 function ProfileCard({ companion, contacts }: { companion: Companion; contacts?: SiteContactSettings }) {
   const profileUrl = typeof window === 'undefined' ? `/profile/${companion.id}` : `${window.location.origin}/profile/${companion.id}`
-  const cardDescription = companion.description || companion.tagline
   return (
     <article className="group overflow-hidden rounded-2xl border border-ivory/10 bg-noir-soft/55 transition-all duration-500 hover:-translate-y-1 hover:border-gold/45">
       <div className="relative aspect-[2/3] bg-noir">
@@ -28,7 +27,6 @@ function ProfileCard({ companion, contacts }: { companion: Companion; contacts?:
         <div className="absolute inset-x-0 bottom-0 z-10 p-4">
           <Link to={`/profile/${companion.id}`} className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-gold">
             <div className="flex items-end justify-between gap-3"><div><p className="text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-soft">{companion.category.replace(' Girls', '').replace(' Escorts', '')}</p><h3 className="mt-1 font-serif text-2xl leading-none text-ivory transition-colors group-hover:text-gold-soft">{companion.name}</h3></div><span className="mb-0.5 shrink-0 text-sm font-medium text-ivory">{companion.age} yrs</span></div>
-            <p className="mt-2 line-clamp-2 text-sm leading-snug text-ivory-dim">{cardDescription}</p>
           </Link>
           <ProfileContactActions className="mt-2" name={companion.name} description={companion.description || companion.bio.join(' ') || companion.tagline} profileUrl={profileUrl} phone={contacts?.phone} whatsapp={contacts?.whatsapp} telegramUsername={contacts?.telegram} iconOnly />
         </div>
