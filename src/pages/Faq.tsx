@@ -3,6 +3,7 @@ import { Section, Eyebrow } from '../components/ui'
 import { Reveal, RevealGroup, RevealItem } from '../components/Reveal'
 import { Portrait } from '../components/Portrait'
 import { ManagedContentBlocks } from '../components/ManagedContentBlocks'
+import { getSiteIdentity, useSiteData } from '../lib/site-data'
 
 const faqs = [
   {
@@ -58,6 +59,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export function Faq() {
+  const { settings } = useSiteData()
+  const { siteName } = getSiteIdentity(settings)
   return (
     <div className="overflow-hidden pt-32 pb-20">
       <Section>
@@ -72,7 +75,7 @@ export function Faq() {
 
           <Reveal delay={0.12} className="mx-auto w-full max-w-md lg:mr-0">
             <figure className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-gold/20 bg-noir-soft shadow-[0_28px_80px_-34px_rgba(155,27,46,0.75)]">
-              <Portrait image="model-4" name="A member of the VIP Spa circle" kind="decor" loading="eager" />
+              <Portrait image="model-4" name={`A member of the ${siteName} circle`} kind="decor" loading="eager" />
               <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/15 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-6">
                 <span className="block text-[0.65rem] uppercase tracking-[0.28em] text-gold-soft">Clear answers, quietly given</span>

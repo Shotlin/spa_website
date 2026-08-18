@@ -8,18 +8,31 @@ function digits(value: string) {
   return value.replace(/\D/g, '')
 }
 
+function telegramProfileHref(value?: string) {
+  const raw = value?.trim() || ''
+  if (!raw) return undefined
+
+  // Accept the formats the dashboard advertises: @handle, handle, t.me/handle,
+  // or a full Telegram URL.  All of them resolve to the same direct chat link.
+  const handle = raw
+    .replace(/^https?:\/\/(?:www\.)?/i, '')
+    .replace(/^(?:t\.me|telegram\.me)\//i, '')
+    .replace(/^@/, '')
+    .split(/[/?#]/, 1)[0]
+
+  return handle ? `https://t.me/${encodeURIComponent(handle)}` : undefined
+}
+
 export function profileContactDetails(phone?: string, whatsapp?: string, telegramUsername?: string) {
   const callNumber = phone?.trim() || DEMO_CONTACT_NUMBER
   const whatsappNumber = whatsapp?.trim() || callNumber
-  const telegramValue = telegramUsername?.trim() || ''
-  const username = telegramValue.replace(/^@/, '')
+  const directTelegramHref = telegramProfileHref(telegramUsername)
   return {
     displayNumber: callNumber,
     telHref: `tel:${digits(callNumber)}`,
     whatsappHref: `https://wa.me/${digits(whatsappNumber)}`,
-    telegramHref: username
-      ? (telegramValue.startsWith('http') ? telegramValue : `https://t.me/${encodeURIComponent(username)}`)
-      : 'https://t.me/share/url',
+    telegramHref: directTelegramHref || 'https://t.me/share/url',
+    telegramConfigured: Boolean(directTelegramHref),
   }
 }
 
@@ -38,8 +51,11 @@ function channelHrefs(contact: ReturnType<typeof profileContactDetails>, message
   return {
     call: contact.telHref,
     whatsapp: `${contact.whatsappHref}?text=${encodeURIComponent(message)}`,
-    // Telegram's share composer reliably carries the prepared message and page link.
-    telegram: `https://t.me/share/url?url=${encodeURIComponent(currentPage())}&text=${encodeURIComponent(message)}`,
+    // A configured dashboard handle must open the administrator's Telegram chat.
+    // Without one, retain the share composer so the enquiry is not lost.
+    telegram: contact.telegramConfigured
+      ? contact.telegramHref
+      : `https://t.me/share/url?url=${encodeURIComponent(currentPage())}&text=${encodeURIComponent(message)}`,
   }
 }
 
@@ -79,7 +95,7 @@ export function ProfileContactActions({ name, phone, whatsapp, telegramUsername,
   const content = <div className={`grid ${iconOnly ? 'grid-cols-3 place-items-center gap-1' : 'grid-cols-3 gap-2'}`} aria-label={`Contact ${name}`}>
     <a href={hrefs.call} aria-label={`Call about ${name}`} className={`${actionClass} ${iconOnly ? 'text-gold-soft hover:bg-noir/55 focus:ring-gold' : 'border-gold/50 bg-gold/15 text-gold-soft hover:border-gold focus:ring-gold'}`}><Phone className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>Call</span></a>
     <a href={hrefs.whatsapp} target="_blank" rel="noreferrer" aria-label={`Message about ${name} on WhatsApp`} className={`${actionClass} ${iconOnly ? 'text-[#45df7d] hover:bg-noir/55 focus:ring-[#45df7d]' : 'border border-[#25D366]/55 bg-[#25D366] text-[#07140c] hover:bg-[#45df7d] focus:ring-[#45df7d]'}`}><FaWhatsapp className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>WhatsApp</span></a>
-    <a href={hrefs.telegram} target="_blank" rel="noreferrer" aria-label={`Share ${name} enquiry on Telegram`} className={`${actionClass} ${iconOnly ? 'text-[#a9e4ff] hover:bg-noir/55 focus:ring-[#2AABEE]' : 'border border-[#2AABEE]/50 bg-[#2AABEE]/20 text-[#a9e4ff] hover:bg-[#2AABEE]/30 focus:ring-[#2AABEE]'}`}><FaTelegramPlane className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>Telegram</span></a>
+    <a href={hrefs.telegram} target="_blank" rel="noreferrer" aria-label={`Message about ${name} on Telegram`} className={`${actionClass} ${iconOnly ? 'text-[#a9e4ff] hover:bg-noir/55 focus:ring-[#2AABEE]' : 'border border-[#2AABEE]/50 bg-[#2AABEE]/20 text-[#a9e4ff] hover:bg-[#2AABEE]/30 focus:ring-[#2AABEE]'}`}><FaTelegramPlane className={iconOnly ? 'h-5 w-5' : 'h-4 w-4'} /><span className={iconOnly ? 'sr-only' : ''}>Telegram</span></a>
   </div>
 
   return iconOnly ? <div className={className}>{content}</div> : <ContactSurface className={className}>{content}</ContactSurface>
@@ -95,7 +111,13 @@ export function ProfileContactPanel({ name, phone, whatsapp, telegramUsername, d
   const copy: Record<ContactChannel, { title: string; body: string; href: string }> = {
     call: { title: 'Call securely', body: `Calling ${contact.displayNumber} opens your device dialler.`, href: hrefs.call },
     whatsapp: { title: 'Message on WhatsApp', body: 'The model details and direct page link are already prepared for you.', href: hrefs.whatsapp },
-    telegram: { title: 'Share on Telegram', body: 'Telegram opens with this profile’s details and page link prepared.', href: hrefs.telegram },
+    telegram: {
+      title: contact.telegramConfigured ? 'Message on Telegram' : 'Share on Telegram',
+      body: contact.telegramConfigured
+        ? 'Telegram opens the contact configured by the administrator.'
+        : 'Telegram opens with this profile’s details and page link prepared.',
+      href: hrefs.telegram,
+    },
   }
   return (
     <div className={className}>

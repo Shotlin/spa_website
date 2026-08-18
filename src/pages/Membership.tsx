@@ -7,7 +7,7 @@ import { InfiniteProfileFeed } from '../components/InfiniteProfileFeed'
 import { InquiryActions } from '../components/ProfileContactActions'
 import { ShieldIcon, LockIcon, CheckIcon, HeartIcon } from '../components/icons'
 import { tiers } from '../data/content'
-import { getSiteContactSettings, useSiteData } from '../lib/site-data'
+import { getSiteContactSettings, getSiteIdentity, useSiteData } from '../lib/site-data'
 
 function EnquiryForm({ contacts }: { contacts: { phone: string; whatsapp: string; telegram: string } }) {
   const formRef = useRef<HTMLFormElement>(null)
@@ -67,6 +67,7 @@ function EnquiryForm({ contacts }: { contacts: { phone: string; whatsapp: string
 export function Membership() {
   const { companions, settings } = useSiteData()
   const contacts = getSiteContactSettings(settings)
+  const { siteName } = getSiteIdentity(settings)
   const guarantees = [
     { icon: HeartIcon, title: 'Consent policy', body: 'Every engagement is mutual and revocable. Boundaries are set in advance and always honoured.' },
     { icon: LockIcon, title: 'Privacy guarantee', body: 'Aliases by default, end-to-end encryption, and a strict no-resale commitment on all data.' },
@@ -117,7 +118,7 @@ export function Membership() {
                     </span>
                   )}
                   <h3 className="font-serif text-3xl text-ivory">{t.name}</h3>
-                  <p className="mt-2 text-sm text-ivory-dim">{t.tagline}</p>
+                  <p className="mt-2 text-sm text-ivory-dim">{t.tagline.replace('VIP Spa', siteName)}</p>
                   <div className="mt-6 flex items-baseline gap-2">
                     <span className="font-serif text-4xl text-gold-soft">{t.price}</span>
                     {t.cadence && <span className="text-xs uppercase tracking-wider text-ivory-dim">{t.cadence}</span>}
@@ -202,7 +203,7 @@ export function Membership() {
                 </div>
               </div>
               <p className="mt-8 text-xs leading-relaxed text-ivory-dim/80">
-                VIP Spa operates on consent, privacy, and mutual respect. We do not
+                {siteName} operates on consent, privacy, and mutual respect. We do not
                 facilitate anything unlawful, and we reserve the right to decline any
                 enquiry. Members and companions are 18+.
               </p>

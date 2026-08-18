@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Button } from './ui'
+import { getSiteIdentity, useSiteData } from '../lib/site-data'
 
 const links = [
   { to: '/discover', label: 'Discover' },
@@ -15,6 +16,9 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const location = useLocation()
+  const { settings } = useSiteData()
+  const { siteName } = getSiteIdentity(settings)
+  const siteInitial = siteName.trim().charAt(0).toUpperCase() || 'V'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -34,12 +38,12 @@ export function Nav() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 md:px-10">
-        <Link to="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3" aria-label="VIP Spa home">
+        <Link to="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3" aria-label={`${siteName} home`}>
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold/50 font-serif text-lg text-gold transition-colors group-hover:bg-gold/10">
-            V
+            {siteInitial}
           </span>
           <span className="whitespace-nowrap font-serif text-lg tracking-wide text-ivory sm:text-xl">
-            VIP <span className="text-gold-soft">Spa</span>
+            {siteName}
           </span>
         </Link>
 
